@@ -1,0 +1,379 @@
+{% extends 'site/templates/page.html' %}
+
+{% block content %}
+	<!-- ========== Hero Section ============= -->
+	<div class="swiper bg-dark" data-swiper-slides="1" data-swiper-loop="true" data-swiper-autoplay="4000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide h-auto">
+					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
+						<div class="background">
+							<div class="background-image">
+								<img loading="lazy" src="{{ url_for('static', filename='media/slide/1.jpg') }}" data-swiper-parallax-x="20%">
+							</div>
+							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-7 offset-lg-1">
+									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
+									<p class="text-white">
+										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
+										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
+										deleniti vel. Minus et tempore modi architecto.
+									</p>
+									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.donation') }}">Donate Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide h-auto">
+					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
+						<div class="background">
+							<div class="background-image">
+								<img loading="lazy" src="{{ url_for('static', filename='media/slide/2.jpg') }}" data-swiper-parallax-x="20%" alt="">
+							</div>
+							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-7 offset-lg-1">
+									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
+									<p class="text-white">
+										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
+										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
+										deleniti vel. Minus et tempore modi architecto.
+									</p>
+									<a class="btn btn-accent-3 text-white" href="#">Donate Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide h-auto">
+					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
+						<div class="background">
+							<div class="background-image">
+								<img loading="lazy" src="{{ url_for('static', filename='media/slide/3.jpg') }}" data-swiper-parallax-x="20%"></div>
+							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
+						</div>
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-7 offset-lg-1">
+									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
+									<p class="text-white">
+										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
+										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
+										deleniti vel. Minus et tempore modi architecto.
+									</p>
+									<a class="btn btn-accent-3 text-white" href="#">Donate Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="swiper-button-prev swiper-button-position-3 swiper-button-opacity shadow">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+				<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+			</svg>
+		</div>
+		<div class="swiper-button-next swiper-button-position-3 swiper-button-opacity shadow">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+				<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+			</svg>
+		</div>
+	</div>
+	<!-- ========== End Hero Section ============= -->
+
+	<!-- ========== About Section ============= -->
+	<div class="pt-120 pb-100 shape-parent overflow-hidden">
+		<div class="container">
+			<div class="row align-items-center gy-90">
+				<div class="col-lg-6">
+					<div class="pe-lg-70">
+						<h2 class="mb-45" data-show="startbox" data-show-delay="100">
+							<span class="highlight">About Our Temple</span></h2>
+						<p data-show="startbox" data-show-delay="300">
+							There are many Temples dedicated to Lord Ayyappa in Kerala, the holiest being the one at sacred Sabari Hills. The
+							sphere of influence of Lord Ayyappa had spread beyond the boundaries of Kerala and new Ayyappan Temples had
+							started springing up at various places not only in the other States of the South and North India but even in other
+							countries also.
+						</p>
+						<p data-show="startbox" data-show-delay="300">
+							Within a short span of time, this temple has grown as a Mahakshethra and became a focal point of worship to
+							millions of devotees not only in Karnataka, but also all over the world.
+						</p>
+					</div>
+				</div>
+				<div class="col-lg-6 pb-75">
+					<div class="ms-70 shape-parent">
+						<div data-img-height style="--img-height: 80%;" data-show="startbox">
+							<img class="rounded-4" loading="lazy" src="{{ url_for('static', filename='media/about.jpg') }}">
+						</div>
+					</div>
+					<div class="rounded-4 overflow-hidden shape-parent text-center d-inline-flex position-absolute mt-n75">
+						<div class="background">
+							<div class="background-color" style="--background-color: #222;"></div>
+						</div>
+						<div class="px-60 py-35">
+							<div class="h1 m-0" style="color: #ff8330">27+</div>
+							<div class="h6 m-0" style="color: #ff8330">Years</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<hr class="m-0">
+	</div>
+	<div class="pt-55 pb-130">
+		<div class="container">
+			<div class="row gy-45">
+				<div class="col-12 col-md-6 col-lg-4" data-show="startbox">
+					<div class="category">
+						<div class="category-icon text-dark">
+							<svg xmlns="http://www.w3.org/2000/svg" width="35" height="39" fill="none">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M25.25 14.896 9.75 5.85m-7.285 4.794L17.5 19.446l15.035-8.803M17.5 37V19.428M33 26.401V12.456c0-.612-.16-1.212-.462-1.742a3.465 3.465 0 0 0-1.26-1.274L19.222 2.467a3.412 3.412 0 0 0-3.444 0L3.722 9.44a3.466 3.466 0 0 0-1.26 1.274A3.52 3.52 0 0 0 2 12.456V26.4c0 .612.16 1.212.462 1.741.303.53.737.97 1.26 1.275l12.056 6.973a3.413 3.413 0 0 0 3.444 0l12.056-6.973a3.465 3.465 0 0 0 1.26-1.275c.302-.529.461-1.13.462-1.74Z"/>
+							</svg>
+						</div>
+						<div class="category-body ms-40">
+							<h4 class="category-title mb-5">Donations</h4>
+							<p class="category-text font-size-15 text-gray-dark m-0">Lorem ipsum.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4" data-show="startbox" data-show-delay="100">
+					<div class="category ">
+						<div class="category-icon text-dark">
+							<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M2 27.5 19 36l17-8.5M2 19l17 8.5L36 19M19 2 2 10.5 19 19l17-8.5L19 2Z"/>
+							</svg>
+						</div>
+						<div class="category-body ms-40">
+							<h4 class="category-title mb-5">Charity</h4>
+							<p class="category-text font-size-15 text-gray-dark m-0">Lorem ipsum.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4" data-show="startbox" data-show-delay="200">
+					<div class="category ">
+						<div class="category-icon text-dark">
+							<svg xmlns="http://www.w3.org/2000/svg" width="38" height="36" fill="none">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M19 34h17M27.5 3.161a4.044 4.044 0 0 1 5.667 0c.372.368.667.805.868 1.287a3.93 3.93 0 0 1-.868 4.32L9.556 32.131 2 34l1.889-7.476L27.5 3.16Z"/>
+							</svg>
+						</div>
+						<div class="category-body ms-40">
+							<h4 class="category-title mb-5">Philanthropy</h4>
+							<p class="category-text font-size-15 text-gray-dark m-0">Behold sea years</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End About Section ============= -->
+
+	<!-- ========== Events Section ============= -->
+	<div class="pt-50 pb-50 bg-dark shape-parent videoPrev">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 offset-lg-4 text-center">
+					<h2 class="m-0 text-white" data-show="startbox" data-show-delay="100">
+						<span class="highlight">Recent Events</span>
+					</h2>
+				</div>
+			</div>
+			<div class="swiper mt-90 shape-parent" data-swiper-slides="1" data-swiper-loop="true" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						{% for i in range(1, 4) %}
+							<div class="swiper-slide">
+							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
+								<a class="card-img rounded-0" href="blog.html" data-img-height style="--img-height: 72%;">
+									<img loading="lazy" src="{{ url_for('static', filename='media/events/'~i~'.jpg') }}"></a>
+								<div class="service-case-body position-relative">
+									<a class="card-title h4 mb-10" href="blog.html">
+										Lorem ipsum dolor
+									</a>
+									<p class="service-case-text font-size-15 mb-30">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
+									</p>
+									<a class="service-case-arrow stretched-link" href="blog.html">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+										</svg>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="position-relative">
+		<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".videoPrev" data-next-id=".videoNext">
+			<div class="position-relative py-235 text-center rounded-4 overflow-hidden">
+				<div class="background">
+					<div class="background-image jarallax" data-jarallax data-speed="0.8">
+						<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='media/video.jpg') }}">
+					</div>
+				</div>
+				<a class="btn-video video-link btn btn-accent-3" href="https://www.facebook.com/kumbalgodu.ayyappa/" rel="nofollow">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+						<path fill="white" d="M15.191 10.393 2.466 17.776C1.386 18.402 0 17.644 0 16.382V1.616C0 .356 1.384-.404 2.466.225L15.19 7.608a1.605 1.605 0 0 1 0 2.785Z"/>
+					</svg>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Events Section ============= -->
+
+	<!-- ========== Blogs Section ============= -->
+	<div class="pt-50 pb-70 videoNext shape-parent overflow-hidden">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 offset-lg-4 text-center">
+					<h2 class="m-0" data-show="startbox" data-show-delay="100">
+						<span class="highlight">Blogs</span>
+					</h2>
+				</div>
+			</div>
+			<div class="swiper mt-50 shape-parent" data-swiper-loop="true" data-swiper-slides="1" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						{% for i in range(1, 4) %}
+							<div class="swiper-slide">
+							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
+								<a class="card-img rounded-0" href="blog.html" data-img-height style="--img-height: 72%;">
+									<img loading="lazy" src="{{ url_for('static', filename='media/blogs/'~i~'.jpg') }}"></a>
+								<div class="service-case-body position-relative">
+									<a class="card-title h4 mb-10" href="blog.html">
+										Lorem ipsum dolor
+									</a>
+									<p class="service-case-text font-size-15 mb-30">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
+									</p>
+									<a class="service-case-arrow stretched-link" href="blog.html">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+										</svg>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Blogs Section ============= -->
+
+	<!-- ========== Highlights Section ============= -->
+	<div class="pt-50 pb-50 bg-dark">
+		<div class="container">
+			<div class="row mb-90">
+				<div class="col-lg-6 offset-lg-3 text-center">
+					<h3 class="m-0 text-white" data-show="startbox"><span class="highlight-lg">What We Do</span></h3>
+				</div>
+			</div>
+			<div class="row gy-30">
+				{% for service in ['Spiritual Service', 'Relief Service', 'Medical Service', 'Pooja Service'] %}
+					<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/'~loop.index~'.jpg') }}" alt=""></div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-15">{{ service }}</h4>
+							<p class="service-card-text font-size-15 mb-30">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, nostrum?
+							</p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Highlights Section ============= -->
+
+	<!-- ========== Gallery Section ============= -->
+	<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+		<div class="row my-50">
+			<div class="col-lg-6 offset-lg-3 text-center">
+				<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Gallery</span></h3>
+			</div>
+		</div>
+		<div class="container-fluid mt-130 p-0" data-show="startbox">
+			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
+				<div class="swiper-container">
+					<div class="swiper-wrapper gallery-wrapper">
+						{% for i in range(1, 11) %}
+							<div class="swiper-slide" style="max-width: 770px;">
+								<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" style="--img-height: 61%;" data-img-height>
+									<img loading="lazy" src="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" alt="">
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Gallery Section ============= -->
+
+	<div class="position-relative">
+		<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".footerPrev" data-next-id=".footerNext">
+			<div class="shape-parent">
+				<div class="map-container bg-dark rounded-4 overflow-hidden" style="height: 506px;">
+					<iframe src="https://maps.google.com/maps?q=Kumbalagodu Ayyappa Temple, Sri Dharmashasta Ayyappa Swamy Temple, Kumbalgodu, Karnataka&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" allowfullscreen style="border: 0px;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

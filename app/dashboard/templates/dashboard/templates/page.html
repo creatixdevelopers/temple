@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="Creatix">
+
+		{% if config.PWA %}
+			<meta content='yes' name='apple-mobile-web-app-capable'/>
+			<meta content='yes' name='mobile-web-app-capable'/>
+			<link rel="manifest" href="{{ url_for('manifest') }}">
+		{% endif %}
+
+		{% if title %}
+			<title>{{ title }}</title>
+		{% endif %}
+
+		<link rel="icon" type="image/png" href="{{ url_for('static', filename='media/creatix-logo-sm.png') }}"/>
+
+		<link href="{{ url_for('dashboard.static', filename='css/style.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('dashboard.static', filename='css/icons.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('dashboard.static', filename='css/custom.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('static', filename='css/notyf.min.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('static', filename='css/select2-bootstrap5.min.css') }}" rel="stylesheet" type="text/css"/>
+
+		{% import 'dashboard/templates/macros.html' as macros %}
+
+		{% block head %}
+		{% endblock head %}
+	</head>
+
+	<body data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":true, "showRightSidebarOnStart": true}'>
+		<div class="wrapper">
+			{% include "dashboard/templates/sidebar.html" %}
+			<div class="content-page" style="position:relative">
+				<div class="content">
+					{% include "dashboard/templates/navbar.html" %}
+					<div class="container-fluid">
+						{% if page_title %}
+							<div class="row">
+								<div class="col-12">
+									<div class="page-title-box">
+										<h4 class="page-title">{{ page_title }}</h4>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+
+						<div id="content">
+							{% block content %}
+							{% endblock content %}
+						</div>
+					</div>
+				</div>
+				{% include "dashboard/templates/footer.html" %}
+			</div>
+		</div>
+
+		<script src="{{ url_for('dashboard.static', filename='js/main.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+		{% if config.WEB_SOCKETS %}
+			<script src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+		{% endif %}
+
+		<script type="text/javascript" nonce="{{ csp_nonce() }}">
+            $.fn.fval = function () {
+                let e = $(this);
+                let t = e.attr('type');
+                let v = e.val();
+                if (t && v) {
+                    if (t === 'text') {
+                        return v.trim();
+                    } else if (t === 'integer') {
+                        return parseInt(v);
+                    } else if (t === 'number') {
+                        return parseFloat(v);
+                    } else if (t === 'singleDate') {
+                        return moment(v, 'Do MMM YYYY').valueOf();
+                    } else if (t === 'checkbox') {
+                        return v === 'on';
+                    } else {
+                        return v;
+                    }
+                } else return null;
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token() }}");
+                        xhr.setRequestHeader("X-CSRF-TOKEN", getCookie('csrf_access_token'));
+                    }
+                }
+            });
+
+            {% if config.PWA %}
+                window.addEventListener('load', () => {
+                    registerSW();
+                });
+                async function registerSW() {
+                    if ('serviceWorker' in navigator) {
+                        try {
+                            await navigator.serviceWorker.register('{{ url_for('sw') }}');
+                        } catch (e) {
+                            console.log('SW registration failed');
+                        }
+                    }
+                }
+            {% endif %}
+
+            $(document).on('click', '.logout', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url_for('api.auth.logout') }}',
+                }).done(function (response, status, xhr) {
+                    location.reload();
+                });
+            })
+
+            let notyf = new Notyf({duration: 3000, position: {x: 'right', y: 'top'}, dismissible: true});
+		</script>
+
+		{% block body %}
+		{% endblock body %}
+
+		<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+            function updateDateTime() {
+                $('.currentDateTime').text(moment(new Date()).format('ddd, Do MMM YY, hh:mm A'));
+            }
+
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+		</script>
+	</body>
+</html>

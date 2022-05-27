@@ -1,0 +1,57 @@
+<div class="leftside-menu" style="z-index: 999 !important">
+	<div class="logo text-center logo-light">
+        <span class="logo-lg">
+            <img alt="" height="30" src="{{ url_for('static', filename='media/creatix-logo.png') }}">
+        </span>
+		<span class="logo-sm">
+            <img alt="" height="30" src="{{ url_for('static', filename='media/creatix-logo-sm.png') }}">
+        </span>
+	</div>
+
+	<div class="h-100" data-simplebar id="leftside-menu-container">
+		<ul class="side-nav">
+			<li class="side-nav-title side-nav-item">Navigation</li>
+
+			<li class="side-nav-item">
+				<a class="side-nav-link" href="{{ url_for('dashboard.index') }}">
+					<i class="uil-home-alt"></i>
+					<span>Home</span>
+				</a>
+			</li>
+
+			<li class="side-nav-item">
+				<a class="side-nav-link" href="{{ url_for('dashboard.users') }}">
+					<i class="uil-users-alt"></i>
+					<span>Users</span>
+				</a>
+			</li>
+
+			<li class="side-nav-item">
+				<a aria-controls="sidebarDropdown" aria-expanded="false" class="side-nav-link" data-bs-toggle="collapse" href="#sidebarDropdown">
+					<i class="uil-arrow-down"></i>
+					<span> Dropdown </span>
+					<span class="menu-arrow"></span>
+				</a>
+				<div class="collapse" id="sidebarDropdown">
+					<ul class="side-nav-second-level">
+						<li>
+							<a href="#">Item 1</a>
+						</li>
+						<li>
+							<a href="#">Item 2</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+
+			<li class="side-nav-item">
+				<a class="side-nav-link" href="{{ url_for('dashboard.trash') }}">
+					<i class="uil-trash"></i>
+					<span>Trash</span>
+				</a>
+			</li>
+
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+</div>

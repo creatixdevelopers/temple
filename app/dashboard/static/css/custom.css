@@ -1,0 +1,83 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::file-selector-button {
+    display: none;
+}
+
+.input-group-text {
+    border: 1px solid #555D5E !important;
+}
+
+.modal-content {
+    background-color: #37404a;
+}
+
+
+div.dt-button-info {
+    background-color: #727cf5 !important;
+    border: none !important;
+    color: #fff !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border-radius: 3px !important;
+    text-align: center !important;
+    z-index: 21 !important;
+}
+
+div.dt-button-info .h2,
+div.dt-button-info h2 {
+    border-bottom: none !important;
+    background-color: rgba(255, 255, 255, .2) !important;
+    color: #fff !important;
+}
+
+table.dataTable.nowrap th, table.dataTable.nowrap td {
+    white-space: break-spaces !important;
+}
+
+table td {
+    vertical-align: middle !important;
+}
+
+.dropzone {
+    background: #404954 !important;
+    border: 2px dashed #4a525d !important;
+    border-radius: 6px !important;
+}
+
+.dropzone .dz-preview.dz-image-preview {
+    background: none !important;
+}
+
+.dz-progress, .dz-details {
+    display: none !important;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    transform: none !important;
+    -webkit-filter: none !important;
+    filter: none !important;
+}
+.dataTable tr.selected {
+    outline: 1px solid #727cf5 !important;
+    outline-offset: -1px !important;
+    background-color: rgba(114, 124, 245, .15) !important;
+}
+
+.dataTable .focus {
+    outline: 1px solid #fa5c7c !important;
+    outline-offset: -1px !important;
+    background-color: rgba(250, 92, 124,.15) !important;
+}

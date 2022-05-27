@@ -1,0 +1,44 @@
+{% extends 'dashboard/templates/page.html' %}
+
+{% block head %}
+	<link href="{{ url_for('static', filename='css/dataTables/dataTables.bootstrap5.css') }}" rel="stylesheet" type="text/css"/>
+	<link href="{{ url_for('static', filename='css/dataTables/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css"/>
+	<link href="{{ url_for('static', filename='css/dataTables/buttons.bootstrap5.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock head %}
+
+{% block content %}
+{% endblock content %}
+
+{% block body %}
+	<script src="{{ url_for('static', filename='js/dataTables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/dataTables.bootstrap5.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/dataTables.responsive.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/responsive.bootstrap5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/buttons.bootstrap5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/buttons.html5.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/dataTables.keyTable.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/jszip.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/pdfmake.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/vfs_fonts.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/dataTables.rowgroup.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dataTables/natural.js') }}"></script>
+
+	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+        $(".button-menu-mobile").on('click', function () {
+            setTimeout(function () {
+                $.fn.dataTable.tables({api: true}).columns.adjust();
+            }, 10);
+        });
+
+        let exportOptions = {
+            columns: ':not(.noExport)',
+            modifier: {search: 'applied', order: 'applied', page: 'current'},
+            format: {
+                body: function (data, row, column, node) {
+                    return $(node).hasClass('noExport') ? '' : data.replace(/(<([^>]+)>)/ig, "");
+                }
+            }
+        };
+	</script>
+{% endblock body %}

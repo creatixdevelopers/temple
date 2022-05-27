@@ -1,0 +1,86 @@
+{% extends 'site/templates/page.html' %}
+
+{% block content %}
+	<!-- ========== Hero Section ============= -->
+	<div class="pt-270 pb-300 text-center position-relative align-items-center d-flex">
+		<div class="background">
+			<div class="background-image jarallax" data-jarallax data-speed="0.8">
+				<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='media/slide/1.jpg') }}" alt=""></div>
+			<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+			<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
+		</div>
+		<div class="container">
+			<div class="subtitle mb-15 font-size-15 fw-medium text-white">Blog <span class="sep-dot"></span> May 26, 2022</div>
+			<h1 class="m-0 text-white">Blog Title</h1>
+		</div>
+	</div>
+	<!-- ========== End Hero Section ============= -->
+
+	<!-- ========== Blog Description Section ============= -->
+	<div class="pt-120 shape-parent overflow-hidden">
+		<div class="container">
+			<div class="row align-items-center gy-90">
+				<div class="col-lg-12">
+					<div>
+						<h2 class="text-center mb-45" data-show="startbox" data-show-delay="100">
+							<span class="highlight">Blog Title</span>
+						</h2>
+						<p data-show="startbox" data-show-delay="300">
+							There are many Temples dedicated to Lord Ayyappa in Kerala, the holiest being the one at sacred Sabari Hills. The
+							sphere of influence of Lord Ayyappa had spread beyond the boundaries of Kerala and new Ayyappan Temples had
+							started springing up at various places not only in the other States of the South and North India but even in other
+							countries also.
+						</p>
+						<p data-show="startbox" data-show-delay="300">
+							Within a short span of time, this temple has grown as a Mahakshethra and became a focal point of worship to
+							millions of devotees not only in Karnataka, but also all over the world.
+						</p>
+						<p data-show="startbox" data-show-delay="300">
+							There are many Temples dedicated to Lord Ayyappa in Kerala, the holiest being the one at sacred Sabari Hills. The
+							sphere of influence of Lord Ayyappa had spread beyond the boundaries of Kerala and new Ayyappan Temples had
+							started springing up at various places not only in the other States of the South and North India but even in other
+							countries also.
+						</p>
+						<p data-show="startbox" data-show-delay="300">
+							Within a short span of time, this temple has grown as a Mahakshethra and became a focal point of worship to
+							millions of devotees not only in Karnataka, but also all over the world.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Blog Description Section ============= -->
+
+	<!-- ========== Blog Gallery Section ============= -->
+	<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+		<div class="container-fluid mt-50 p-0" data-show="startbox">
+			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
+				<div class="swiper-container">
+					<div class="swiper-wrapper gallery-wrapper">
+						{% for i in range(1, 11) %}
+							<div class="swiper-slide" style="max-width: 770px;">
+								<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" style="--img-height: 61%;" data-img-height>
+									<img loading="lazy" src="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" alt="">
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Blog Gallery Section ============= -->
+{% endblock content %}
