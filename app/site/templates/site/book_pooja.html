@@ -9,63 +9,169 @@
 {% endblock head %}
 
 {% block content %}
-	<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
-		<div class="container">
-			<div class="row my-50">
-				<div class="col-lg-6 offset-lg-3 text-center">
-					<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Book Pooja</span></h3>
+	<!-- ========== Pooja Form ============= -->
+	<div class="content-wrap">
+		<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+			<div class="container">
+				<div class="row my-50">
+					<div class="col-lg-6 offset-lg-3 text-center">
+						<h3 class="m-0"><span class="highlight-lg">Book Pooja</span></h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mx-0">
+						<form id="poojaForm" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
+							<ul id="progressbar" class="text-center">
+								<li class="active" id="personal"><strong>Personal</strong></li>
+								<li id="pooja"><strong>Pooja</strong></li>
+								<li id="payment"><strong>Payment</strong></li>
+							</ul>
+							<fieldset>
+								<div class="row gy-40 mb-50">
+									<h4 class="w-100 text-center mb-2">Personal Details</h4>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="text" placeholder="Full Name *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="tel" placeholder="Phone Number *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="text" placeholder="No. Of Devotees *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="text" placeholder="Devotee Name *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="email" placeholder="Email">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="text" placeholder="Gotra *">
+									</div>
+									<div class="col-12">
+										<textarea class="form-control" placeholder="Address *"></textarea>
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="text" placeholder="City *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="number" placeholder="Pincode *">
+									</div>
+								</div>
+								<div class="col-12 col-lg-12 text-center">
+									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
+								</div>
+							</fieldset>
+							<fieldset>
+								<div class="row gy-40 mb-50">
+									<h4 class="w-100 text-center mb-2">Pooja Details</h4>
+									<div class="col-12 col-md-6">
+										<select class="form-control">
+											<option selected value="">Select Temple *</option>
+											<option>Temple 1</option>
+											<option>Temple 2</option>
+											<option>Temple 3</option>
+											<option>Temple 4</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6">
+										<select class="form-control">
+											<option selected value="">Select Pooja *</option>
+											<option>Pooja 1</option>
+											<option>Pooja 2</option>
+											<option>Pooja 3</option>
+											<option>Pooja 4</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6">
+										<select class="form-control">
+											<option selected value="">Pooja Type *</option>
+											<option>Onetime</option>
+											<option>Mondays</option>
+											<option>Poornima</option>
+											<option>Amavas</option>
+											<option>Sankasti</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="number" placeholder="No. Of Days *">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" type="date" placeholder="Starting From *">
+									</div>
+									<div class="col-12 col-md-6 d-none d-lg-block"></div>
+									<div class="col-12 col-md-6 col-lg-6">
+										<p class="mb-15">Availability For Pooja</p>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="availability">
+											<label class="form-check-label">Yes</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="availability">
+											<label class="form-check-label">No</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-6 col-lg-6">
+										<p class="mb-15">Prasad Home Delivery</p>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="prasad">
+											<label class="form-check-label">Yes</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="prasad" checked>
+											<label class="form-check-label">No</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-lg-12 text-center">
+									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
+								</div>
+							</fieldset>
+							<fieldset>
+								<div class="row gy-40 mb-50">
+									<h4 class="w-100 text-center mb-2">Summary</h4>
+									<div class="col-12 text-center">
+										<p>Devotee Name: <span>Lorem ipsum.</span></p>
+										<p>Pooja Date: <span>xx/xx/xxxx</span></p>
+										<p>Amount to be paid: <span>₹xxx</span></p>
+									</div>
+								</div>
+								<div class="col-12 col-lg-12 text-center">
+									<input type="button" class="next btn btn-accent-3 text-white" value="Pay Now">
+								</div>
+							</fieldset>
+						</form>
+					</div>
 				</div>
 			</div>
-			<form data-show="startbox" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
-				<div class="row gy-40">
-					<div class="col-12 col-md-6">
-						<input class="form-control" type="text" placeholder="Full Name *">
-					</div>
-					<div class="col-12 col-md-6">
-						<input class="form-control" type="tel" placeholder="Phone Number *">
-					</div>
-					<div class="col-12 col-md-6">
-						<input class="form-control" type="text" placeholder="Gotra *">
-					</div>
-					<div class="col-12 col-md-6">
-						<select class="form-control">
-							<option selected value="">Service</option>
-							<option>Service 1</option>
-							<option>Service 2</option>
-							<option>Service 3</option>
-							<option>Service 4</option>
-						</select>
-					</div>
-					<div class="col-12 mb-10">
-						<textarea class="form-control" rows="2" placeholder="Message *"></textarea>
-					</div>
-					<div class="col-12 col-md-6 col-lg-4">
-						<p class="mb-15">Donation Type:</p>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name="donationType">
-							<label class="form-check-label">One-Time</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name="donationType" checked>
-							<label class="form-check-label">Recurring</label>
-						</div>
-					</div>
-					<div class="col-12 col-md-6 col-lg-4">
-						<p class="mb-15">Recurring Interval:</p>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name="recurringInterval" checked>
-							<label class="form-check-label">Monthly</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" name="recurringInterval">
-							<label class="form-check-label">Quarterly</label>
-						</div>
-					</div>
-					<div class="col-12 col-lg-12 text-center">
-						<button class="btn btn-accent-3 text-white">Send</button>
-					</div>
-				</div>
-			</form>
 		</div>
 	</div>
+	<!-- ========== End Pooja Form ============= -->
 {% endblock content %}
+
+{% block body %}
+	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
+        $(document).ready(function () {
+            let current_fs, next_fs
+            let opacity;
+
+            $('.next').click(function () {
+                current_fs = $(this).parent().parent();
+                next_fs = $(this).parent().parent().next();
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                next_fs.show();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                current_fs.animate({opacity: 0}, {
+                    step: function (now) {
+                        opacity = 1 - now;
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({'opacity': opacity});
+                    },
+                    duration: 600
+                });
+            });
+        });
+	</script>
+{% endblock body %}

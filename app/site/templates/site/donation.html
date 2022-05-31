@@ -9,63 +9,95 @@
 {% endblock head %}
 
 {% block content %}
-	<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
-				<div class="container">
-					<div class="row my-50">
-						<div class="col-lg-6 offset-lg-3 text-center">
-							<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Donation</span></h3>
+
+	<div class="content-wrap">
+		<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+			<div class="container">
+				<div class="row my-50">
+					<div class="col-lg-6 offset-lg-3 text-center">
+						<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Donation</span></h3>
+					</div>
+				</div>
+				<form data-show="startbox" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
+					<div class="row gy-40">
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="Full Name *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="tel" placeholder="Phone Number *">
+						</div>
+						<div class="col-12 col-md-6">
+							<select class="form-control">
+								<option selected value="">Donation Type *</option>
+								<option>Nitya Seva</option>
+								<option>Ghoshala Fund</option>
+								<option>Annadaana Fund</option>
+								<option>Building Fund</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="number" placeholder="Donation Amount *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="email" placeholder="Email">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="Aadhaar/PAN">
+						</div>
+						<div class="col-12">
+							<textarea class="form-control" type="text" placeholder="Address *"></textarea>
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="City *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="number" placeholder="Pincode *">
+						</div>
+						<div class="col-12 col-md-6 col-lg-4">
+							<p class="mb-15">Donation Type:</p>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="donationType">
+								<label class="form-check-label">One-Time</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="donationType" checked>
+								<label class="form-check-label">Recurring</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-4">
+							<p class="mb-15">Recurring Interval:</p>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="recurringInterval" checked>
+								<label class="form-check-label">Monthly</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="recurringInterval">
+								<label class="form-check-label">Quarterly</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-4">
+							<p class="mb-15">Donate Anonymously</p>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="anonymous">
+								<label class="form-check-label">Yes</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="notAnonymous" checked>
+								<label class="form-check-label">No</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-6">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" checked>
+								<p>80G Receipt</p>
+							</div>
+						</div>
+						<div class="col-12 col-lg-12 text-center">
+							<button class="btn btn-accent-3 text-white">Send</button>
 						</div>
 					</div>
-					<form data-show="startbox" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
-						<div class="row gy-40">
-							<div class="col-12 col-md-6">
-								<input class="form-control" type="text" placeholder="Full Name *">
-							</div>
-							<div class="col-12 col-md-6">
-								<input class="form-control" type="tel" placeholder="Phone Number *">
-							</div>
-							<div class="col-12 col-md-6">
-								<input class="form-control" type="tel" placeholder="Email *">
-							</div>
-							<div class="col-12 col-md-6">
-								<input class="form-control" type="text" placeholder="Amount *">
-							</div>
-							<div class="col-12 mb-10">
-								<textarea class="form-control" rows="2" placeholder="Message *"></textarea>
-							</div>
-							<div class="col-12 col-md-6 col-lg-4">
-								<p class="mb-15">Donation Type:</p>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="donationType">
-									<label class="form-check-label">One-Time</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="donationType" checked>
-									<label class="form-check-label">Recurring</label>
-								</div>
-							</div>
-							<div class="col-12 col-md-6 col-lg-4">
-								<p class="mb-15">Recurring Interval:</p>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="recurringInterval" checked>
-									<label class="form-check-label">Monthly</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="recurringInterval">
-									<label class="form-check-label">Quarterly</label>
-								</div>
-							</div>
-							<div class="col-12 col-md-6 col-lg-4">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" checked>
-									<p>80G Receipt</p>
-								</div>
-							</div>
-							<div class="col-12 col-lg-12 text-center">
-								<button class="btn btn-accent-3 text-white">Send</button>
-							</div>
-						</div>
-					</form>
-				</div>
+				</form>
 			</div>
+		</div>
+	</div>
 {% endblock content %}

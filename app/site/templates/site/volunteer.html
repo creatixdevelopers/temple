@@ -1,0 +1,60 @@
+{% extends 'site/templates/page.html' %}
+
+{% block head %}
+	<style>
+        .navbar-top.navbar-dark {
+            background-color: #17161A !important;
+        }
+	</style>
+{% endblock head %}
+
+{% block content %}
+	<div class="content-wrap">
+		<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+			<div class="container">
+				<div class="row my-50">
+					<div class="col-lg-6 offset-lg-3 text-center">
+						<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Become A Volunteer</span></h3>
+					</div>
+				</div>
+				<form data-show="startbox" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
+					<div class="row gy-40">
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="Full Name *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="tel" placeholder="Phone Number *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="email" placeholder="Email">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="Aadhaar/PAN">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="number" placeholder="Age *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="Occupation *">
+						</div>
+						<div class="col-12">
+							<textarea class="form-control" type="text" placeholder="Address *"></textarea>
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="text" placeholder="City *">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" type="number" placeholder="Pincode *">
+						</div>
+						<div class="col-12">
+							<textarea class="form-control" type="text" placeholder="Additional Comments"></textarea>
+						</div>
+						<div class="col-12 col-lg-12 text-center">
+							<button class="btn btn-accent-3 text-white">Send</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

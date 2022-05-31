@@ -23,7 +23,7 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/swiper-bundle.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
-		<script  type="application/javascript" src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
 
 		{% block head %}{% endblock head %}
 	</head>
@@ -56,6 +56,8 @@
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/stretch-column.js') }}"></script>
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/swiper.js') }}"></script>
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/others.js') }}"></script>
-		<!-- ========== End Footer ============= -->
+
+		{% block body %}
+		{% endblock body %}
 	</body>
 </html>

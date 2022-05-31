@@ -12,6 +12,8 @@
  */
 /* 01. Helpers */
 
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -805,7 +807,7 @@ progress {
 }
 
 .blockquote-footer::before {
-    content: "— ";
+    content: "— ";
 }
 
 .img-fluid {
@@ -44995,6 +44997,79 @@ code.docs-card-gist .blob-wrapper {
     .btn-sm {
         font-size: 0.6rem !important;
         padding: 5px 10px;
-        padding: 5px 10px;
     }
+}
+
+#poojaForm fieldset {
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+#poojaForm fieldset:not(:first-of-type) {
+    display: none;
+}
+
+#progressbar {
+    padding: 0;
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: #000;
+}
+
+#progressbar .active {
+    color: #000000;
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 12px;
+    width: 33%;
+    float: left;
+    position: relative;
+}
+
+
+#progressbar #personal:before {
+    font-family: FontAwesome;
+    content: "\f007";
+}
+
+#progressbar #pooja:before {
+    font-family: FontAwesome;
+    content: "\f664";
+}
+
+#progressbar #payment:before {
+    font-family: FontAwesome;
+    content: "\f09d";
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 18px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px;
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #aaa;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1;
+}
+
+#progressbar li.active:before, #progressbar li.active:after {
+    background: #d35400;
 }
