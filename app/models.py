@@ -1,4 +1,4 @@
-from app.services import db, jwt, r, ModelMixin, CreatedMixin, DeletedMixin, PasswordMixin
+from app.services import db, jwt, r, ModelMixin, CreatedMixin, LastUpdatedMixin, DeletedMixin, PasswordMixin, ImagesMixin
 
 
 class Role(ModelMixin, db.Model):
@@ -13,6 +13,14 @@ class User(ModelMixin, CreatedMixin, DeletedMixin, PasswordMixin, db.Model):
     @classmethod
     def by_role(cls, role):
         return cls.filter([cls.role.has(name=role)])
+
+
+class Post(ModelMixin, CreatedMixin, LastUpdatedMixin, ImagesMixin, DeletedMixin, db.Model):
+    type = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+
+    UPLOADS_PATH = f'posts'
 
 
 @jwt.user_lookup_loader

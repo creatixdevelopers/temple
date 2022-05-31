@@ -196,16 +196,16 @@
 						{% for i in range(1, 4) %}
 							<div class="swiper-slide">
 							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-								<a class="card-img rounded-0" href="blog.html" data-img-height style="--img-height: 72%;">
+								<a class="card-img rounded-0" href="{{ url_for('site.blog') }}" data-img-height style="--img-height: 72%;">
 									<img loading="lazy" src="{{ url_for('static', filename='media/events/'~i~'.jpg') }}"></a>
 								<div class="service-case-body position-relative">
-									<a class="card-title h4 mb-10" href="blog.html">
+									<a class="card-title h4 mb-10" href="{{ url_for('site.blog') }}">
 										Lorem ipsum dolor
 									</a>
 									<p class="service-case-text font-size-15 mb-30">
 										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
 									</p>
-									<a class="service-case-arrow stretched-link" href="blog.html">
+									<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 										</svg>
@@ -265,16 +265,16 @@
 						{% for i in range(1, 4) %}
 							<div class="swiper-slide">
 							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-								<a class="card-img rounded-0" href="blog.html" data-img-height style="--img-height: 72%;">
+								<a class="card-img rounded-0" href="{{ url_for('site.blog') }}" data-img-height style="--img-height: 72%;">
 									<img loading="lazy" src="{{ url_for('static', filename='media/blogs/'~i~'.jpg') }}"></a>
 								<div class="service-case-body position-relative">
-									<a class="card-title h4 mb-10" href="blog.html">
+									<a class="card-title h4 mb-10" href="{{ url_for('site.blog') }}">
 										Lorem ipsum dolor
 									</a>
 									<p class="service-case-text font-size-15 mb-30">
 										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
 									</p>
-									<a class="service-case-arrow stretched-link" href="blog.html">
+									<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 										</svg>

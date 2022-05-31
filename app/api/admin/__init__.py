@@ -1,8 +1,8 @@
 from flask import Blueprint
 
 from app.api.schemas import *
-from app.helpers import APIView, role_required
+from app.helpers import APIViewImages, role_required
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
-APIView.register(admin, 'user', '/user/', User, UserSchema(), [role_required(['admin'], False)])
+APIViewImages.register(admin, 'post', '/post/', Post, PostSchema(), [])

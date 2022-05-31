@@ -15,7 +15,7 @@
 			<title>{{ title }}</title>
 		{% endif %}
 
-		<link rel="icon" type="image/png" href="{{ url_for('static', filename='media/creatix-logo-sm.png') }}"/>
+		<link rel="icon" type="image/png" href="{{ url_for('static', filename='media/logo.png') }}"/>
 
 		<link href="{{ url_for('dashboard.static', filename='css/style.css') }}" rel="stylesheet" type="text/css"/>
 		<link href="{{ url_for('dashboard.static', filename='css/icons.css') }}" rel="stylesheet" type="text/css"/>
@@ -37,16 +37,6 @@
 				<div class="content">
 					{% include "dashboard/templates/navbar.html" %}
 					<div class="container-fluid">
-						{% if page_title %}
-							<div class="row">
-								<div class="col-12">
-									<div class="page-title-box">
-										<h4 class="page-title">{{ page_title }}</h4>
-									</div>
-								</div>
-							</div>
-						{% endif %}
-
 						<div id="content">
 							{% block content %}
 							{% endblock content %}

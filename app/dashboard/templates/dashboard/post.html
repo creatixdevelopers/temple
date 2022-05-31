@@ -1,0 +1,31 @@
+{% extends 'dashboard/templates/table.html' %}
+
+{% block content %}
+	<div class="row mb-3">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="page-title-box">
+				<h4 class="page-title">Blogs & Events</h4>
+			</div>
+			<a class="btn btn-success" href="{{ url_for('dashboard.post_modify') }}">
+				<i class="uil-plus me-2"></i> Add
+			</a>
+		</div>
+	</div>
+
+	<div class="row">
+		{% for post in Post.all() %}
+			<div class="col-md-6 col-lg-3">
+				<div class="card d-block">
+					<img class="card-img-top" src="{{ url_for('static', filename='/uploads/'~post.UPLOADS_PATH~'/'~post.images[0]) }}" style="object-fit: cover; max-height: 15rem">
+					<div class="card-body" style="height: 10rem; overflow: hidden">
+						<h4 class="card-title mb-0">{{ post.title }}</h4>
+						<small class="text-muted">{{ post.last_updated.strftime("%d %b, %Y") }}</small>
+						<div class="content mt-2">
+							{{ post.content|safe }}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock content %}

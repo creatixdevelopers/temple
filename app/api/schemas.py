@@ -1,18 +1,21 @@
-from app.models import User
+from app.models import Post
 from app.services import ma
 
 
-class UserSchema(ma.SQLAlchemyAutoSchema):
+class PostSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = User
-        fields = ['uid', 'created', 'email']
+        model = Post
+        fields = ['uid', 'created', 'last_updated', 'type', 'title', 'content', 'images']
 
     validation_schema = {
         "type": "object",
         "properties": {
-            "created": {"type": "number", "format": "utc-millisec"},
-            "email": {"type": "string", "format": "email", "pattern": "^\\S+@\\S+\\.\\S+$", "minLength": 5, "maxLength": 128},
-            "password": {"type": "string", "minLength": 8, "maxLength": 32},
+            "type": {"type": "string", "enum": ['blog', 'event']},
+            "title": {"type": "string", "maxlength": 40},
+            "content": {"type": "string"},
         },
-        "required": ["email", "password"],
+        "required": ["type", "title", "content"],
     }
+
+
+
