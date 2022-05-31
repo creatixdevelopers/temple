@@ -193,19 +193,17 @@
 			<div class="swiper mt-90 shape-parent" data-swiper-slides="1" data-swiper-loop="true" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						{% for i in range(1, 4) %}
+						{% for post in Post.get_by(type='event') %}
 							<div class="swiper-slide">
-							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-								<a class="card-img rounded-0" href="{{ url_for('site.blog') }}" data-img-height style="--img-height: 72%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/events/'~i~'.jpg') }}"></a>
+							<div class="card card-blog card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
+								<a class="card-img rounded-0" href="{{ url_for('site.event', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
+									<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
 								<div class="service-case-body position-relative">
-									<a class="card-title h4 mb-10" href="{{ url_for('site.blog') }}">
-										Lorem ipsum dolor
+									<a class="card-title h4 mb-10" href="{{ url_for('site.event', uid=post.uid) }}">
+										{{ post.title }}
 									</a>
-									<p class="service-case-text font-size-15 mb-30">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
-									</p>
-									<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
+									{{ post.content|safe }}
+									<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=post.uid) }}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 										</svg>
@@ -262,19 +260,17 @@
 			<div class="swiper mt-50 shape-parent" data-swiper-loop="true" data-swiper-slides="1" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						{% for i in range(1, 4) %}
+						{% for post in Post.get_by(type='blog') %}
 							<div class="swiper-slide">
 							<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-								<a class="card-img rounded-0" href="{{ url_for('site.blog') }}" data-img-height style="--img-height: 72%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/blogs/'~i~'.jpg') }}"></a>
+								<a class="card-img rounded-0" href="{{ url_for('site.blog', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
+									<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
 								<div class="service-case-body position-relative">
-									<a class="card-title h4 mb-10" href="{{ url_for('site.blog') }}">
-										Lorem ipsum dolor
+									<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=post.uid) }}">
+										{{ post.title }}
 									</a>
-									<p class="service-case-text font-size-15 mb-30">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
-									</p>
-									<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
+									{{ post.content|safe }}
+									<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=post.uid) }}">
 										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 											<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 										</svg>

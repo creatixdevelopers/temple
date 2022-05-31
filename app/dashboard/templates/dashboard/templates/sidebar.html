@@ -8,9 +8,9 @@
         </span>
 	</div>
 
-	<div class="h-100 mt-3" data-simplebar id="leftside-menu-container">
+	<div class="h-100" data-simplebar id="leftside-menu-container">
 		<ul class="side-nav">
-			<li class="side-nav-title side-nav-item"></li>
+			<li class="side-nav-title side-nav-item mt-4"></li>
 
 			<li class="side-nav-item">
 				<a class="side-nav-link" href="{{ url_for('dashboard.index') }}">
@@ -20,9 +20,16 @@
 			</li>
 
 			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.posts') }}">
+				<a class="side-nav-link" href="{{ url_for('dashboard.blogs') }}">
 					<i class="uil-file-alt"></i>
-					<span>Events/Blogs</span>
+					<span>Blogs</span>
+				</a>
+			</li>
+
+			<li class="side-nav-item">
+				<a class="side-nav-link" href="{{ url_for('dashboard.events') }}">
+					<i class="uil-file-alt"></i>
+					<span>Events</span>
 				</a>
 			</li>
 

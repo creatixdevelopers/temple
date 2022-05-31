@@ -28,11 +28,8 @@ def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
     app.config.from_object(config)
 
     # Initializing services
-    talisman.init_app(app, content_security_policy={'default-src': ["'self'", 'fonts.gstatic.com', 'maps.google.com', 'www.google.com',
-                                                                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/'],
-                                                    'script-src': "'self'",
-                                                    'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com',
-                                                                  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/'],
+    talisman.init_app(app, content_security_policy={'default-src': ["'self'", 'fonts.gstatic.com', 'maps.google.com', 'www.google.com', 'data:application/font-woff;'], 'script-src': "'self'",
+                                                    'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
                                                     'img-src': ["'self'", 'data: w3.org/svg/2000']},
                       content_security_policy_nonce_in=['script-src'])
     for service in [csrf, db, jwt, ma, mail]:

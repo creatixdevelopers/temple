@@ -1,31 +1,161 @@
 {% extends 'dashboard/templates/table.html' %}
 
+{% block head %}
+	<link href="{{ url_for('static', filename='css/quill.snow.css') }}" rel="stylesheet" type="text/css"/>
+	<link href="{{ url_for('static', filename='css/dropzone.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock head %}
+
+{% set post = Post.get_by(first=True, uid=uid) %}
+
 {% block content %}
 	<div class="row mb-3">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">
 				<h4 class="page-title">Blogs & Events</h4>
 			</div>
-			<a class="btn btn-success" href="{{ url_for('dashboard.post_modify') }}">
-				<i class="uil-plus me-2"></i> Add
-			</a>
 		</div>
 	</div>
 
-	<div class="row">
-		{% for post in Post.all() %}
-			<div class="col-md-6 col-lg-3">
-				<div class="card d-block">
-					<img class="card-img-top" src="{{ url_for('static', filename='/uploads/'~post.UPLOADS_PATH~'/'~post.images[0]) }}" style="object-fit: cover; max-height: 15rem">
-					<div class="card-body" style="height: 10rem; overflow: hidden">
-						<h4 class="card-title mb-0">{{ post.title }}</h4>
-						<small class="text-muted">{{ post.last_updated.strftime("%d %b, %Y") }}</small>
-						<div class="content mt-2">
-							{{ post.content|safe }}
-						</div>
+	<form id="addEditForm" autocomplete="off">
+		<div class="row">
+			<div class="col-12">
+				<div class="input-group input-group-lg">
+					<span class="input-group-text">Type</span>
+					<select class="form-select" name="type" type="text" required style="flex: 2">
+						<option value="blog">Blog</option>
+						<option value="event">Event</option>
+					</select>
+					<span class="input-group-text">Title</span>
+					<input class="form-control" name="title" type="text" required style="flex: 8">
+				</div>
+			</div>
+
+			<div class="col-12 mt-2">
+				<h3>Content</h3>
+				<div id="snow-editor" style="height: 30vh;"></div>
+			</div>
+
+			<div class="col-12 mt-2">
+				<h3>Gallery</h3>
+				<div class="dropzone" id="galleryUpload">
+					<div class="dz-message" data-dz-message>
+						<i class="uil-image-v" style="font-size: 60px;"></i>
+						<br>
+						<span style="font-size:large">Drop images here or click to upload</span>
 					</div>
 				</div>
 			</div>
-		{% endfor %}
-	</div>
+
+			<div class="col-12 mt-2 d-flex justify-content-center">
+				<button id="submitBtn" type="submit" class="btn btn-success btn-lg m-1">
+					<div id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status"></div>
+					{{ 'Submit' if post else 'Save' }}
+				</button>
+			</div>
+
+		</div>
+	</form>
 {% endblock content %}
+
+{% block body %}
+	<script src="{{ url_for('static', filename='js/quill.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+
+	{# Add/Edit #}
+	<script type="application/javascript" nonce="{{ csp_nonce() }}">
+        let form = $("#addEditForm");
+        let quill = null;
+        let galleryUpload = $('#galleryUpload');
+        let submitBtn = $("#submitBtn");
+        let submitSpinner = $("#submitSpinner");
+        let editUid = {% if post %}'{{ post.uid }}'{% else %} null {% endif %};
+
+        function initializeSpecialInputs() {
+            quill = new Quill('#snow-editor', {theme: 'snow'});
+            Dropzone.options.galleryUpload = {
+                url: '/',
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                paramName: "file",
+                parallelUploads: 5,
+                maxFiles: 10,
+                maxFilesize: 10,
+                acceptedFiles: '.png,.jpg,',
+                addRemoveLinks: true,
+            }
+        }
+
+        initializeSpecialInputs();
+
+        {% if post %}
+            $.ajax({
+                type: 'GET',
+                url: `{{ url_for('api.admin.post') }}${editUid}/`,
+                contentType: 'application/json',
+            }).done(function (response, status, xhr) {
+                $.each(response.data, function (k, v) {
+                    form.find('[name=' + k + ']').val(v);
+                });
+                quill.root.innerHTML = response.data.content;
+                $.each(response.data.images, function (i, image) {
+                    const mockFile = {name: image, size: 0, accepted: true}
+                    galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ post.UPLOADS_PATH }}/` + image);
+                    galleryUpload[0].dropzone.files.push(mockFile);
+                });
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+            });
+        {% endif %}
+
+        form.on('submit', function (e) {
+            e.preventDefault();
+
+            $(this).find('.is-invalid').removeClass('is-invalid');
+            let invalids = $(this).find('*:invalid');
+            if (invalids.length > 0) {
+                invalids.addClass('is-invalid')[0].reportValidity();
+                return;
+            }
+            if (quill.getText().trim().length === 0) {
+                $(quill.container).addClass('is-invalid');
+                return;
+            }
+            if (galleryUpload[0].dropzone.getAcceptedFiles().length === 0) {
+                galleryUpload.addClass('is-invalid');
+                return;
+            }
+
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+
+            let data = new FormData();
+            $.each($(this).find(':input'), function (i, e) {
+                if ($(e).attr('name')) {
+                    data.append($(e).attr('name'), $(e).fval());
+                }
+            });
+
+            data.append('content', quill.root.innerHTML);
+
+            $.each($('#galleryUpload')[0].dropzone.getAcceptedFiles(), function (i, file) {
+                data.append('gallery_' + i, file);
+            });
+
+            $.ajax({
+                data: data,
+                type: (editUid == null) ? 'POST' : 'PUT',
+                url: (editUid == null) ? `{{ url_for('api.admin.post') }}` : `{{ url_for('api.admin.post') }}${editUid}/`,
+                contentType: false,
+                processData: false,
+            }).done(function (response, status, xhr) {
+                location.reload();
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
+            });
+        });
+	</script>
+{% endblock body %}
