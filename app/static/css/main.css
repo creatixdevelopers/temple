@@ -12,8 +12,6 @@
  */
 /* 01. Helpers */
 
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -44594,7 +44592,7 @@ code.docs-card-gist .blob-wrapper {
     -webkit-align-items: flex-start;
     -webkit-justify-content: center;
     -ms-flex-align: start;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 }
 
@@ -44606,6 +44604,14 @@ code.docs-card-gist .blob-wrapper {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
+}
+
+.category-icon i {
+    font-size: 3.4rem;
+}
+
+.category-body h3 {
+    color: #d35400;
 }
 
 .circle-icon {
@@ -44812,7 +44818,15 @@ code.docs-card-gist .blob-wrapper {
 }
 
 .service-card-body {
-    padding: 25px 60px 25px 50px;
+    padding: 10px 25px 10px 15px;
+}
+
+.service-card-body a {
+    display: flex;
+    justify-content: end;
+    font-weight: bold;
+    color: #d35400;
+    text-decoration: none;
 }
 
 .service-card-arrow:hover {
@@ -45032,17 +45046,17 @@ code.docs-card-gist .blob-wrapper {
 
 
 #progressbar #personal:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     content: "\f007";
 }
 
 #progressbar #pooja:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     content: "\f664";
 }
 
 #progressbar #payment:before {
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     content: "\f09d";
 }
 
