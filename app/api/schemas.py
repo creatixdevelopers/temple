@@ -13,8 +13,9 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
             "type": {"type": "string", "enum": ['blog', 'event']},
             "title": {"type": "string", "maxlength": 40},
             "content": {"type": "string"},
+            "retained": {"type": "string"},
         },
-        "required": ["type", "title", "content"],
+        "required": ["type", "title", "content", "retained"],
     }
 
 

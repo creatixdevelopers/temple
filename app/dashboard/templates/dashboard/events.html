@@ -17,12 +17,20 @@
 			<div class="col-md-6 col-lg-3">
 				<div class="card d-block">
 					<img class="card-img-top" src="{{ url_for('static', filename='/uploads/'~event.UPLOADS_PATH~'/'~event.images[0]) }}" style="object-fit: cover; max-height: 15rem">
-					<div class="card-body" style="height: 10rem; overflow: hidden">
-						<h4 class="card-title mb-0">{{ event.title }}</h4>
-						<small class="text-muted">{{ event.last_updated.strftime("%d %b, %Y") }}</small>
+					<div class="card-body p-2" style="height: 8rem; overflow: hidden">
+						<h4 class="card-title">{{ event.title }}</h4>
+						<h6 class="card-subtitle mb-2 text-muted">{{ event.last_updated.strftime("%d %b, %Y") }}</h6>
 						<div class="content mt-2">
 							{{ event.content|safe }}
 						</div>
+					</div>
+					<div class="card-footer text-muted d-flex justify-content-end p-1">
+						<a class="editAction mx-1" href="{{ url_for('dashboard.post', uid=event.uid) }}" title="edit" data-uid="{{ event.uid }}">
+							<i class="uil-pen fs-4"></i>
+						</a>
+						<a class="deleteAction text-danger mx-1" href="#" title="delete" data-uid="{{ event.uid }}">
+							<i class="uil-trash-alt fs-4"></i>
+						</a>
 					</div>
 				</div>
 			</div>

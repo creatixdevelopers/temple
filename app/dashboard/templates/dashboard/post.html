@@ -98,7 +98,7 @@
                 });
                 quill.root.innerHTML = response.data.content;
                 $.each(response.data.images, function (i, image) {
-                    const mockFile = {name: image, size: 0, accepted: true}
+                    const mockFile = {name: image, size: 0, accepted: true, mock: true}
                     galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ post.UPLOADS_PATH }}/` + image);
                     galleryUpload[0].dropzone.files.push(mockFile);
                 });
@@ -138,9 +138,11 @@
 
             data.append('content', quill.root.innerHTML);
 
+            let retained = [];
             $.each($('#galleryUpload')[0].dropzone.getAcceptedFiles(), function (i, file) {
-                data.append('gallery_' + i, file);
+                file.mock ? retained.push(file.name) : data.append(`gallery_${i}`, file);
             });
+            data.append('retained', JSON.stringify(retained))
 
             $.ajax({
                 data: data,

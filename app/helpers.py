@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from functools import wraps
 from typing import Any
@@ -153,8 +154,9 @@ class APIViewImages(APIView):
         if r := self.model.get_by(first=True, uid=uid):
             r.update(**data)
             images = list(request.files.values())
-            if r and images:
-                r.delete_images(r.images)
+            retained = json.loads(data['retained'])
+            if r and images and isinstance(retained, list):
+                r.delete_images(set(r.images) ^ set(retained))
                 r.save_images(images)
             self.after_put(data, r)
             return jsonify({'status': 'success', 'data': self.schema.dump(r)}), 200
