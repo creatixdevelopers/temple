@@ -25,8 +25,9 @@
 										accusamus repellendus
 										deleniti vel. Minus et tempore modi architecto.
 									</p>
-									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.donation') }}">Donate
-										Now</a>
+									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
+										Become A Volunteer
+									</a>
 								</div>
 							</div>
 						</div>
@@ -52,7 +53,9 @@
 										accusamus repellendus
 										deleniti vel. Minus et tempore modi architecto.
 									</p>
-									<a class="btn btn-accent-3 text-white" href="#">Donate Now</a>
+									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
+										Become A Volunteer
+									</a>
 								</div>
 							</div>
 						</div>
@@ -78,7 +81,9 @@
 										accusamus repellendus
 										deleniti vel. Minus et tempore modi architecto.
 									</p>
-									<a class="btn btn-accent-3 text-white" href="#">Donate Now</a>
+									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
+										Become A Volunteer
+									</a>
 								</div>
 							</div>
 						</div>
@@ -100,7 +105,7 @@
 	<!-- ========== End Hero Section ============= -->
 
 	<!-- ========== About Section ============= -->
-	<div class="pt-120 pb-100 shape-parent overflow-hidden">
+	<div id="about" class="pt-120 pb-100 shape-parent overflow-hidden">
 		<div class="container">
 			<div class="row align-items-center gy-90">
 				<div class="col-lg-6">
@@ -133,8 +138,8 @@
 							<div class="background-color" style="--background-color: #222;"></div>
 						</div>
 						<div class="px-60 py-35">
-							<div class="h1 m-0" style="color: #ff8330">27+</div>
-							<div class="h6 m-0" style="color: #ff8330">Years</div>
+							<div class="h1 m-0" style="color: #F1C40F">8+</div>
+							<div class="h6 m-0" style="color: #F1C40F">Years</div>
 						</div>
 					</div>
 				</div>
@@ -197,7 +202,7 @@
 	<!-- ========== End About Section ============= -->
 
 	<!-- ========== Events Section ============= -->
-	<div class="pt-50 pb-50 bg-dark shape-parent videoPrev">
+	<div id="events" class="pt-50 pb-50 bg-dark shape-parent videoPrev">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 offset-lg-4 text-center">
@@ -221,7 +226,7 @@
 								{{ post.content|safe }}
 								<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=post.uid) }}">
 									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-										<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+										<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 									</svg>
 								</a>
 								<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
@@ -236,7 +241,7 @@
 										</p>
 										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
 											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-												<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 											</svg>
 										</a>
 									</div>
@@ -276,244 +281,256 @@
 					</div>
 				</div>
 			</div>
-			<!-- ========== End Events Section ============= -->
+		</div>
+	</div>
+	<!-- ========== End Events Section ============= -->
 
-			<!-- ========== Blogs Section ============= -->
-			<div class="pt-50 pb-70 videoNext shape-parent overflow-hidden">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-4 offset-lg-4 text-center">
-							<h2 class="m-0" data-show="startbox" data-show-delay="100">
-								<span class="highlight">Recent Blogs</span>
-							</h2>
-						</div>
-					</div>
-					<div class="swiper mt-50 shape-parent" data-swiper-loop="true" data-swiper-slides="1" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
-						<div class="swiper-container">
-							<div class="swiper-wrapper">
-								{% for post in Post.get_by(type='blog') %}
-									<div class="swiper-slide">
-										<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-											<a class="card-img rounded-0" href="{{ url_for('site.blog', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
-												<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
-											<div class="service-case-body position-relative">
-												<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=post.uid) }}">
-													{{ post.title }}
-												</a>
-												{{ post.content|safe }}
-												<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=post.uid) }}">
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-														<path stroke="#d35400" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
-													</svg>
-												</a>
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							</div>
-						</div>
-						<div class="d-flex mt-70 justify-content-center">
-							<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-							<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-						</div>
-					</div>
+	<!-- ========== Blogs Section ============= -->
+	<div id="blogs" class="pt-50 pb-70 videoNext shape-parent overflow-hidden">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 offset-lg-4 text-center">
+					<h2 class="m-0" data-show="startbox" data-show-delay="100">
+						<span class="highlight">Recent Blogs</span>
+					</h2>
 				</div>
 			</div>
-			<!-- ========== End Blogs Section ============= -->
-
-			<!-- ========== Highlights Section ============= -->
-			<div class="pt-50 pb-50 bg-dark">
-				<div class="container">
-					<div class="row mb-90">
-						<div class="col-lg-6 offset-lg-3 text-center">
-							<h3 class="m-0 text-white" data-show="startbox"><span class="highlight-lg">What We Do</span>
-							</h3>
-						</div>
-					</div>
-					<div class="row gy-30">
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/1.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Education Support</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Sree Dharmashasta Ayyappa Religious Trust selects remotest villages, poor
-										colonies to
-										support 1000 Govt school /Differently abled/Orphan homes and provide ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/2.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Health Support</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Most Senior Citizens don't even go to hospital inspite of their old age aliments
-										fearing
-										doctors would ask more money. We identify and setup basic health camps ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/3.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Gaushala Support</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										At Sree Dharmashasta Ayyappa Religious Trust ®, we have a Gaushala and presently
-										taking
-										care of 25 cows...
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/4.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Go-Green Initiatives</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Sree Dharmashasta Ayyappa Religious Trust ® aims to plant 1000 saplings every
-										year,
-										distribute clay Ganesha, Support awareness programs with Pachagavya ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/1.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Homeless Support</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										In our country more than 15% people do have not shelter. They have no money to
-										purchase
-										their daily needs. For these people at the time of festivals we provide food ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/2.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Annadanam</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Annam ParaBrahma Swaroopam - food is life, Annadanam is the highest form
-										of seva in Santayana dharma. The members celebrate their Birthdays ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/3.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Veda Pathashaala</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Protecting and Restoring rural VedaPathasa, with infrastructure and
-										Groceries ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
-							<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
-								<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
-									<img loading="lazy" src="{{ url_for('static', filename='media/highlights/4.jpg') }}" alt="">
-								</div>
-								<div class="service-card-body flex-grow-1">
-									<h4 class="service-card-title mb-15">Saamuhika Pooja events</h4>
-									<p class="service-card-text font-size-15 mb-2">
-										Sree Dharmashasta Ayyappa Religious Trust ® conducts "Saamuhika Pooja
-										Events" during
-										major festivals Sravana Masam, Dasara Navaratri, Kaarthika Maasam ..
-									</p>
-									<a href="#">Read More</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- ========== End Highlights Section ============= -->
-
-			<!-- ========== Gallery Section ============= -->
-			<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
-				<div class="row my-50">
-					<div class="col-lg-6 offset-lg-3 text-center">
-						<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Gallery</span></h3>
-					</div>
-				</div>
-				<div class="container-fluid mt-130 p-0" data-show="startbox">
-					<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
-						<div class="swiper-container">
-							<div class="swiper-wrapper gallery-wrapper">
-								{% for i in range(1, 11) %}
-									<div class="swiper-slide" style="max-width: 770px;">
-										<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" style="--img-height: 61%;" data-img-height>
-											<img loading="lazy" src="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" alt="">
+			<div class="swiper mt-50 shape-parent" data-swiper-loop="true" data-swiper-slides="1" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						{% for post in Post.get_by(type='blog') %}
+							<div class="swiper-slide">
+								<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
+									<a class="card-img rounded-0" href="{{ url_for('site.blog', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
+										<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
+									<div class="service-case-body position-relative">
+										<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=post.uid) }}">
+											{{ post.title }}
+										</a>
+										{{ post.content|safe }}
+										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=post.uid) }}">
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+											</svg>
 										</a>
 									</div>
-								{% endfor %}
+								</div>
 							</div>
-						</div>
-						<div class="d-flex mt-70 justify-content-center">
-							<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-							<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
 					</div>
 				</div>
 			</div>
-			<!-- ========== End Gallery Section ============= -->
+		</div>
+	</div>
+	<!-- ========== End Blogs Section ============= -->
 
-			<div class="position-relative">
-				<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".footerPrev" data-next-id=".footerNext">
-					<div class="shape-parent">
-						<div class="map-container bg-dark rounded-4 overflow-hidden" style="height: 506px;">
-							<iframe src="https://maps.google.com/maps?q=Kumbalagodu Ayyappa Temple, Sri Dharmashasta Ayyappa Swamy Temple, Kumbalgodu, Karnataka&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" allowfullscreen style="border: 0px;"></iframe>
+	<!-- ========== Highlights Section ============= -->
+	<div id="whatWeDo" class="pt-50 pb-50 bg-dark">
+		<div class="container">
+			<div class="row mb-90">
+				<div class="col-lg-6 offset-lg-3 text-center">
+					<h3 class="m-0 text-white" data-show="startbox"><span class="highlight-lg">What We Do</span>
+					</h3>
+				</div>
+			</div>
+			<div class="row gy-30">
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/1.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Education Support</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Sree Dharmashasta Ayyappa Religious Trust selects remotest villages, poor
+								colonies to support 1000 Govt school /Differently abled/Orphan homes and provide ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#education">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/2.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Health Support</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Most Senior Citizens don't even go to hospital inspite of their old age aliments
+								fearing doctors would ask more money. We identify and setup basic health camps ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#health">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/3.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Gaushala Support</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								At Sree Dharmashasta Ayyappa Religious Trust ®, we have a Gaushala and presently
+								taking care of 25 cows...
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#gaushala">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/4.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Go-Green Initiatives</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Sree Dharmashasta Ayyappa Religious Trust ® aims to plant 1000 saplings every
+								year, distribute clay Ganesha, Support awareness programs with Pachagavya ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#green">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/1.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Homeless Support</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								In our country more than 15% people do have not shelter. They have no money to
+								purchase their daily needs. For these people at the time of festivals we provide food ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#homeless">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/2.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Annadanam</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Annam ParaBrahma Swaroopam - food is life, Annadanam is the highest form
+								of seva in Santayana dharma. The members celebrate their Birthdays ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#annadanam">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/3.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Veda Pathashaala</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Protecting and Restoring rural VedaPathasa, with infrastructure and
+								Groceries ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#veda">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-6" data-show="startbox" data-show-delay="100">
+					<div class="service-card lift position-relative bg-light rounded-4 overflow-hidden">
+						<div class="service-card-image flex-shrink-0" data-img-height style="--img-height: 100%;">
+							<img loading="lazy" src="{{ url_for('static', filename='media/highlights/4.jpg') }}" alt="">
+						</div>
+						<div class="service-card-body flex-grow-1">
+							<h4 class="service-card-title mb-10">Saamuhika Pooja events</h4>
+							<p class="service-card-text font-size-15 mb-2">
+								Sree Dharmashasta Ayyappa Religious Trust ® conducts "Saamuhika Pooja
+								Events" during major festivals Sravana Masam, Dasara Navaratri, Kaarthika Maasam ..
+							</p>
+							<a href="{{ url_for('site.what_we_do') }}#saamuhika">
+								Read More<span class="ms-10"><i class="fa-regular fa-arrow-right"></i></span>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<!-- ========== End Highlights Section ============= -->
+
+	<!-- ========== Gallery Section ============= -->
+	<div id="gallery" class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+		<div class="row my-50">
+			<div class="col-lg-6 offset-lg-3 text-center">
+				<h3 class="m-0" data-show="startbox"><span class="highlight-lg">Our Gallery</span></h3>
+			</div>
+		</div>
+		<div class="container-fluid mt-130 p-0" data-show="startbox">
+			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
+				<div class="swiper-container">
+					<div class="swiper-wrapper gallery-wrapper">
+						{% for i in range(1, 11) %}
+							<div class="swiper-slide" style="max-width: 770px;">
+								<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" style="--img-height: 61%;" data-img-height>
+									<img loading="lazy" src="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" alt="">
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== End Gallery Section ============= -->
+
+	<div id="contact" class="position-relative">
+		<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".footerPrev" data-next-id=".footerNext">
+			<div class="shape-parent">
+				<div class="map-container bg-dark rounded-4 overflow-hidden" style="height: 506px;">
+					<iframe src="https://maps.google.com/maps?q=Kumbalagodu Ayyappa Temple, Sri Dharmashasta Ayyappa Swamy Temple, Kumbalgodu, Karnataka&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" allowfullscreen style="border: 0px;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock content %}

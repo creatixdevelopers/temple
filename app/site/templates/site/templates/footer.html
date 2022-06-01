@@ -11,21 +11,21 @@
 				</p>
 				<ul class="nav text-white align-items-center mb-20 nav-gap-md nav-no-opacity">
 					<li class="nav-item">
-						<a class="nav-link" href="#">
+						<a class="nav-link" href="https://www.facebook.com/kumbalgodu.ayyappa/" target="_blank">
 							<svg xmlns="http://www.w3.org/2000/svg" width="8" height="17" fill="none">
 								<path fill="currentColor" d="M6.318 2.8h1.391V.202A16.842 16.842 0 0 0 5.683.088c-2.006 0-3.38 1.353-3.38 3.837v2.287H.089v2.902h2.214v7.303h2.713V9.114H7.14l.338-2.902H5.016v-2c0-.839.21-1.413 1.302-1.413Z"/>
 							</svg>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">
+						<a class="nav-link" href="#" target="_blank">
 							<svg xmlns="http://www.w3.org/2000/svg" width="21" height="15" fill="none">
 								<path fill="currentColor" d="M19.687 2.485A2.472 2.472 0 0 0 17.953.73C16.423.313 10.29.313 10.29.313s-6.133 0-7.662.416A2.473 2.473 0 0 0 .895 2.485c-.41 1.55-.41 4.782-.41 4.782s0 3.233.41 4.782c.226.855.89 1.5 1.734 1.729 1.53.415 7.662.415 7.662.415s6.132 0 7.662-.415a2.435 2.435 0 0 0 1.734-1.729c.41-1.549.41-4.782.41-4.782s0-3.232-.41-4.782ZM8.285 10.203v-5.87l5.126 2.934-5.126 2.936Z"/>
 							</svg>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">
+						<a class="nav-link" href="https://www.instagram.com/kumbalgodu_ayyappa_temple/?hl=en" target="_blank">
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none">
 								<path fill="currentColor" d="M8.788 4.097C6.47 4.097 4.6 5.95 4.6 8.25c0 2.298 1.87 4.153 4.188 4.153 2.318 0 4.188-1.855 4.188-4.153 0-2.3-1.87-4.153-4.188-4.153Zm0 6.853c-1.498 0-2.723-1.211-2.723-2.7 0-1.49 1.221-2.7 2.723-2.7 1.502 0 2.723 1.21 2.723 2.7 0 1.489-1.225 2.7-2.723 2.7Zm5.336-7.023a.97.97 0 0 1-.977.968.97.97 0 0 1-.976-.968c0-.535.437-.969.976-.969.54 0 .977.434.977.969Zm2.774.983c-.062-1.298-.36-2.447-1.32-3.394C14.624.569 13.465.272 12.156.207c-1.349-.076-5.39-.076-6.74 0C4.113.27 2.954.565 1.995 1.512 1.035 2.46.74 3.61.674 4.906c-.076 1.338-.076 5.346 0 6.683.063 1.298.361 2.447 1.32 3.394.959.947 2.114 1.244 3.423 1.309 1.348.076 5.39.076 6.739 0 1.308-.062 2.468-.358 3.422-1.309.956-.947 1.254-2.096 1.32-3.394.076-1.337.076-5.342 0-6.68Zm-1.742 8.114a2.745 2.745 0 0 1-1.553 1.54c-1.075.423-3.627.325-4.815.325-1.188 0-3.743.095-4.815-.325a2.746 2.746 0 0 1-1.552-1.54c-.427-1.066-.329-3.596-.329-4.774 0-1.179-.094-3.712.329-4.775a2.745 2.745 0 0 1 1.552-1.54C5.048 1.512 7.6 1.61 8.788 1.61c1.188 0 3.743-.094 4.815.325a2.745 2.745 0 0 1 1.553 1.54c.426 1.066.328 3.596.328 4.775 0 1.178.098 3.712-.328 4.774Z"/>
 							</svg>
@@ -34,18 +34,28 @@
 				</ul>
 				<p class="font-size-13 text-muted m-0">© 2022 Sulegai Mobile Apps Pvt. Ltd.</p>
 			</div>
-			<div class="col-2 d-none d-lg-block"></div>
-			<div class="col-12 col-lg-7">
+			<div class="col-1 d-none d-lg-block"></div>
+			<div class="col-12 col-lg-8">
 				<div class="row gy-50">
-					<div class="col-6 col-md-4 d-none d-lg-block"></div>
 					<div class="col-6 col-md-4">
 						<h6 class="display-6 text-white mb-20">Sections</h6>
 						<ul class="nav flex-column text-white nav-opacity nav-gap-sm">
-							<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Events</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}#about">About</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}#events">Events</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}#whatWeDo">What We Do</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}#blogs">Blogs</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.index') }}#contact">Contact</a></li>
+						</ul>
+					</div>
+					<div class="col-6 col-md-4">
+						<h6 class="display-6 text-white mb-20">Legal Pages</h6>
+						<ul class="nav flex-column text-white nav-opacity nav-gap-sm">
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.terms_and_conditions') }}">Terms and conditions</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.privacy_policy') }}">Privacy Policy</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.terms_of_use') }}">Terms Of Use</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.disclaimer') }}">Disclaimer</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.refund_policy') }}">Refund/Cancellation Policy</a></li>
 						</ul>
 					</div>
 					<div class="col-6 col-md-4">

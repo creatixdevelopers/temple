@@ -4,7 +4,7 @@
   "start_url": ".",
   "display": "minimal-ui",
   "background_color": "#ffffff",
-  "theme_color": "#d35400",
+  "theme_color": "#FFA800",
   "description": "Kumbalgodu Ayyappa Temple",
   "icons": [{
     "src": "/static/media/logo.png",

@@ -13,7 +13,7 @@
 	<div class="content-wrap">
 		<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
 			<div class="container">
-				<div class="row my-50">
+				<div class="row my-30">
 					<div class="col-lg-6 offset-lg-3 text-center">
 						<h3 class="m-0"><span class="highlight-lg">Book Pooja</span></h3>
 					</div>
@@ -22,50 +22,15 @@
 					<div class="col-md-12 mx-0">
 						<form id="poojaForm" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
 							<ul id="progressbar" class="text-center">
-								<li class="active" id="personal"><strong>Personal</strong></li>
-								<li id="pooja"><strong>Pooja</strong></li>
-								<li id="payment"><strong>Payment</strong></li>
+								<li id="pooja" class="active"><strong>Pooja Details</strong></li>
+								<li id="personal"><strong>Personal Details</strong></li>
+								<li id="payment"><strong>Payment Details</strong></li>
 							</ul>
-							<fieldset>
-								<div class="row gy-40 mb-50">
-									<h4 class="w-100 text-center mb-2">Personal Details</h4>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="text" placeholder="Full Name *">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="tel" placeholder="Phone Number *">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="text" placeholder="No. Of Devotees *">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="text" placeholder="Devotee Name *">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="email" placeholder="Email">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="text" placeholder="Gotra *">
-									</div>
-									<div class="col-12">
-										<textarea class="form-control" placeholder="Address *"></textarea>
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="text" placeholder="City *">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="number" placeholder="Pincode *">
-									</div>
-								</div>
-								<div class="col-12 col-lg-12 text-center">
-									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
-								</div>
-							</fieldset>
 							<fieldset>
 								<div class="row gy-40 mb-50">
 									<h4 class="w-100 text-center mb-2">Pooja Details</h4>
 									<div class="col-12 col-md-6">
-										<select class="form-control">
+										<select class="form-control" type="text" required>
 											<option selected value="">Select Temple *</option>
 											<option>Temple 1</option>
 											<option>Temple 2</option>
@@ -74,52 +39,36 @@
 										</select>
 									</div>
 									<div class="col-12 col-md-6">
-										<select class="form-control">
+										<select class="form-control" name="pooja_id" type="integer" required>
 											<option selected value="">Select Pooja *</option>
-											<option>Pooja 1</option>
-											<option>Pooja 2</option>
-											<option>Pooja 3</option>
-											<option>Pooja 4</option>
+											<option value="1">Pooja 1</option>
+											<option value="1">Pooja 2</option>
+											<option value="1">Pooja 3</option>
+											<option value="1">Pooja 4</option>
 										</select>
 									</div>
+								</div>
+								<div class="col-12 col-lg-12 text-center">
+									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
+								</div>
+							</fieldset>
+							<fieldset>
+								<div class="row gy-40 mb-50">
+									<h4 class="w-100 text-center mb-2">Personal Details</h4>
 									<div class="col-12 col-md-6">
-										<select class="form-control">
-											<option selected value="">Pooja Type *</option>
-											<option>Onetime</option>
-											<option>Mondays</option>
-											<option>Poornima</option>
-											<option>Amavas</option>
-											<option>Sankasti</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" type="number" placeholder="No. Of Days *">
+										<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
 									</div>
 									<div class="col-12 col-md-6">
-										<input class="form-control" type="date" placeholder="Starting From *">
+										<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="14" required>
 									</div>
-									<div class="col-12 col-md-6 d-none d-lg-block"></div>
-									<div class="col-12 col-md-6 col-lg-6">
-										<p class="mb-15">Availability For Pooja</p>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="availability">
-											<label class="form-check-label">Yes</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="availability">
-											<label class="form-check-label">No</label>
-										</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
 									</div>
-									<div class="col-12 col-md-6 col-lg-6">
-										<p class="mb-15">Prasad Home Delivery</p>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="prasad">
-											<label class="form-check-label">Yes</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="prasad" checked>
-											<label class="form-check-label">No</label>
-										</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" name="gotra" type="text" placeholder="Gotra" maxlength="128">
+									</div>
+									<div class="col-12 col-md-6">
+										<input class="form-control" name="nakshatra" type="text" placeholder="Nakshatra" maxlength="128">
 									</div>
 								</div>
 								<div class="col-12 col-lg-12 text-center">
@@ -130,9 +79,9 @@
 								<div class="row gy-40 mb-50">
 									<h4 class="w-100 text-center mb-2">Summary</h4>
 									<div class="col-12 text-center">
-										<p>Devotee Name: <span>Lorem ipsum.</span></p>
-										<p>Pooja Date: <span>xx/xx/xxxx</span></p>
-										<p>Amount to be paid: <span>₹xxx</span></p>
+										<p class="mb-10">Temple Name: <span>Lorem ipsum.</span></p>
+										<p class="mb-10">Pooja: <span>Lorem ipsum.</span></p>
+										<p class="mb-10">Amount to be paid: <span>₹xxx</span></p>
 									</div>
 								</div>
 								<div class="col-12 col-lg-12 text-center">
@@ -150,7 +99,7 @@
 
 {% block body %}
 	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
-        $(document).ready(function () {
+		$(document).ready(function () {
             let current_fs, next_fs
             let opacity;
 
@@ -171,6 +120,36 @@
                     },
                     duration: 600
                 });
+            });
+        });
+
+		$(document).on('submit', '#poojaForm', function (e) {
+            e.preventDefault();
+
+            $(this).find('.is-invalid').removeClass('is-invalid');
+            let invalids = $(this).find('*:invalid');
+            if (invalids.length > 0) {
+                invalids.addClass('is-invalid')[0].reportValidity();
+                return;
+            }
+
+            let data = {};
+            $.each($(this).find(':input'), function (i, e) {
+                if ($(e).attr('name')) {
+                    data[$(e).attr('name')] = $(e).fval();
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                type: 'POST',
+                url: '/',
+            }).done(function (response, status, xhr) {
+                location.reload();
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
             });
         });
 	</script>

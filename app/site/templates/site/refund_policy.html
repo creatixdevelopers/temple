@@ -1,0 +1,45 @@
+{% extends 'site/templates/page.html' %}
+
+{% block head %}
+	<style>
+        .navbar-top.navbar-dark {
+            background-color: #17161A !important;
+        }
+	</style>
+{% endblock head %}
+
+{% block content %}
+	<div class="content-wrap">
+		<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
+			<div class="container pt-50">
+				<div class="row my-50">
+					<div class="col-lg-6 offset-lg-3 text-center">
+						<h3 class="m-0" data-show="startbox">{{ title }}</h3>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<p class="mb-10">
+					We (Sree Dharmashasta Ayyappa Religious Trust ®) make public our policy on donation refund &
+					cancellation here under.
+				</p>
+				<p class="mb-10">
+					No refund/cancellation request for the donated money by any donor will be accepted after the
+					transaction is complete through the online payment gateway integrated into our Website
+					<a href="https://www.kumbalgoduayyappatemple.org/" target="_blank">
+						(https://www.kumbalgoduayyappatemple.org/)</a>
+					unless there is a fraud notification from our payment gateway service provider.
+				</p>
+				<p class="mb-10">
+					Once received, the donation for a social cause will not be refunded to the donor by any means, i.e.
+					cash, cheque, online transfer, etc. We, therefore, request you to be sure before you donate money to
+					the Sree Dharmashasta Ayyappa Religious Trust ®
+				</p>
+				<p class="mb-10">
+					The donation will be entirely used for the social activities of Sree Dharmashasta Ayyappa Religious
+					Trust ®.
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
