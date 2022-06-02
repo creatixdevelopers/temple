@@ -18,6 +18,7 @@ RouteView.register(dashboard, 'post', {'/post/': {'uid': None}, '/post/<string:u
 
 RouteView.register(dashboard, 'volunteers', '/volunteers/', 'dashboard/volunteers.html', {'title': 'Volunteers'}, decorators)
 RouteView.register(dashboard, 'donations', '/donations/', 'dashboard/donations.html', {'title': 'Donations'}, decorators)
+RouteView.register(dashboard, 'gallery', '/gallery/', 'dashboard/gallery.html', {'title': 'Gallery'}, decorators)
 
 RouteView.register(dashboard, 'pooja', '/pooja/', 'dashboard/master/pooja.html', {'title': 'Pooja'}, decorators)
 

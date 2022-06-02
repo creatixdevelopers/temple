@@ -40,26 +40,6 @@
 		{% include 'site/templates/footer.html' %}
 
 		<!-- ========== External JS ============= -->
-		<script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap-5.1.3.bundle.min.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/imagesloaded.pkgd.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/isotope.pkgd.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.countdown.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/ofi.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.inview.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/swiper-bundle.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/gist-embed.min.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/helpers.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/show-on-scroll.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/countdown.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/isotope.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/navbar.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/stretch-column.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/swiper.js') }}"></script>
-		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/others.js') }}"></script>
-
-		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
 
 		<script type="text/javascript" nonce="{{ csp_nonce() }}">
             $.fn.fval = function () {
@@ -113,6 +93,27 @@
                 }
             {% endif %}
 		</script>
+
+		<script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap-5.1.3.bundle.min.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/imagesloaded.pkgd.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/isotope.pkgd.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.countdown.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/ofi.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery.inview.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/swiper-bundle.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/gist-embed.min.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/show-on-scroll.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/countdown.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/isotope.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/navbar.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/stretch-column.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/swiper.js') }}"></script>
+		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/others.js') }}"></script>
+
+		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
 
 		{% block body %}
 		{% endblock body %}

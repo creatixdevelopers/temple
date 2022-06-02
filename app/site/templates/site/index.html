@@ -416,13 +416,6 @@
 			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
 				<div class="swiper-container">
 					<div class="swiper-wrapper gallery-wrapper">
-						{% for i in range(1, 11) %}
-							<div class="swiper-slide" style="max-width: 770px;">
-								<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" style="--img-height: 61%;" data-img-height>
-									<img loading="lazy" src="{{ url_for('static', filename='/media/gallery/'~i~'.jpg') }}" alt="">
-								</a>
-							</div>
-						{% endfor %}
 					</div>
 				</div>
 				<div class="d-flex mt-70 justify-content-center">
@@ -451,4 +444,35 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
+        $.ajax({
+            type: 'GET',
+            url: `{{ url_for('api.admin.gallery.get') }}`,
+            contentType: 'application/json',
+            async: false,
+	        timeout: 1000,
+        }).done(function (response, status, xhr) {
+            if (response.data.length < 1) {
+                return;
+            }
+            $('.gallery-wrapper').empty();
+            $.each(response.data, function (i, image) {
+                $('.gallery-wrapper').append(
+                    `<div class="swiper-slide" style="max-width: 770px;">
+						<a class="gallery-item rounded-4 overflow-hidden" href="/static/uploads/gallery/${image}" style="--img-height: 61%;" data-img-height>
+							<img loading="lazy" src="/static/uploads/gallery/${image}" alt="">
+						</a>
+					</div>`
+                );
+                $('#gallery').removeClass('d-none');
+            });
+        }).fail(function (xhr, status, e) {
+            console.log(xhr);
+        });
+	</script>
 {% endblock content %}
+
+{% block body %}
+
+{% endblock body %}

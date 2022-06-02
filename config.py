@@ -1,4 +1,5 @@
 """Contains configuration classes that set the application configuration settings at run-time."""
+from os.path import join
 from datetime import timedelta
 
 
@@ -7,7 +8,7 @@ class BaseConfig:
 
     PWA = True
     WEB_SOCKETS = False
-    UPLOADS_FOLDER = './app/static/uploads'
+    UPLOADS_FOLDER = join('app', 'static', 'uploads')
 
     TESTING = True
 

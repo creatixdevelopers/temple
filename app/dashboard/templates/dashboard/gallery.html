@@ -1,0 +1,109 @@
+{% extends 'dashboard/templates/table.html' %}
+
+{% block head %}
+	<link href="{{ url_for('static', filename='css/dropzone.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock head %}
+
+{% block content %}
+	<div class="row">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="page-title-box">
+				<h4 class="page-title">Gallery</h4>
+			</div>
+		</div>
+	</div>
+
+	<form id="addEditForm" autocomplete="off">
+		<div class="dropzone d-flex justify-content-center align-items-center flex-wrap" id="galleryUpload" style="height: 60vh; overflow-y: scroll">
+			<div class="dz-message" data-dz-message>
+				<i class="uil-image-v" style="font-size: 60px;"></i>
+				<br>
+				<span style="font-size:large">Drop images here or click to upload</span>
+			</div>
+		</div>
+		<div class="col-12 mt-2 d-flex justify-content-center">
+			<button id="submitBtn" type="submit" class="btn btn-success btn-lg m-1">
+				<div id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status"></div>
+				Save
+			</button>
+		</div>
+	</form>
+{% endblock content %}
+
+{% block body %}
+	<script src="{{ url_for('static', filename='js/quill.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+
+	{# Add/Edit #}
+	<script type="application/javascript" nonce="{{ csp_nonce() }}">
+        let form = $("#addEditForm");
+        let galleryUpload = $('#galleryUpload');
+        let submitBtn = $("#submitBtn");
+        let submitSpinner = $("#submitSpinner");
+
+        function initializeSpecialInputs() {
+            Dropzone.options.galleryUpload = {
+                url: '/',
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                paramName: "file",
+                parallelUploads: 5,
+                maxFilesize: 10,
+                acceptedFiles: '.png,.jpg,',
+                addRemoveLinks: true,
+            }
+        }
+
+        initializeSpecialInputs();
+
+        $.ajax({
+            type: 'GET',
+            url: `{{ url_for('api.admin.gallery.get') }}`,
+            contentType: 'application/json',
+        }).done(function (response, status, xhr) {
+            $.each(response.data, function (i, image) {
+                const mockFile = {name: image, size: 0, accepted: true, mock: true}
+                galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/gallery/` + image);
+                galleryUpload[0].dropzone.files.push(mockFile);
+            });
+        }).fail(function (xhr, status, e) {
+            console.log(xhr);
+            notyf.error(xhr.responseJSON.description);
+        });
+
+        form.on('submit', function (e) {
+            e.preventDefault();
+
+            $(this).find('.is-invalid').removeClass('is-invalid');
+            if (galleryUpload[0].dropzone.getAcceptedFiles().length === 0) {
+                galleryUpload.addClass('is-invalid');
+                return;
+            }
+
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+
+            let data = new FormData();
+            let retained = [];
+            $.each($('#galleryUpload')[0].dropzone.getAcceptedFiles(), function (i, file) {
+                file.mock ? retained.push(file.name) : data.append(`gallery_${i}`, file);
+            });
+            data.append('retained', JSON.stringify(retained))
+
+            $.ajax({
+                data: data,
+                type: 'PUT',
+                url: `{{ url_for('api.admin.gallery.put') }}`,
+                contentType: false,
+                processData: false,
+            }).done(function (response, status, xhr) {
+                location.reload();
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
+            });
+        });
+	</script>
+{% endblock body %}

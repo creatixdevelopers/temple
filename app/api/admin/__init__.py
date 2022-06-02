@@ -28,3 +28,6 @@ class BookingAPIView(APIView):
 
 
 BookingAPIView.register(admin, 'booking', '/booking/', Booking, BookingSchema(), [])
+
+from .gallery import gallery
+admin.register_blueprint(gallery)
