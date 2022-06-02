@@ -21,18 +21,9 @@
 				<form id="form" class="animated" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" data-show="startbox" autocomplete="off" novalidate>
 					<div class="row gy-40">
 						<div class="col-12 col-md-6">
-							<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
+							<input class="form-control fs-3" name="amount" type="number" placeholder="Donation Amount *" required>
 						</div>
-						<div class="col-12 col-md-6">
-							<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="14" required>
-						</div>
-						<div class="col-12 col-md-6">
-							<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
-						</div>
-						<div class="col-12 col-md-6">
-							<input class="form-control" type="text" placeholder="Aadhaar/PAN" maxlength="14">
-						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6 d-flex align-items-end">
 							<select class="form-control" name="type" type="text" required>
 								<option selected value="">Donation Type *</option>
 								<option>Nitya Seva</option>
@@ -42,29 +33,16 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
-							<input class="form-control" name="amount" type="number" placeholder="Donation Amount *" required>
+							<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
 						</div>
-						<div class="col-12 col-md-6 col-lg-4">
-							<p class="mb-15">Donation Type:</p>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="recurring" required>
-								<label class="form-check-label">One-Time</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="recurring" required checked>
-								<label class="form-check-label">Recurring</label>
-							</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="10" data-mask="0000000000" required>
 						</div>
-						<div class="col-12 col-md-6 col-lg-4">
-							<p class="mb-15">Recurring Interval:</p>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="recurring_interval" checked>
-								<label class="form-check-label">Monthly</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="recurring_interval">
-								<label class="form-check-label">Quarterly</label>
-							</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
+						</div>
+						<div class="col-12 col-md-6">
+							<input class="form-control" name="identification" type="text" placeholder="Aadhaar/PAN *" maxlength="14" required>
 						</div>
 						<div class="col-12 col-lg-12 text-center">
 							<button class="btn btn-accent-3 text-white">Send</button>
@@ -90,16 +68,23 @@
 
             let data = {};
             $.each($(this).find(':input'), function (i, e) {
-                if ($(e).attr('name')) {
+                if ($(e).fval()) {
                     data[$(e).attr('name')] = $(e).fval();
                 }
             });
+            if (data.type === 'Nitya Seva') {
+                data['recurring'] = true;
+                data['recurring_interval'] = "monthly";
+            } else {
+                data['recurring'] = false;
+                data['recurring_interval'] = "one-time";
+            }
 
             $.ajax({
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 type: 'POST',
-                url: '/',
+                url: '{{ url_for('api.admin.donation') }}',
             }).done(function (response, status, xhr) {
                 location.reload();
             }).fail(function (xhr, status, e) {

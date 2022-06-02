@@ -48,6 +48,24 @@ def india_time() -> datetime:
     return datetime.now(pytz.timezone("Asia/Kolkata")).replace(tzinfo=None)
 
 
+def save_file(path, file):
+    _, extension = os.path.splitext(file.filename)
+    if extension in ['.jpg', '.jpeg', '.png']:
+        filename = f'{random_uid(10)}{extension}'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        file.save(os.path.join(path, filename))
+        return filename
+    return False
+
+
+def delete_file(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return True
+    return False
+
+
 class ModelMixin(object):
     query: db.Query
     id = db.Column(db.Integer, primary_key=True)
@@ -173,43 +191,34 @@ class LastUpdatedMixin(object):
     last_updated = db.Column(db.DateTime, default=india_time, onupdate=india_time)
 
 
-class ImagesMixin(object):
-    images = db.Column(Json, default=[])
+class MediaMixin(object):
+    media = db.Column(Json, default=[])
 
     UPLOADS_PATH = None
 
-    def save_image(self, image):
-        _, extension = os.path.splitext(image.filename)
-        if extension in ['.jpg', '.jpeg', '.png']:
-            filename = f'{random_uid(10)}{extension}'
-            dir_path = os.path.join(current_app.config['UPLOADS_FOLDER'], self.UPLOADS_PATH if self.UPLOADS_PATH else '')
-            if not os.path.exists(dir_path):
-                os.makedirs(dir_path)
-            image.save(os.path.join(dir_path, filename))
+    @hybrid_property
+    def media_urls(self):
+        base = '/'.join(['/static', 'uploads', self.UPLOADS_PATH if self.UPLOADS_PATH else ''])
+        return [f'{base}/{filename}' for filename in self.media]
 
-            images = deepcopy(self.images)
-            images.append(filename)
-            self.update(images=images)
+    def save_media(self, file):
+        dir_path = os.path.join(current_app.config['UPLOADS_FOLDER'], self.UPLOADS_PATH if self.UPLOADS_PATH else '')
+        if filename := save_file(dir_path, file):
+            media = deepcopy(self.media)
+            media.append(filename)
+            self.update(media=media)
             return True
         return False
 
-    def save_images(self, images):
-        return [self.save_image(image) for image in images]
-
-    def delete_image(self, name):
-        if name in self.images:
-            path = os.path.join(current_app.config['UPLOADS_FOLDER'], self.UPLOADS_PATH if self.UPLOADS_PATH else '', name)
-            if os.path.exists(path):
-                os.remove(path)
-
-            images = deepcopy(self.images)
-            images.remove(name)
-            self.update(images=images)
-            return True
+    def delete_media(self, name):
+        dir_path = os.path.join(current_app.config['UPLOADS_FOLDER'], self.UPLOADS_PATH if self.UPLOADS_PATH else '')
+        if name in self.media:
+            if delete_file(os.path.join(dir_path, name)):
+                media = deepcopy(self.media)
+                media.remove(name)
+                self.update(media=media)
+                return True
         return False
-
-    def delete_images(self, names):
-        return [self.delete_image(name) for name in names]
 
 
 class PasswordMixin(object):

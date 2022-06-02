@@ -1,7 +1,7 @@
 {% extends 'dashboard/templates/table.html' %}
 
 {% block content %}
-	<div class="row mb-3">
+	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">
 				<h4 class="page-title">Blogs</h4>
@@ -13,22 +13,22 @@
 	</div>
 
 	<div class="row">
-		{% for blog in Post.get_by(type='blog') %}
+		{% for post in Post.get_by(type='blog') %}
 			<div class="col-md-6 col-lg-3">
 				<div class="card d-block">
-					<img class="card-img-top" src="{{ url_for('static', filename='/uploads/'~blog.UPLOADS_PATH~'/'~blog.images[0]) }}" style="object-fit: cover; max-height: 15rem">
+					<img class="card-img-top" src="{{ post.media_urls[0] }}" style="object-fit: cover; max-height: 15rem">
 					<div class="card-body p-2" style="height: 8rem; overflow: hidden">
-						<h4 class="card-title">{{ blog.title }}</h4>
-						<h6 class="card-subtitle mb-2 text-muted">{{ blog.last_updated.strftime("%d %b, %Y") }}</h6>
+						<h4 class="card-title">{{ post.title }}</h4>
+						<h6 class="card-subtitle mb-2 text-muted">{{ post.last_updated.strftime("%d %b, %Y") }}</h6>
 						<div class="content mt-2">
-							{{ blog.content|safe }}
+							{{ post.content|safe }}
 						</div>
 					</div>
 					<div class="card-footer text-muted d-flex justify-content-end p-1">
-						<a class="editAction mx-1" href="{{ url_for('dashboard.post', uid=blog.uid) }}" title="edit" data-uid="{{ blog.uid }}">
+						<a class="editAction mx-1" href="{{ url_for('dashboard.post', uid=post.uid) }}" title="edit" data-uid="{{ post.uid }}">
 							<i class="uil-pen fs-4"></i>
 						</a>
-						<a class="deleteAction text-danger mx-1" href="#" title="delete" data-uid="{{ blog.uid }}">
+						<a class="deleteAction text-danger mx-1" href="#" title="delete" data-uid="{{ post.uid }}">
 							<i class="uil-trash-alt fs-4"></i>
 						</a>
 					</div>

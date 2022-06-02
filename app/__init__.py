@@ -9,13 +9,13 @@ import traceback
 from datetime import datetime, timedelta
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, send_from_directory, make_response, request
+from flask import Flask, send_from_directory, make_response, request, render_template_string as rts
 from flask.logging import default_handler
 from werkzeug.exceptions import HTTPException
 
-from app.helpers import current_user
 from app.services import talisman, csrf, db, migrate, jwt, socketio, ma, mail, celery, r, india_time
 from app.tasks import send_error_email
+from app.utils import current_user
 
 
 def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
@@ -28,9 +28,7 @@ def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
     app.config.from_object(config)
 
     # Initializing services
-    talisman.init_app(app, content_security_policy={'default-src': ["'self'", 'fonts.gstatic.com', 'maps.google.com', 'www.google.com'],
-                                                    'script-src': "'self'",
-                                                    'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+    talisman.init_app(app, content_security_policy={'default-src': "'self'", 'script-src': "'self'", 'style-src': ["'self'", "'unsafe-inline'"],
                                                     'img-src': ["'self'", 'data: w3.org/svg/2000']},
                       content_security_policy_nonce_in=['script-src'])
     for service in [csrf, db, jwt, ma, mail]:
@@ -98,8 +96,7 @@ def init_global_funcs(app: Flask, blueprints: list):
         for _, cls in inspect.getmembers(importlib.import_module('app.models'), inspect.isclass):
             if issubclass(cls, db.Model):
                 models[cls.__name__] = cls
-
-        return {**models, 'current_user': current_user, 'r': r, 'india_time': india_time, 'datetime': datetime, 'timedelta': timedelta}
+        return {**models, 'rts': rts, 'current_user': current_user, 'r': r, 'india_time': india_time, 'datetime': datetime, 'timedelta': timedelta}
 
     # Configure PWA if enabled
     if app.config['PWA']:
@@ -115,10 +112,6 @@ def init_global_funcs(app: Flask, blueprints: list):
         app.add_url_rule('/sw.js', view_func=sw)
 
     # Jinja template filters
-    @app.template_filter('eval')
-    def jinja_eval(o, s, p=None):
-        return eval(s)
-
     @app.template_filter('json_loads')
     def json_loads(s):
         return json.loads(s)

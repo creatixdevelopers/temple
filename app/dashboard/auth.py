@@ -1,6 +1,6 @@
 from flask import redirect, url_for, render_template
 
-from app.helpers import current_user
+from app.utils import current_user
 from . import dashboard
 
 

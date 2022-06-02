@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, url_for
 
-from app.helpers import RouteView
+from app.utils import RouteView
 
 site = Blueprint('site', __name__, template_folder='templates')
 site.error_handler = lambda e: redirect(url_for('site.index'))

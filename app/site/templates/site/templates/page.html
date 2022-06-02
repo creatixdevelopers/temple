@@ -24,6 +24,7 @@
 
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/notyf.min.css') }}">
 
 		<script type="application/javascript" src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
 
@@ -56,6 +57,62 @@
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/stretch-column.js') }}"></script>
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/swiper.js') }}"></script>
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/others.js') }}"></script>
+
+		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
+
+		<script type="text/javascript" nonce="{{ csp_nonce() }}">
+            $.fn.fval = function () {
+                let e = $(this);
+                let t = e.attr('type');
+                let v = e.val();
+                if (t && v) {
+                    if (t === 'text') {
+                        return v.trim();
+                    } else if (t === 'integer') {
+                        return parseInt(v);
+                    } else if (t === 'number') {
+                        return parseFloat(v);
+                    } else if (t === 'singleDate') {
+                        return moment(v, 'Do MMM YYYY').valueOf();
+                    } else if (t === 'checkbox') {
+                        return v === 'on';
+                    } else {
+                        return v;
+                    }
+                } else return null;
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token() }}");
+                        xhr.setRequestHeader("X-CSRF-TOKEN", getCookie('csrf_access_token'));
+                    }
+                }
+            });
+
+            {% if config.PWA %}
+                window.addEventListener('load', () => {
+                    registerSW();
+                });
+                async function registerSW() {
+                    if ('serviceWorker' in navigator) {
+                        try {
+                            await navigator.serviceWorker.register('{{ url_for('sw') }}');
+                        } catch (e) {
+                            console.log('SW registration failed');
+                        }
+                    }
+                }
+            {% endif %}
+		</script>
 
 		{% block body %}
 		{% endblock body %}

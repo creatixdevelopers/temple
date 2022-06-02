@@ -5,15 +5,14 @@
 		'attributes': {'data-api': url_for('api.admin.user')},
 		'columns': {
 			'Sl no.': {'export': False, 'orderable': False, 'merged': True},
-			'Created': {'eval': 'obj.created.strftime("%d %b, %Y")', 'order': 'obj.created.strftime("%Y%m%d%H%M%S")', 'merged': True},
-			'Id': {'eval': 'obj.uid', 'merged': True},
-			'Email': {'eval': 'obj.email', 'link': 'f"mailto:{obj.email}"' 'merged': True},
-			'A': {'eval': 'obj["a"]', 'sum': True},
-			'B': {'eval': 'obj["b"]'},
+			'Created': {'val': Template('{{ e.created.strftime("%d %b, %Y") }}'), 'order': Template('{{ e.created.strftime("%Y%m%d%H%M%S") }}'), 'merged': True},
+			'Id': {'val': Template('{{ e.uid }}'), 'merged': True},
+			'Email': {'val': '{{ e.email }}', 'merged': True},
+			'A': {'val': Template('{{ e.a }}'), 'sum': True},
+			'B': {'val': Template('{{ e.b }}')},
 			'Actions': {'actions': {'edit': {'icon':'uil-pen'}, 'delete': {'icon':'uil-trash'}}, 'export': False, 'orderable': False, 'merged': True},
 		},
-		'conditional_classes': {'obj.id > 7': 'bg-danger'}
-		'nested': {'eval': 'obj.data', 'columns': ['A', 'B']},
+		'nested': {'val': Template('{{ e.data }}'), 'columns': ['A', 'B']},
 	}
 #}
 
@@ -22,7 +21,7 @@
 		<thead>
 			<tr>
 				{%- for column, properties in table.columns.items() %}
-					<th class="{{ 'noExport' if not properties.get('export', True) else ''}}" {% if not properties.get('orderable', True) %}data-orderable="false"{% endif %}>
+					<th class="{{ 'noExport' if not properties.get('export', True) else '' }}" {% if not properties.get('orderable', True) %}data-orderable="false"{% endif %}>
 						{{- column -}}
 					</th>
 				{%- endfor %}
@@ -32,11 +31,11 @@
 			{%- for e in table.entries -%}
 				{% set outer = loop %}
 				{%- if table.get('nested') -%}
-					{%- for o in e | eval(table.nested.eval) %}
+					{%- for o in e.__getattribute__(table.nested.attr) %}
 						{{- render_row(table, outer.index0, e, loop.index0, o) -}}
 					{%- endfor -%}
 				{%- else -%}
-					{{- render_row(table, outer.index0, e, 0, None) -}}
+					{{- render_row(table, outer.index0, e, None, None) -}}
 				{%- endif -%}
 			{%- endfor -%}
 		</tbody>
@@ -53,16 +52,15 @@
 {% endmacro %}
 
 {% macro render_row(table, i, e, j, o) %}
-	<tr id="{{ e.uid }}" class="{%- for cond, cls in table.get('conditional_classes', {}).items() if e|eval(cond) %}{{ cls }}{% endfor -%}" {% for attr, val in table.get('attributes', {}).items() %}{{ attr }}="{{ val }}" {% endfor -%}>
-
+	<tr id="{{ e.uid }}" {% for attr, val in table.get('attributes', {}).items() %}{{ attr }}="{{ val }}" {% endfor -%}>
 	{%- for column, properties in table.columns.items() %}
 		{%- if column == 'Sl no.' %}
 			<td>{{- i + 1 -}}</td>
 		{%- elif column == 'Actions' %}
 			<td class="noExport">
 				<div class="d-flex justify-content-start align-items-center">
-					{%- for action, action_properties in properties.actions.items() if e|eval(action_properties.get('condition', 'True')) %}
-						<a class="{{ action }}Action mx-1 {{ action_properties.get('class', '') }}" href="{{ e | eval(action_properties.get('link', "'#'")) }}" title="{{ action | title }}" data-uid="{{ e.uid }}">
+					{%- for action, action_properties in properties.actions.items() %}
+						<a class="{{ action }}Action mx-1 {{ action_properties.get('class', '') }}" href="{{ rts(action_properties.get('link', '#'), e=e) }}" title="{{ action | title }}" data-uid="{{ e.uid }}">
 							<i class="{{ action_properties.icon }} fs-4"></i>
 						</a>
 					{%- endfor %}
@@ -70,11 +68,17 @@
 			</td>
 		{%- else -%}
 			{% if table.get('nested') and column in table.nested.columns %}{% set p = e %}{% set e = o %}{% endif %}
-			<td {% if properties.get('order') %}data-order="{{ e | eval(properties.order) }}"{% endif %}>
+			{% set ctx = {'i': i, 'e': e, 'j': j, 'o': o} %}
+			{% set val = rts(properties.get('val', ''), **ctx) %}
+			<td {% if properties.get('order') %}data-order="{{ rts(properties.order, **ctx) }}"{% endif %}>
 				{%- if properties.get('link') %}
-					<a href="{{ e|eval(properties.link) }}">{{- e | eval(properties.eval, p) -}}</a>
+					<a href="{{ rts(properties.link, **ctx) }}">{{ val }}</a>
+				{% elif properties.get('img') %}
+					<img src='{{ rts(properties.img, **ctx) }}' style="width: 100px; height: 100px; border-radius: 5px">
+				{% elif properties.get('icon') %}
+					<i class='{{ rts(properties.icon, **ctx) }} fs-2 me-2'></i>{{ val }}
 				{% else %}
-					{{- e | eval(properties.eval, p) -}}
+					<p class="m-0">{{ val }}</p>
 				{% endif -%}
 			</td>
 		{%- endif %}

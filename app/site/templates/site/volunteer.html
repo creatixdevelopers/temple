@@ -25,7 +25,7 @@
 							<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
 						</div>
 						<div class="col-12 col-md-6">
-							<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="14" required>
+							<input class="form-control" name="phone" type="integer" placeholder="Phone Number *" maxlength="10" data-mask="0000000000" required>
 						</div>
 						<div class="col-12 col-md-6">
 							<input class="form-control" name="occupation" type="text" placeholder="Occupation *" maxlength="64" required>
@@ -37,7 +37,7 @@
 							<input class="form-control" name="identification" type="text" placeholder="Aadhaar/PAN" maxlength="14">
 						</div>
 						<div class="col-12 col-md-6">
-							<input class="form-control" name="age" type="integer" placeholder="Age">
+							<input class="form-control" name="age" type="integer" placeholder="Age" data-mask="00" maxlength="2">
 						</div>
 						<div class="col-12">
 							<textarea class="form-control" name="address" type="text" placeholder="Address" maxlength="512"></textarea>
@@ -46,7 +46,7 @@
 							<input class="form-control" name="city" type="text" placeholder="City" maxlength="64">
 						</div>
 						<div class="col-12 col-md-6">
-							<input class="form-control" name="pincode" type="number" placeholder="Pincode" maxlength="8">
+							<input class="form-control" name="pincode" type="integer" placeholder="Pincode" data-mask="000000" maxlength="6">
 						</div>
 						<div class="col-12">
 							<textarea class="form-control" name="comments" type="text" placeholder="Additional Comments" maxlength="512"></textarea>
@@ -84,7 +84,7 @@
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 type: 'POST',
-                url: '/',
+                url: '{{ url_for('api.admin.volunteer') }}',
             }).done(function (response, status, xhr) {
                 location.reload();
             }).fail(function (xhr, status, e) {

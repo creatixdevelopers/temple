@@ -8,7 +8,7 @@
 {% set post = Post.get_by(first=True, uid=uid) %}
 
 {% block content %}
-	<div class="row mb-3">
+	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">
 				<h4 class="page-title">Blogs & Events</h4>
@@ -97,7 +97,7 @@
                     form.find('[name=' + k + ']').val(v);
                 });
                 quill.root.innerHTML = response.data.content;
-                $.each(response.data.images, function (i, image) {
+                $.each(response.data.media, function (i, image) {
                     const mockFile = {name: image, size: 0, accepted: true, mock: true}
                     galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ post.UPLOADS_PATH }}/` + image);
                     galleryUpload[0].dropzone.files.push(mockFile);

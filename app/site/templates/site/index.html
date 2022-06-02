@@ -1,107 +1,54 @@
 {% extends 'site/templates/page.html' %}
 
+{% set events = Post.get_by(type='event') %}
+{% set blogs = Post.get_by(type='blogs') %}
+
 {% block content %}
 	<!-- ========== Hero Section ============= -->
-	<div class="swiper bg-dark" data-swiper-slides="1" data-swiper-loop="true" data-swiper-autoplay="4000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
-		<div class="swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide h-auto">
-					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
-						<div class="background">
-							<div class="background-image">
-								<img loading="lazy" src="{{ url_for('static', filename='media/slide/1.jpg') }}" data-swiper-parallax-x="20%">
-							</div>
-							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
-							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-7 offset-lg-1">
-									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
-									<p class="text-white">
-										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat
-										sequi nihil ut aliquam.
-										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque
-										accusamus repellendus
-										deleniti vel. Minus et tempore modi architecto.
-									</p>
-									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
-										Become A Volunteer
-									</a>
+	{% if events %}
+		<div class="swiper bg-dark mt-80" data-swiper-slides="1" data-swiper-loop="true" data-swiper-autoplay="4000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					{% for event in events %}
+						<div class="swiper-slide h-auto">
+							<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
+								<div class="background">
+									<div class="background-image">
+										<img loading="lazy" src="{{ event.media_urls[0] }}" data-swiper-parallax-x="20%">
+									</div>
+									<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+									<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
+								</div>
+								<div class="container">
+									<div class="row">
+										<div class="col-lg-7 offset-lg-1">
+											<h1 class="text-white mb-40">{{ event.title }}</h1>
+											<div class="text-white">
+												{{ event.content|safe }}
+											</div>
+											<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
+												Become A Volunteer
+											</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="swiper-slide h-auto">
-					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
-						<div class="background">
-							<div class="background-image">
-								<img loading="lazy" src="{{ url_for('static', filename='media/slide/2.jpg') }}" data-swiper-parallax-x="20%" alt="">
-							</div>
-							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
-							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-7 offset-lg-1">
-									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
-									<p class="text-white">
-										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat
-										sequi nihil ut aliquam.
-										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque
-										accusamus repellendus
-										deleniti vel. Minus et tempore modi architecto.
-									</p>
-									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
-										Become A Volunteer
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="swiper-slide h-auto">
-					<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
-						<div class="background">
-							<div class="background-image">
-								<img loading="lazy" src="{{ url_for('static', filename='media/slide/3.jpg') }}" data-swiper-parallax-x="20%">
-							</div>
-							<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
-							<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
-						</div>
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-7 offset-lg-1">
-									<h1 class="text-white mb-40">Some Important Life Lessons From Gita</h1>
-									<p class="text-white">
-										Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat
-										sequi nihil ut aliquam.
-										Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque
-										accusamus repellendus
-										deleniti vel. Minus et tempore modi architecto.
-									</p>
-									<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
-										Become A Volunteer
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+					{% endfor %}
 				</div>
 			</div>
+			<div class="swiper-button-prev swiper-button-position-3 swiper-button-opacity shadow">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+					<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+				</svg>
+			</div>
+			<div class="swiper-button-next swiper-button-position-3 swiper-button-opacity shadow">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+					<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+				</svg>
+			</div>
 		</div>
-		<div class="swiper-button-prev swiper-button-position-3 swiper-button-opacity shadow">
-			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-				<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
-			</svg>
-		</div>
-		<div class="swiper-button-next swiper-button-position-3 swiper-button-opacity shadow">
-			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-				<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
-			</svg>
-		</div>
-	</div>
+	{% endif %}
 	<!-- ========== End Hero Section ============= -->
 
 	<!-- ========== About Section ============= -->
@@ -214,32 +161,17 @@
 			<div class="swiper mt-90 shape-parent" data-swiper-slides="1" data-swiper-loop="true" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						{% for post in Post.get_by(type='event') %}
+						{% for event in events %}
 							<div class="swiper-slide">
-							<div class="card card-blog card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-							<a class="card-img rounded-0" href="{{ url_for('site.event', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
-								<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
-							<div class="service-case-body position-relative">
-								<a class="card-title h4 mb-10" href="{{ url_for('site.event', uid=post.uid) }}">
-									{{ post.title }}
-								</a>
-								{{ post.content|safe }}
-								<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=post.uid) }}">
-									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-										<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
-									</svg>
-								</a>
 								<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-									<a class="card-img rounded-0" href="{{ url_for('site.blog') }}" data-img-height style="--img-height: 72%;">
-										<img loading="lazy" src="{{ url_for('static', filename='media/events/'~i~'.jpg') }}"></a>
+									<a class="card-img rounded-0" href="{{ url_for('site.event', uid=event.uid) }}" data-img-height style="--img-height: 72%;">
+										<img loading="lazy" src="{{ event.media_urls[0] }}"></a>
 									<div class="service-case-body position-relative">
-										<a class="card-title h4 mb-10" href="{{ url_for('site.blog') }}">
-											Lorem ipsum dolor
+										<a class="card-title h4 mb-10" href="{{ url_for('site.event', uid=event.uid) }}">
+											{{ event.title }}
 										</a>
-										<p class="service-case-text font-size-15 mb-30">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, recusandae!
-										</p>
-										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog') }}">
+										{{ event.content|safe }}
+										<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=event.uid) }}">
 											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 											</svg>
@@ -248,38 +180,24 @@
 								</div>
 							</div>
 						{% endfor %}
-						</div>
-						</div>
-						<div class="d-flex mt-70 justify-content-center">
-							<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-							<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-									<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
-								</svg>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
-			<div class="position-relative">
-				<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".videoPrev" data-next-id=".videoNext">
-					<div class="position-relative py-235 text-center rounded-4 overflow-hidden">
-						<div class="background">
-							<div class="background-image jarallax" data-jarallax data-speed="0.8">
-								<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='media/video.jpg') }}">
-							</div>
-						</div>
-						<a class="btn-video video-link btn btn-accent-3" href="https://www.facebook.com/kumbalgodu.ayyappa/" rel="nofollow">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
-								<path fill="white" d="M15.191 10.393 2.466 17.776C1.386 18.402 0 17.644 0 16.382V1.616C0 .356 1.384-.404 2.466.225L15.19 7.608a1.605 1.605 0 0 1 0 2.785Z"/>
-							</svg>
-						</a>
+		</div>
+	</div>
+	<div class="position-relative">
+		<div class="half-section-block container position-absolute top-50 start-0 end-0" data-prev-id=".videoPrev" data-next-id=".videoNext">
+			<div class="position-relative py-235 text-center rounded-4 overflow-hidden">
+				<div class="background">
+					<div class="background-image jarallax" data-jarallax data-speed="0.8">
+						<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='media/video.jpg') }}">
 					</div>
 				</div>
+				<a class="btn-video video-link btn btn-accent-3" href="https://www.facebook.com/kumbalgodu.ayyappa/" rel="nofollow">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+						<path fill="white" d="M15.191 10.393 2.466 17.776C1.386 18.402 0 17.644 0 16.382V1.616C0 .356 1.384-.404 2.466.225L15.19 7.608a1.605 1.605 0 0 1 0 2.785Z"/>
+					</svg>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -298,17 +216,17 @@
 			<div class="swiper mt-50 shape-parent" data-swiper-loop="true" data-swiper-slides="1" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						{% for post in Post.get_by(type='blog') %}
+						{% for blog in blogs %}
 							<div class="swiper-slide">
 								<div class="card card-blog  card-vertical card-hover-zoom card-blog-bordered rounded-4 overflow-hidden bg-white">
-									<a class="card-img rounded-0" href="{{ url_for('site.blog', uid=post.uid) }}" data-img-height style="--img-height: 72%;">
-										<img loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}"></a>
+									<a class="card-img rounded-0" href="{{ url_for('site.blog', uid=blog.uid) }}" data-img-height style="--img-height: 72%;">
+										<img loading="lazy" src="{{ blog.media_urls[0] }}"></a>
 									<div class="service-case-body position-relative">
-										<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=post.uid) }}">
-											{{ post.title }}
+										<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=blog.uid) }}">
+											{{ blog.title }}
 										</a>
-										{{ post.content|safe }}
-										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=post.uid) }}">
+										{{ blog.content|safe }}
+										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=blog.uid) }}">
 											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
 												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
 											</svg>

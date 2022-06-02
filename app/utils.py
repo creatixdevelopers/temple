@@ -131,7 +131,7 @@ class APIView(MethodView):
             bp.add_url_rule(f'{url}<string:uid>/restore/', view_func=view_func, methods=['DELETE'])
 
 
-class APIViewImages(APIView):
+class APIViewMedia(APIView):
 
     def __init__(self, model, schema):
         super().__init__(model, schema)
@@ -140,10 +140,11 @@ class APIViewImages(APIView):
         data = request.form.to_dict()
         validate(data, self.schema.validation_schema)
         data = self.parse_data(data)
+        data.pop('retained', None)
         r = self.model.create(**data)
-        images = list(request.files.values())
-        if r and images:
-            r.save_images(images)
+        files = list(request.files.values())
+        if r and files:
+            [r.save_media(file) for file in files]
         self.after_post(data, r)
         return jsonify({'status': 'success', 'data': self.schema.dump(r)}), 200
 
@@ -152,12 +153,11 @@ class APIViewImages(APIView):
         validate(data, self.schema.validation_schema)
         data = self.parse_data(data)
         if r := self.model.get_by(first=True, uid=uid):
+            retained = json.loads(data.pop('retained', '[]'))
             r.update(**data)
-            images = list(request.files.values())
-            retained = json.loads(data['retained'])
-            if r and images and isinstance(retained, list):
-                r.delete_images(set(r.images) ^ set(retained))
-                r.save_images(images)
+            files = list(request.files.values())
+            [r.delete_media(file) for file in list(set(r.media) ^ set(retained))]
+            [r.save_media(file) for file in files]
             self.after_put(data, r)
             return jsonify({'status': 'success', 'data': self.schema.dump(r)}), 200
         raise NotFound
