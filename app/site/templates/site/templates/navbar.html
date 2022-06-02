@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-top navbar-light navbar-border-bottom navbar-fixed" style="background-color: #ffffff">
 	<div class="container">
 		<a class="navbar-brand" href="{{ url_for('site.index') }}">
-			<img src="{{ url_for('static', filename='/media/logo-dark.png') }}" height="70">
+			<img class="nav-logo" src="{{ url_for('static', filename='media/logo-dark.png') }}" height="80">
 		</a>
 		<a class="navbar-toggle order-4 popup-inline" href="#navbar-mobile-style-1">
 			<span></span><span></span><span></span>
@@ -39,10 +39,10 @@
 				</a>
 			</li>
 		</ul>
-		<a class="btn d-sm-inline-flex btn btn-sm ms-10 order-2 order-lg-3" style="border: 2px solid #FF9900" href="{{ url_for('site.book_pooja') }}">
+		<a class="btn d-sm-inline-flex btn btn-sm ms-lg-10 order-2 order-lg-3" style="border: 2px solid #FF9900" href="{{ url_for('site.book_pooja') }}">
 			Book Pooja
 		</a>
-		<a class="btn d-sm-inline-flex btn btn-sm btn-accent-3 mx-10 order-2 order-lg-3 text-white" href="{{ url_for('site.donation') }}">
+		<a class="btn d-sm-inline-flex btn btn-sm btn-accent-3 mx-lg-10 order-2 order-lg-3 text-white" href="{{ url_for('site.donation') }}">
 			Donate Now
 		</a>
 	</div>

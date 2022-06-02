@@ -3,11 +3,13 @@
 	<div class="container">
 		<div class="row gy-50">
 			<div class="col-12 col-lg-3">
-				<a class="d-block mb-30" href="#">
-					<img src="../../../../static/media/logo.png" height="100">
+				<a class="d-block mb-5" href="#">
+					<img src="{{ url_for('static', filename='media/logo.png') }}" height="100">
 				</a>
 				<p class="font-size-15 mb-35">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, ullam.
+					<b>Kumbalgodu Ayyappa Temple</b><br>
+					Sree Dharmashasta Ayyappa Religious Trust ®
+					<br>VCFQ+9R7, Kumbalgodu, Karnataka 560074, India
 				</p>
 				<ul class="nav text-white align-items-center mb-20 nav-gap-md nav-no-opacity">
 					<li class="nav-item">
@@ -55,6 +57,7 @@
 							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.privacy_policy') }}">Privacy Policy</a></li>
 							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.terms_of_use') }}">Terms Of Use</a></li>
 							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.disclaimer') }}">Disclaimer</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.intellectual_property') }}">Intellectual Property</a></li>
 							<li class="nav-item"><a class="nav-link" href="{{ url_for('site.refund_policy') }}">Refund/Cancellation Policy</a></li>
 						</ul>
 					</div>

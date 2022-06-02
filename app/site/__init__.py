@@ -17,4 +17,4 @@ RouteView.register(site, 'terms_of_use', '/terms-of-use/', 'site/terms_of_use.ht
 RouteView.register(site, 'privacy_policy', '/privacy-policy/', 'site/privacy_policy.html', {'title': 'Privacy Policy'})
 RouteView.register(site, 'refund_policy', '/refund-policy/', 'site/refund_policy.html', {'title': 'Refund and Cancellation Policy'})
 RouteView.register(site, 'disclaimer', '/disclaimer/', 'site/disclaimer.html', {'title': 'Disclaimer'})
-
+RouteView.register(site, 'intellectual_property', '/intellectual-property/', 'site/intellectual_property.html', {'title': 'Intellectual Property'})
