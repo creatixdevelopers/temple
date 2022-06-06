@@ -1,13 +1,13 @@
 {
-  "name": "Kumbalgodu Ayyappa Temple",
-  "short_name": "Kumbalgodu Ayyappa Temple",
+  "name": "Kumbalgodu Ayyappa",
+  "short_name": "Kumbalgodu Ayyappa",
   "start_url": ".",
   "display": "minimal-ui",
   "background_color": "#ffffff",
   "theme_color": "#FFA800",
-  "description": "Kumbalgodu Ayyappa Temple",
+  "description": "Kumbalgodu Ayyappa",
   "icons": [{
-    "src": "/static/media/logo.png",
+    "src": "/static/media/logo-sm-dark.png",
     "sizes": "500x500",
     "type": "image/png"
   }],

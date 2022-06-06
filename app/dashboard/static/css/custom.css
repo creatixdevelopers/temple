@@ -13,13 +13,8 @@ input::file-selector-button {
 }
 
 .input-group-text {
-    border: 1px solid #555D5E !important;
+    border: 1px solid #fff !important;
 }
-
-.modal-content {
-    background-color: #37404a;
-}
-
 
 div.dt-button-info {
     background-color: #727cf5 !important;
@@ -48,7 +43,6 @@ table td {
 }
 
 .dropzone {
-    background: #404954 !important;
     border: 2px dashed #4a525d !important;
     border-radius: 6px !important;
 }
@@ -74,6 +68,7 @@ table td {
     -webkit-filter: none !important;
     filter: none !important;
 }
+
 .dataTable tr.selected {
     outline: 1px solid #727cf5 !important;
     outline-offset: -1px !important;
@@ -83,35 +78,5 @@ table td {
 .dataTable .focus {
     outline: 1px solid #fa5c7c !important;
     outline-offset: -1px !important;
-    background-color: rgba(250, 92, 124,.15) !important;
-}
-
-.ql-toolbar {
-    border: 1px solid #555D5E !important;
-    border-radius: 5px 5px 0 0 !important;
-    background-color: #47505b !important;
-}
-
-.ql-toolbar .ql-stroke {
-    fill: none;
-    stroke: #fff !important;
-}
-
-.ql-toolbar .ql-fill {
-    fill: #fff;
-    stroke: none !important;
-}
-
-.ql-toolbar .ql-picker {
-    color: #fff !important;
-}
-
-.ql-container {
-    border: 1px solid #555D5E !important;
-    border-radius: 0 0 5px 5px !important;
-    background-color: #404954 !important;
-}
-
-.ql-container.is-invalid {
-    border-color: #fa5c7c !important;
+    background-color: rgba(250, 92, 124, .15) !important;
 }
