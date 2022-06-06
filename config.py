@@ -44,6 +44,9 @@ class BaseConfig:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    RAZORPAY_KEY = 'rzp_test_Gct2tFPysNEBMD'
+    RAZORPAY_SECRET = 'AO2cLYxxI79sAYw8T69DwnJ9'
+
 
 class TestConfig(BaseConfig):
     SECRET_KEY = '76fbece69658be45b890bc322a9dd83c08e75900aa1179'

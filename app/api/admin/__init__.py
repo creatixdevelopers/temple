@@ -1,7 +1,9 @@
 from datetime import datetime
 
 import pytz
-from flask import Blueprint
+import razorpay
+from flask import Blueprint, current_app, request
+from jsonschema.validators import validate
 
 from app.api.schemas import *
 from app.utils import APIViewMedia, APIView
@@ -30,4 +32,20 @@ class BookingAPIView(APIView):
 BookingAPIView.register(admin, 'booking', '/booking/', Booking, BookingSchema(), [])
 
 from .gallery import gallery
+
 admin.register_blueprint(gallery)
+
+
+@admin.post('/create-order/')
+def create_order():
+    data = request.get_json()
+    validate(data, {
+        "type": "object",
+        "properties": {
+            "amount": {"type": "number"},
+        },
+        "required": ["amount"],
+    })
+    rz = razorpay.Client(auth=(current_app.config['RAZORPAY_KEY'], current_app.config['RAZORPAY_SECRET']))
+    order = rz.order.create(data={'amount': data['amount']*100, 'currency': 'INR'})
+    return {'status': 'success', 'data': {'order_id': order['id']}}, 200

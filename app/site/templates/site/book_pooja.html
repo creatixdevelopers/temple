@@ -1,5 +1,8 @@
 {% extends 'site/templates/page.html' %}
 
+{% set poojas = Pooja.all() %}
+{% set temples = Pooja.query.with_entities(Pooja.temple).all()|unique|list %}
+
 {% block head %}
 	<style>
         .navbar-top.navbar-dark {
@@ -20,74 +23,74 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 mx-0">
-						<form id="poojaForm" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" class="animated">
-							<ul id="progressbar" class="text-center">
-								<li id="pooja" class="active"><strong>Pooja Details</strong></li>
-								<li id="personal"><strong>Personal Details</strong></li>
-								<li id="payment"><strong>Payment Details</strong></li>
-							</ul>
-							<fieldset>
-								<div class="row gy-40 mb-50">
-									<h4 class="w-100 text-center mb-2">Pooja Details</h4>
-									<div class="col-12 col-md-6">
-										<select class="form-control" type="text" required>
-											<option selected value="">Select Temple *</option>
-											<option>Temple 1</option>
-											<option>Temple 2</option>
-											<option>Temple 3</option>
-											<option>Temple 4</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-6">
-										<select class="form-control" name="pooja_id" type="integer" required>
-											<option selected value="">Select Pooja *</option>
-											<option value="1">Pooja 1</option>
-											<option value="1">Pooja 2</option>
-											<option value="1">Pooja 3</option>
-											<option value="1">Pooja 4</option>
-										</select>
-									</div>
+						<ul id="progressbar" class="text-center">
+							<li id="pooja" class="active"><strong>Pooja Details</strong></li>
+							<li id="personal"><strong>Personal Details</strong></li>
+							<li id="payment"><strong>Payment Details</strong></li>
+						</ul>
+						<form id="poojaForm" autocomplete="off" novalidate>
+							<div class="row gy-40 mb-50">
+								<h4 class="w-100 text-center mb-2">Pooja Details</h4>
+								<div class="col-12 col-md-6">
+									<select id="templeSelect" class="form-control" type="text" required>
+										<option selected value="">Select Temple *</option>
+										{% for temple in temples %}
+											<option value="{{ temple[0].replace(' ', '_') }}">{{ temple[0] }}</option>
+										{% endfor %}
+									</select>
 								</div>
-								<div class="col-12 col-lg-12 text-center">
-									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
+								<div class="col-12 col-md-6">
+									<select class="form-control" name="pooja_id" type="integer" required>
+										<option selected value="">Select Pooja *</option>
+										{% for pooja in poojas %}
+											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-amount="{{ pooja.amount }}">
+												{{ pooja.name }} - ₹{{ pooja.amount|int|inr_format }}
+											</option>
+										{% endfor %}
+									</select>
 								</div>
-							</fieldset>
-							<fieldset>
-								<div class="row gy-40 mb-50">
-									<h4 class="w-100 text-center mb-2">Personal Details</h4>
-									<div class="col-12 col-md-6">
-										<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="14" required>
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" name="gotra" type="text" placeholder="Gotra" maxlength="128">
-									</div>
-									<div class="col-12 col-md-6">
-										<input class="form-control" name="nakshatra" type="text" placeholder="Nakshatra" maxlength="128">
-									</div>
+							</div>
+							<div class="col-12 col-lg-12 text-center">
+								<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+							</div>
+						</form>
+						<form id="personalForm" class="d-none" autocomplete="off" novalidate>
+							<div class="row gy-40 mb-50">
+								<h4 class="w-100 text-center mb-2">Personal Details</h4>
+								<div class="col-12 col-md-6">
+									<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
 								</div>
-								<div class="col-12 col-lg-12 text-center">
-									<input type="button" class="next btn btn-accent-3 text-white" value="Next">
+								<div class="col-12 col-md-6">
+									<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="14" required>
 								</div>
-							</fieldset>
-							<fieldset>
-								<div class="row gy-40 mb-50">
-									<h4 class="w-100 text-center mb-2">Summary</h4>
-									<div class="col-12 text-center">
-										<p class="mb-10">Temple Name: <span>Lorem ipsum.</span></p>
-										<p class="mb-10">Pooja: <span>Lorem ipsum.</span></p>
-										<p class="mb-10">Amount to be paid: <span>₹xxx</span></p>
-									</div>
+								<div class="col-12 col-md-6">
+									<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
 								</div>
-								<div class="col-12 col-lg-12 text-center">
-									<input type="button" class="next btn btn-accent-3 text-white" value="Pay Now">
+								<div class="col-12 col-md-6">
+									<input class="form-control" name="gotra" type="text" placeholder="Gotra" maxlength="128">
 								</div>
-							</fieldset>
+								<div class="col-12 col-md-6">
+									<input class="form-control" name="nakshatra" type="text" placeholder="Nakshatra" maxlength="128">
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 text-center">
+								<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+							</div>
+						</form>
+						<form id="paymentForm" class="d-none" autocomplete="off" novalidate>
+							<div class="row gy-40 mb-50">
+								<h4 class="w-100 text-center mb-2">Summary</h4>
+								<div class="col-12 text-center">
+									<p class="mb-10">Temple Name: <span>Lorem ipsum.</span></p>
+									<p class="mb-10">Pooja: <span>Lorem ipsum.</span></p>
+									<p class="mb-10">Amount to be paid: <span>₹xxx</span></p>
+								</div>
+							</div>
+							<div class="col-12 col-lg-12 text-center">
+								<button id="payBtn" class="next btn btn-accent-3 text-white">
+									Pay Now
+								</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -98,32 +101,17 @@
 {% endblock content %}
 
 {% block body %}
+	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
 	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
-		$(document).ready(function () {
-            let current_fs, next_fs
-            let opacity;
-
-            $('.next').click(function () {
-                current_fs = $(this).parent().parent();
-                next_fs = $(this).parent().parent().next();
-                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-                next_fs.show();
-                window.scrollTo({top: 0, behavior: 'smooth'});
-                current_fs.animate({opacity: 0}, {
-                    step: function (now) {
-                        opacity = 1 - now;
-                        current_fs.css({
-                            'display': 'none',
-                            'position': 'relative'
-                        });
-                        next_fs.css({'opacity': opacity});
-                    },
-                    duration: 600
-                });
-            });
+        $("#templeSelect").on('change', function () {
+            $('.pooja').addClass('d-none').prop('disabled', true);
+            $(`.${$(this).val()}`).removeClass('d-none').prop('disabled', false);
         });
 
-		$(document).on('submit', '#poojaForm', function (e) {
+        let data = {};
+		let order_id = null;
+
+        $(document).on('submit', '#poojaForm', function (e) {
             e.preventDefault();
 
             $(this).find('.is-invalid').removeClass('is-invalid');
@@ -132,21 +120,71 @@
                 invalids.addClass('is-invalid')[0].reportValidity();
                 return;
             }
+            $.each($(this).find(':input'), function (i, e) {
+                if ($(e).attr('name')) {
+                    data[$(e).attr('name')] = $(e).fval();
+                }
+            });
+            $('#personal').addClass('active');
+            $(this).addClass('d-none');
+            $('#personalForm').removeClass('d-none');
+        });
+        $(document).on('submit', '#personalForm', function (e) {
+            e.preventDefault();
 
-            let data = {};
+            $(this).find('.is-invalid').removeClass('is-invalid');
+            let invalids = $(this).find('*:invalid');
+            if (invalids.length > 0) {
+                invalids.addClass('is-invalid')[0].reportValidity();
+                return;
+            }
             $.each($(this).find(':input'), function (i, e) {
                 if ($(e).attr('name')) {
                     data[$(e).attr('name')] = $(e).fval();
                 }
             });
 
-            $.ajax({
-                data: JSON.stringify(data),
+			$.ajax({
+                data: JSON.stringify({amount: parseFloat($('[name=pooja_id]').find(':selected').data('amount'))}),
                 contentType: "application/json",
                 type: 'POST',
-                url: '/',
+                url: '{{ url_for('api.admin.create_order') }}',
             }).done(function (response, status, xhr) {
-                location.reload();
+                order_id = response.data.order_id;
+
+                let options = {
+                    "key": "rzp_test_Gct2tFPysNEBMD",
+				    "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+				    "handler": function (response){
+				        alert(response.razorpay_payment_id);
+				        alert(response.razorpay_order_id);
+				        alert(response.razorpay_signature)
+				    },
+				    "prefill": {
+				        "name": data.name,
+				        "email": data.email,
+				        "contact": data.phone
+				    },
+                }
+                let rz = new Razorpay(options);
+                rz.on('payment.failed', function (response){
+				    alert(response.error.code);
+				    alert(response.error.description);
+				    alert(response.error.source);
+				    alert(response.error.step);
+				    alert(response.error.reason);
+				    alert(response.error.metadata.order_id);
+					alert(response.error.metadata.payment_id);
+				});
+
+                $('#payBtn').on('click', function (e) {
+                    rz.open();
+                    e.preventDefault();
+                });
+
+	            $('#payment').addClass('active');
+	            $(this).addClass('d-none');
+	            $('#paymentForm').removeClass('d-none');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
