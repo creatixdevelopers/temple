@@ -1,16 +1,17 @@
 {% extends 'dashboard/templates/table.html' %}
 
 {% set table = {
-	'name': 'donations',
-	'entries': Donation.all()|reverse,
+	'name': 'bookings',
+	'entries': Booking.all()|reverse,
 	'columns': {
 		'Sl no.': {},
 		'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
 		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
-		'Aadhar/PAN': {'val': '{{ e.identification if e.identification else "-" }}'},
-		'Donation Amount': {'val': '{{ e.amount }}', 'sum': True},
-		'Donation Type': {'val': '{{ e.type }}'},
-		'Recurring': {'val': '{{ "Yes - "~e.recurring_interval if e.recurring else "No -"~e.recurring_interval }}'},
+		'Temple': {'val': '{{ e.temple }}'},
+		'Pooja': {'val': '{{ e.pooja }}'},
+		'Amount': {'val': '{{ e.amount }}', 'sum': True},
+		'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
+		'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
 		'Payment ID': {'val': '{{ e.payment_id }}'},
 	},
 } %}

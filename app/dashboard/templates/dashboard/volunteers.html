@@ -62,7 +62,7 @@
                     let nodes = api.column(e, {page: 'current', search: 'applied'}).nodes().toArray();
                     let sum = 0;
                     $.each(nodes, function (j, n) {
-                        sum += $(n).hasClass('noExport') ? 0 : parseFloat($(n).text().replaceAll(/\D/g, ''));
+                        sum += $(n).hasClass('noExport') ? 0 : parseFloat($(n).text().replaceAll(/[^\d.-]/g, ''));
                     });
                     $(api.column(e).footer()).text(sum.toLocaleString('en-IN'));
                 });

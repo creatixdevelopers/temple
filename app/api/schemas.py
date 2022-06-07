@@ -55,8 +55,17 @@ class DonationSchema(ma.SQLAlchemyAutoSchema):
             "amount": {"type": "number"},
             "recurring": {"type": "boolean"},
             "recurring_interval": {"type": "string", "enum": ["one-time", "monthly"]},
+            "payment_details": {
+                "type": "object",
+                "properties": {
+                    "razorpay_payment_id": {"type": "string"},
+                    "razorpay_order_id": {"type": "string"},
+                    "razorpay_signature": {"type": "string"},
+                },
+                "required": ["razorpay_payment_id", "razorpay_order_id", "razorpay_signature"],
+            }
         },
-        "required": ["name", "phone", "identification", "type", "amount", "recurring", "recurring_interval"],
+        "required": ["name", "phone", "identification", "type", "amount", "recurring", "recurring_interval", "payment_details"],
     }
 
 
@@ -88,6 +97,15 @@ class BookingSchema(ma.SQLAlchemyAutoSchema):
             "email": {"type": "string", "format": "email", "maxlength": 128},
             "gotra": {"type": "string", "maxlength": 128},
             "nakshatra": {"type": "string", "maxlength": 128},
+            "payment_details": {
+                "type": "object",
+                "properties": {
+                    "razorpay_payment_id": {"type": "string"},
+                    "razorpay_order_id": {"type": "string"},
+                    "razorpay_signature": {"type": "string"},
+                },
+                "required": ["razorpay_payment_id", "razorpay_order_id", "razorpay_signature"],
+            }
         },
-        "required": ["pooja_id", "name", "phone"],
+        "required": ["pooja_id", "name", "phone", "payment_details"],
     }

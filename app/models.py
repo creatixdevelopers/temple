@@ -36,15 +36,21 @@ class Volunteer(ModelMixin, CreatedMixin, db.Model):
     comments = db.Column(db.Text)
 
 
-class Donation(ModelMixin, CreatedMixin, db.Model):
+class Devotee(ModelMixin, CreatedMixin, db.Model):
     name = db.Column(db.Text, nullable=False)
-    phone = db.Column(db.Text, nullable=False)
+    phone = db.Column(db.Text, nullable=False, unique=True)
     email = db.Column(db.Text)
+
+
+class Donation(ModelMixin, CreatedMixin, db.Model):
+    devotee_id = db.Column(db.Integer, db.ForeignKey('devotee.id'))
+    devotee = db.relationship('Devotee', backref=db.backref('donations', lazy=True))
     identification = db.Column(db.Text)
     type = db.Column(db.Text, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     recurring = db.Column(db.Boolean, nullable=False, default=True)
     recurring_interval = db.Column(db.Text, nullable=False, default='monthly')
+    payment_id = db.Column(db.Text, nullable=False)
 
 
 class Pooja(ModelMixin, db.Model):
@@ -54,14 +60,14 @@ class Pooja(ModelMixin, db.Model):
 
 
 class Booking(ModelMixin, CreatedMixin, db.Model):
+    devotee_id = db.Column(db.Integer, db.ForeignKey('devotee.id'))
+    devotee = db.relationship('Devotee', backref=db.backref('bookings', lazy=True))
     temple = db.Column(db.Text, nullable=False)
     pooja = db.Column(db.Text, nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    phone = db.Column(db.Text, nullable=False)
-    email = db.Column(db.Text)
     gotra = db.Column(db.Text)
     nakshatra = db.Column(db.Text)
+    payment_id = db.Column(db.Text, nullable=False)
 
 
 @jwt.user_lookup_loader

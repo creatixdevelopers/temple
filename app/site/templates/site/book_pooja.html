@@ -104,7 +104,7 @@
 	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
 	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
         $("#templeSelect").on('change', function () {
-            $('.pooja').addClass('d-none').prop('disabled', true);
+            $('.pooja').addClass('d-none').prop('disabled', true).prop('selected', false);
             $(`.${$(this).val()}`).removeClass('d-none').prop('disabled', false);
         });
 
@@ -121,7 +121,7 @@
                 return;
             }
             $.each($(this).find(':input'), function (i, e) {
-                if ($(e).attr('name')) {
+                if ($(e).val()) {
                     data[$(e).attr('name')] = $(e).fval();
                 }
             });
@@ -139,7 +139,7 @@
                 return;
             }
             $.each($(this).find(':input'), function (i, e) {
-                if ($(e).attr('name')) {
+                if ($(e).val()) {
                     data[$(e).attr('name')] = $(e).fval();
                 }
             });
@@ -153,12 +153,10 @@
                 order_id = response.data.order_id;
 
                 let options = {
-                    "key": "rzp_test_Gct2tFPysNEBMD",
-				    "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-				    "handler": function (response){
-				        alert(response.razorpay_payment_id);
-				        alert(response.razorpay_order_id);
-				        alert(response.razorpay_signature)
+                    "key": "{{ config['RAZORPAY_KEY'] }}",
+				    "order_id": order_id,
+				    "handler": function (response) {
+                        onPaymentSuccess(response);
 				    },
 				    "prefill": {
 				        "name": data.name,
@@ -182,13 +180,28 @@
                     e.preventDefault();
                 });
 
+                $('#personalForm').addClass('d-none');
 	            $('#payment').addClass('active');
-	            $(this).addClass('d-none');
 	            $('#paymentForm').removeClass('d-none');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
             });
         });
+
+        function onPaymentSuccess(response) {
+            data['payment_details'] = {'razorpay_payment_id': response.razorpay_payment_id, 'razorpay_order_id': response.razorpay_order_id, 'razorpay_signature': response.razorpay_signature};
+            $.ajax({
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                type: 'POST',
+                url: '{{ url_for('api.admin.booking') }}',
+            }).done(function (response, status, xhr) {
+                console.log('success');
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+            });
+        }
 	</script>
 {% endblock body %}
