@@ -21,7 +21,7 @@ from app.tasks import send_error_email
 from app.utils import current_user
 
 
-def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
+def create_app(config: str = 'config.ProductionConfig') -> Flask:
     """Creates, initializes and returns the flask application object using the past configuration
     :param config: Relative path to the configuration class to be used
     :return: Flask application object
