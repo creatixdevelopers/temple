@@ -49,6 +49,26 @@
 						</div>
 					</div>
 				</form>
+				<div id="paymentSuccess" class="d-none">
+					<div class="d-flex flex-column justify-content-center align-items-center">
+						<i class="fal fa-check-circle my-20" style="font-size: 5rem"></i>
+						<h3 class="text-success my-5">Payment Successful!</h3>
+						<p>Lorem ipsum dolor sit amet.</p>
+						<button type="button" class="next btn btn-accent-3 text-white" value="Next">
+							Download Receipt
+						</button>
+					</div>
+				</div>
+				<div id="paymentFailed" class="d-none">
+					<div class="d-flex flex-column justify-content-center align-items-center">
+						<i class="fal fa-circle-xmark my-20" style="font-size: 5rem"></i>
+						<h3 class="text-danger my-5">Payment Failed!</h3>
+						<p>Please contact support</p>
+						<a href="{{ url_for('site.index') }}" class="next btn btn-accent-3 text-white">
+							Back to Home
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -101,13 +121,8 @@
                 }
                 let rz = new Razorpay(options);
                 rz.on('payment.failed', function (response) {
-                    alert(response.error.code);
-                    alert(response.error.description);
-                    alert(response.error.source);
-                    alert(response.error.step);
-                    alert(response.error.reason);
-                    alert(response.error.metadata.order_id);
-                    alert(response.error.metadata.payment_id);
+                    $('#form').addClass('d-none');
+                    $('#paymentFailed').removeClass('d-none');
                 });
                 rz.open();
             }).fail(function (xhr, status, e) {
@@ -128,7 +143,8 @@
                 type: 'POST',
                 url: '{{ url_for('api.admin.donation') }}',
             }).done(function (response, status, xhr) {
-                console.log('success');
+                $('#form').addClass('d-none');
+                $('#paymentSuccess').removeClass('d-none');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);

@@ -6,6 +6,7 @@ import json
 import logging
 import math
 import traceback
+import urllib
 from datetime import datetime, timedelta
 from logging.handlers import RotatingFileHandler
 
@@ -125,6 +126,10 @@ def init_global_funcs(app: Flask, blueprints: list):
         s, *d = str(n).partition(".")
         r = ",".join([s[x - 2:x] for x in range(-3, -len(s), -2)][::-1] + [s[-3:]])
         return "".join([r] + d)
+
+    @app.template_filter('url_encode')
+    def inr_format(s):
+        return urllib.parse.quote_plus(s) if s else ''
 
     @app.template_filter('index_by_attributes')
     def index_by_attributes(d, **kwargs):

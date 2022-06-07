@@ -72,7 +72,7 @@ table td {
 }
 
 .dataTable .focus {
-    outline: 1px solid #fa5c7c !important;
+    /*outline: 1px solid #fa5c7c !important;*/
     outline-offset: -1px !important;
-    background-color: rgba(250, 92, 124, .15) !important;
+    /*background-color: rgba(250, 92, 124, .15) !important;*/
 }

@@ -43,7 +43,7 @@
 									<select class="form-control" name="pooja_id" type="integer" required>
 										<option selected value="">Select Pooja *</option>
 										{% for pooja in poojas %}
-											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-amount="{{ pooja.amount }}">
+											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-pooja="{{ pooja.name }}" data-amount="{{ pooja.amount }}">
 												{{ pooja.name }} - ₹{{ pooja.amount|int|inr_format }}
 											</option>
 										{% endfor %}
@@ -81,9 +81,9 @@
 							<div class="row gy-40 mb-50">
 								<h4 class="w-100 text-center mb-2">Summary</h4>
 								<div class="col-12 text-center">
-									<p class="mb-10">Temple Name: <span>Lorem ipsum.</span></p>
-									<p class="mb-10">Pooja: <span>Lorem ipsum.</span></p>
-									<p class="mb-10">Amount to be paid: <span>₹xxx</span></p>
+									<p class="mb-10">Temple Name: <span id="templeName"></span></p>
+									<p class="mb-10">Pooja: <span id="poojaName"></span></p>
+									<p class="mb-10">Amount to be paid: ₹<span id="finalAmount"></span></p>
 								</div>
 							</div>
 							<div class="col-12 col-lg-12 text-center">
@@ -92,6 +92,26 @@
 								</button>
 							</div>
 						</form>
+					</div>
+				</div>
+				<div id="paymentSuccess" class="d-none">
+					<div class="d-flex flex-column justify-content-center align-items-center">
+						<i class="fal fa-check-circle my-20" style="font-size: 5rem"></i>
+						<h3 class="text-success my-5">Payment Successful!</h3>
+						<p>Lorem ipsum dolor sit amet.</p>
+						<button type="button" class="next btn btn-accent-3 text-white" value="Next">
+							Download Receipt
+						</button>
+					</div>
+				</div>
+				<div id="paymentFailed" class="d-none">
+					<div class="d-flex flex-column justify-content-center align-items-center">
+						<i class="fal fa-circle-xmark my-20" style="font-size: 5rem"></i>
+						<h3 class="text-danger my-5">Payment Failed!</h3>
+						<p>Please contact support</p>
+						<a href="{{ url_for('site.index') }}" class="next btn btn-accent-3 text-white">
+							Back to Home
+						</a>
 					</div>
 				</div>
 			</div>
@@ -144,8 +164,14 @@
                 }
             });
 
+            let selectedPooja = $('[name=pooja_id]').find(':selected');
+            let amount = parseFloat(selectedPooja.data('amount'));
+            $('#templeName').text($('#templeSelect :selected').text());
+            $('#poojaName').text(selectedPooja.data('pooja'));
+            $('#finalAmount').text(amount);
+
 			$.ajax({
-                data: JSON.stringify({amount: parseFloat($('[name=pooja_id]').find(':selected').data('amount'))}),
+                data: JSON.stringify({amount: amount}),
                 contentType: "application/json",
                 type: 'POST',
                 url: '{{ url_for('api.admin.create_order') }}',
@@ -160,19 +186,14 @@
 				    },
 				    "prefill": {
 				        "name": data.name,
-				        "email": data.email,
+				        "email": data.email ? data.email : 'test@test.com',
 				        "contact": data.phone
 				    },
                 }
                 let rz = new Razorpay(options);
                 rz.on('payment.failed', function (response){
-				    alert(response.error.code);
-				    alert(response.error.description);
-				    alert(response.error.source);
-				    alert(response.error.step);
-				    alert(response.error.reason);
-				    alert(response.error.metadata.order_id);
-					alert(response.error.metadata.payment_id);
+				    $('#paymentForm').addClass('d-none');
+                    $('#paymentFailed').removeClass('d-none');
 				});
 
                 $('#payBtn').on('click', function (e) {
@@ -197,6 +218,8 @@
                 type: 'POST',
                 url: '{{ url_for('api.admin.booking') }}',
             }).done(function (response, status, xhr) {
+                $('#paymentForm').addClass('d-none');
+                $('#paymentSuccess').removeClass('d-none');
                 console.log('success');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
