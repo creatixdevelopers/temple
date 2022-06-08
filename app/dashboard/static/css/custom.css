@@ -12,10 +12,6 @@ input::file-selector-button {
     display: none;
 }
 
-.input-group-text {
-    border: 1px solid #fff !important;
-}
-
 div.dt-button-info {
     background-color: #727cf5 !important;
     border: none !important;
@@ -76,7 +72,7 @@ table td {
 }
 
 .dataTable .focus {
-    outline: 1px solid #fa5c7c !important;
+    /*outline: 1px solid #fa5c7c !important;*/
     outline-offset: -1px !important;
-    background-color: rgba(250, 92, 124, .15) !important;
+    /*background-color: rgba(250, 92, 124, .15) !important;*/
 }

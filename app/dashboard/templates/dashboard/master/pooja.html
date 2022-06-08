@@ -47,12 +47,7 @@
 							<div class="col-lg-12">
 								<div class="input-group mb-2">
 									<span class="input-group-text fw-bold">Temple</span>
-									<select class="form-select" type="text" name="temple" required>
-										<option value="" selected disabled>Please Select</option>
-										<option value="Temple 1">Temple 1</option>
-										<option value="Temple 2">Temple 2</option>
-										<option value="Temple 3">Temple 3</option>
-									</select>
+									<input class="form-control" name="temple" type="text" maxlength="128" required>
 								</div>
 							</div>
 							<div class="col-lg-12">
@@ -123,7 +118,7 @@
                     let nodes = api.column(e, {page: 'current', search: 'applied'}).nodes().toArray();
                     let sum = 0;
                     $.each(nodes, function (j, n) {
-                        sum += $(n).hasClass('noExport') ? 0 : parseFloat($(n).text().replaceAll(/\D/g, ''));
+                        sum += $(n).hasClass('noExport') ? 0 : parseFloat($(n).text().replaceAll(/[^\d.-]/g, ''));
                     });
                     $(api.column(e).footer()).text(sum.toLocaleString('en-IN'));
                 });

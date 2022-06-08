@@ -1,20 +1,77 @@
 {% extends 'dashboard/templates/table.html' %}
 
+{% set devotee = Devotee.get_by(first=True, uid=uid) %}
+{% set donations = devotee.donations %}
+{% set bookings = devotee.bookings %}
 {% set tables = [
-	{'name': 'user',
-	 'entries': User.query.with_deleted().filter(User.deleted==True, User.role.has(name='user'))|reverse,
-	 'attributes': {'data-api': url_for('api.admin.user')},
-	 'columns': {
-		 'Sl no.': {},
-		 'Created': {'eval': 'o.created.strftime("%d %b, %Y")', 'order': 'o.created.strftime("%Y%m%d%H%M%S")'},
-		 'Id': {'eval': 'o.uid'},
-		 'Email': {'eval': 'o.email'},
-		 'Actions': {'actions': {'restore': {'icon':'uil-corner-up-left', 'class': 'text-success'}, 'delete': {'icon':'uil-trash', 'class': 'text-danger'}}, 'export': False, 'orderable': False},
-	 }},
+	{
+		'name': 'donations',
+	    'entries': donations|reverse,
+	    'columns': {
+			'Sl no.': {},
+			'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
+			'Aadhar/PAN': {'val': '{{ e.identification if e.identification else "-" }}'},
+			'Donation Amount': {'val': '{{ e.amount }}', 'sum': True},
+			'Donation Type': {'val': '{{ e.type }}'},
+			'Recurring': {'val': '{{ "Yes - "~e.recurring_interval if e.recurring else "No -"~e.recurring_interval }}'},
+			'Payment ID': {'val': '{{ e.payment_id }}'},
+	    }
+	},
+	{
+		'name': 'bookings',
+		'entries': bookings|reverse,
+		'columns': {
+			'Sl no.': {},
+			'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
+			'Temple': {'val': '{{ e.temple }}'},
+			'Pooja': {'val': '{{ e.pooja }}'},
+			'Amount': {'val': '{{ e.amount }}', 'sum': True},
+			'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
+			'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
+			'Payment ID': {'val': '{{ e.payment_id }}'},
+		}
+	},
 ] %}
 
 {% block content %}
-	<div>
+	<div class="row mt-3">
+		<div class="col-xxl-4 col-lg-6">
+			<div class="card widget-flat bg-success text-white">
+				<div class="card-body">
+					<div class="float-end">
+						<i class="uil-user-square widget-icon bg-white text-success"></i>
+					</div>
+					<h6 class="text-uppercase mt-0" title="Customers">Name</h6>
+					<h2 class="mt-3 mb-1">{{ devotee.name }}</h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xxl-3 col-lg-6">
+			<div class="card widget-flat bg-primary text-white">
+				<div class="card-body">
+					<div class="float-end">
+						<i class="uil-money-withdrawal widget-icon bg-white text-primary"></i>
+					</div>
+					<h6 class="text-uppercase mt-0" title="Customers">Donations</h6>
+					<h2 class="mt-3 mb-1">₹ {{ donations|map(attribute='amount')|list|sum|int }}</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-xxl-3 col-lg-6">
+			<div class="card widget-flat bg-dark text-white">
+				<div class="card-body">
+					<div class="float-end">
+						<i class="uil-diary-alt widget-icon bg-white text-success"></i>
+					</div>
+					<h6 class="text-uppercase mt-0" title="Customers">Bookings</h6>
+					<h2 class="mt-3 mb-1">{{ bookings|length }}</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card card-body">
 		<ul class="nav nav-tabs" role="tablist">
 			{% for table in tables %}
 				<li class="nav-item" role="presentation">
@@ -26,42 +83,15 @@
 		</ul>
 		<div class="tab-content">
 			{% for table in tables %}
-				<div class="tab-pane fade {{ 'show active' if loop.first else '' }}" id="{{ table.table }}Pane" role="tabpanel">
+				<div class="tab-pane fade {{ 'show active' if loop.first else '' }}" id="{{ table.name }}Pane" role="tabpanel">
 					<div class="card card-body">
+						<div class="d-flex justify-content-end align-items-center mb-2">
+							<div class="text-sm-end" id="{{ table.name }}ButtonContainer"></div>
+						</div>
 						{{ macros.render_table(table) }}
 					</div>
 				</div>
 			{% endfor %}
-		</div>
-	</div>
-
-	<div id="restoreModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content modal-filled bg-success">
-				<div class="modal-body p-4">
-					<div class="text-center">
-						<i class="text-white uil-exclamation-triangle" style="font-size: 5rem"></i>
-						<h1 class="mt-4 text-white">Restore?</h1>
-						<p class="mt-3 text-white">Are you sure you want to restore this entry?</p>
-						<button id="restoreButton" class="btn btn-light my-2" type="button">Yes</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content modal-filled bg-danger">
-				<div class="modal-body p-4">
-					<div class="text-center">
-						<i class="text-white uil-exclamation-triangle" style="font-size: 5rem"></i>
-						<h1 class="mt-4 text-white">Delete?</h1>
-						<p class="mt-3 text-white">Are you sure you want to delete this entry?</p>
-						<button id="deleteButton" class="btn btn-light my-2" type="button">Yes</button>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 {% endblock content %}
@@ -123,6 +153,8 @@
                 {% endif %}
                 keys: {keys: [37, 38, 39, 40], clipboard: false},
             });
+            {{ table.name }}Table.buttons().container().appendTo("#{{ table.name }}ButtonContainer");
+
             {{ table.name }}Table.on('key-focus.dt', (e, dt, cell) => {
                 $(dt.row(cell.index().row).node()).addClass('selected')[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
             });
@@ -130,57 +162,8 @@
                 $(dt.row(cell.index().row).node()).removeClass('selected');
             });
         {% endfor %}
-	</script>
-
-	{# Restore #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
-        let restoreModal = $('#restoreModal');
-        let restoreUid = null;
-        let restoreApi = null;
-
-        $(document).on('click', '.restoreAction', function () {
-            restoreUid = $(this).data('uid');
-            restoreApi = $(this).closest('tr').data('api');
-            restoreModal.modal('show');
-        });
-
-        $(document).on('click', '#restoreButton', function () {
-            $.ajax({
-                type: 'DELETE',
-                url: `${restoreApi}${restoreUid}/restore/`,
-                contentType: 'application/json',
-            }).done(function (response, status, xhr) {
-                location.reload();
-            }).fail(function (xhr, status, e) {
-                console.log(xhr);
-                notyf.error(xhr.responseJSON.description);
-            });
-        });
-	</script>
-
-	{# Delete #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
-        let deleteModal = $('#deleteModal');
-        let deleteUid = null;
-        let deleteApi = null;
-
-        $(document).on('click', '.deleteAction', function () {
-            deleteUid = $(this).data('uid');
-            deleteApi = $(this).closest('tr').data('api');
-            deleteModal.modal('show');
-        });
-
-        $(document).on('click', '#deleteButton', function () {
-            $.ajax({
-                type: 'DELETE',
-                url: `${deleteApi}${deleteUid}/`,
-                contentType: 'application/json',
-            }).done(function (response, status, xhr) {
-                location.reload();
-            }).fail(function (xhr, status, e) {
-                console.log(xhr);
-                notyf.error(xhr.responseJSON.description);
-            });
-        });
+        $('.buttons-copy').html('<i class="uil-pathfinder"></i> Copy').removeClass('btn-secondary').addClass('btn-light ms-1');
+        $('.buttons-excel').html('<i class="uil-download-alt"></i> Export').removeClass('btn-secondary').addClass('btn-light ms-1');
+        $('.buttons-pdf').html('<i class="uil-file-alt"></i> PDF').removeClass('btn-secondary').addClass('btn-light ms-1');
 	</script>
 {% endblock body %}

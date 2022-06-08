@@ -1,23 +1,23 @@
 {% extends 'dashboard/templates/table.html' %}
 
 {% set table = {
-	'name': 'donations',
-	'entries': Donation.all()|reverse,
+	'name': 'bookings',
+	'entries': Booking.all()|reverse,
 	'columns': {
 		'Sl no.': {},
 		'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
 		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
-		'Aadhar/PAN': {'val': '{{ e.identification if e.identification else "-" }}'},
-		'Donation Amount': {'val': '{{ e.amount }}', 'sum': True},
-		'Donation Type': {'val': '{{ e.type }}'},
-		'Recurring': {'val': '{{ "Yes - "~e.recurring_interval if e.recurring else "No -"~e.recurring_interval }}'},
-		'Remind': {'icon': "fa-brands fa-whatsapp", 'class': 'text-success {{ "d-none" if not e.recurring else "" }}', 'attributes': {'target': '_blank'}, 'link': 'https://api.whatsapp.com/send/?phone={{ e.devotee.phone }}&text=Hello%20{{ e.devotee.name|url_encode }}%2C%0A%0Ayour%20subscription%20for%20the%20{{ e.type|url_encode }}%20is%20pending%20for%20this%20month.%20Please%20click%20on%20the%20below%20link%20to%20make%20the%20payment.%0A%0Ahttps%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fbook-pooja%2F%0A%0Aor%20make%20a%20donation%20at%20https%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fdonate%2F&app_absent=0'},
+		'Temple': {'val': '{{ e.temple }}'},
+		'Pooja': {'val': '{{ e.pooja }}'},
+		'Amount': {'val': '{{ e.amount }}', 'sum': True},
+		'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
+		'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
 		'Payment ID': {'val': '{{ e.payment_id }}'},
-		'Receipt': {'actions': {'receipt': {'icon':'uil-invoice'}}, 'export': False, 'orderable': False},
 	},
 } %}
 
 {% block content %}
+
 	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">

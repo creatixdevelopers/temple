@@ -31,6 +31,10 @@
             }, 10);
         });
 
+        $(document).on('shown.bs.tab', '*[data-bs-toggle="tab"]', function (e) {
+            $.fn.dataTable.tables({api: true}).columns.adjust();
+        });
+
         let exportOptions = {
             columns: ':not(.noExport)',
             modifier: {search: 'applied', order: 'applied', page: 'current'},
