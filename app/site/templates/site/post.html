@@ -7,7 +7,7 @@
 	<div class="pt-270 pb-300 text-center position-relative align-items-center d-flex">
 		<div class="background">
 			<div class="background-image jarallax" data-jarallax data-speed="0.8">
-				<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.images[0]) }}" alt=""></div>
+				<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='uploads/posts/'~post.media[0]) }}" alt=""></div>
 			<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
 			<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
 		</div>
@@ -31,6 +31,7 @@
 							<span class="highlight">{{ post.title }}</span>
 						</h2>
 						<div id="content" data-show="startbox" data-show-delay="300">
+							<p>{{ post.description }}</p>
 							{{ post.content|safe }}
 						</div>
 					</div>
@@ -43,10 +44,10 @@
 	<!-- ========== Blog Gallery Section ============= -->
 	<div class="pt-50 pb-70 footerPrev videoNext shape-parent overflow-hidden">
 		<div class="container-fluid mt-50 p-0" data-show="startbox">
-			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" {% if post.images|length>1 %}data-swiper-loop="true"{% endif %} data-swiper-gap="30" data-swiper-grabcursor="true">
+			<div class="swiper" data-swiper-slides="auto" data-swiper-center="true" {% if post.media|length>1 %}data-swiper-loop="true"{% endif %} data-swiper-gap="30" data-swiper-grabcursor="true">
 				<div class="swiper-container">
 					<div class="swiper-wrapper gallery-wrapper">
-						{% for image in post.images %}
+						{% for image in post.media %}
 							<div class="swiper-slide" style="max-width: 770px;">
 								<a class="gallery-item rounded-4 overflow-hidden" href="{{ url_for('static', filename='/uploads/posts/'~image) }}" style="--img-height: 61%;" data-img-height>
 									<img loading="lazy" src="{{ url_for('static', filename='/uploads/posts/'~image) }}" alt="">
