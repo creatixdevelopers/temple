@@ -41969,7 +41969,7 @@ select.form-control-white {
 }
 
 .card-portfolio a.card-title:hover, .card-portfolio a.card-title:focus {
-    color: #17161A;
+    color: #17161A !important;
 }
 
 .card-portfolio .card-category {
@@ -42331,7 +42331,7 @@ a.card-portfolio {
 }
 
 .card-blog:hover .card-title {
-    color: #F01F4B;
+    color: #ffa800 !important;
 }
 
 .card-blog.card-horizontal {

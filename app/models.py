@@ -18,6 +18,7 @@ class User(ModelMixin, CreatedMixin, DeletedMixin, PasswordMixin, db.Model):
 class Post(ModelMixin, CreatedMixin, LastUpdatedMixin, MediaMixin, DeletedMixin, db.Model):
     type = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
 
     UPLOADS_PATH = 'posts'

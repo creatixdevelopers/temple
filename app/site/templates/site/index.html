@@ -1,15 +1,15 @@
 {% extends 'site/templates/page.html' %}
 
-{% set events = Post.get_by(type='event') %}
-{% set blogs = Post.get_by(type='blogs') %}
+{% set events = Post.get_by(type='event')|reverse|list %}
+{% set blogs = Post.get_by(type='blog') %}
 
 {% block content %}
 	<!-- ========== Hero Section ============= -->
 	{% if events %}
-		<div class="swiper bg-dark mt-80" data-swiper-slides="1" data-swiper-loop="true" data-swiper-autoplay="4000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
+		<div class="swiper bg-dark mt-80" data-swiper-slides="1" data-swiper-loop="false" data-swiper-autoplay="900000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					{% for event in events %}
+					{% for event in events[:5] %}
 						<div class="swiper-slide h-auto">
 							<div class="py-200 position-relative overflow-hidden" style="height: 100vh">
 								<div class="background">
@@ -23,13 +23,14 @@
 									<div class="row">
 										<div class="col-lg-7 offset-lg-1">
 											<h1 class="text-white mb-40">{{ event.title }}</h1>
-											<div class="text-white">
-												{{ event.content|safe }}
+											<div class="text-white" style="height: 5rem; max-height: 5rem; margin-bottom: 2rem; overflow-y: hidden">
+												{{ event.description }}
 											</div>
 											<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
 												Become A Volunteer
 											</a>
 										</div>
+
 									</div>
 								</div>
 							</div>
@@ -170,16 +171,30 @@
 										<a class="card-title h4 mb-10" href="{{ url_for('site.event', uid=event.uid) }}">
 											{{ event.title }}
 										</a>
-										{{ event.content|safe }}
-										<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=event.uid) }}">
-											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
-											</svg>
-										</a>
+										{{ event.description[:150] }}
+										<div class="d-flex justify-content-end">
+											<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=event.uid) }}">
+												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+													<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+												</svg>
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
 						{% endfor %}
+					</div>
+				</div>
+				<div class="d-flex mt-70 justify-content-center">
+					<div class="swiper-button-prev swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m3.96 6.15 5.08-4.515L7.91.365.445 7l7.465 6.635 1.13-1.27L3.96 7.85h15.765v-1.7H3.96Z" clip-rule="evenodd"/>
+						</svg>
+					</div>
+					<div class="swiper-button-next swiper-button-position-2 swiper-button-gray shadow">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+							<path fill="currentColor" fill-rule="evenodd" d="m16.21 6.15-5.08-4.515 1.13-1.27L19.725 7l-7.465 6.635-1.13-1.27 5.08-4.515H.445v-1.7H16.21Z" clip-rule="evenodd"/>
+						</svg>
 					</div>
 				</div>
 			</div>
@@ -225,12 +240,14 @@
 										<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=blog.uid) }}">
 											{{ blog.title }}
 										</a>
-										{{ blog.content|safe }}
-										<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=blog.uid) }}">
-											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
-												<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
-											</svg>
-										</a>
+										{{ blog.description[:150] }}
+										<div class="d-flex justify-content-end">
+											<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=blog.uid) }}">
+												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+													<path stroke="#FF9900" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+												</svg>
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -451,7 +468,7 @@
             url: `{{ url_for('api.admin.gallery.get') }}`,
             contentType: 'application/json',
             async: false,
-	        timeout: 1000,
+            timeout: 1000,
         }).done(function (response, status, xhr) {
             if (response.data.length < 1) {
                 return;

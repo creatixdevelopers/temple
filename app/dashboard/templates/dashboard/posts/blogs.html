@@ -21,7 +21,7 @@
 						<h4 class="card-title">{{ post.title }}</h4>
 						<h6 class="card-subtitle mb-2 text-muted">{{ post.last_updated.strftime("%d %b, %Y") }}</h6>
 						<div class="content mt-2">
-							{{ post.content|safe }}
+							{{ post.description }}
 						</div>
 					</div>
 					<div class="card-footer text-muted d-flex justify-content-end p-1">

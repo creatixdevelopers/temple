@@ -31,6 +31,11 @@
 			</div>
 
 			<div class="col-12 mt-2">
+				<h3>Description</h3>
+				<textarea id="description" class="form-control" name="description" type="text" required maxlength="250"></textarea>
+			</div>
+
+			<div class="col-12 mt-2">
 				<h3>Content</h3>
 				<div id="snow-editor" style="height: 30vh;"></div>
 			</div>
@@ -56,6 +61,7 @@
 		</div>
 	</form>
 {% endblock content %}
+
 
 {% block body %}
 	<script src="{{ url_for('static', filename='js/quill.js') }}"></script>
