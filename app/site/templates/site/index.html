@@ -23,7 +23,7 @@
 									<div class="row">
 										<div class="col-lg-7 offset-lg-1">
 											<h1 class="text-white mb-40">{{ event.title }}</h1>
-											<div class="text-white" style="height: 5rem; max-height: 5rem; margin-bottom: 2rem; overflow-y: hidden">
+											<div class="text-white" style="margin-bottom: 2rem">
 												{{ event.description }}
 											</div>
 											<a class="btn btn-accent-3 text-white" href="{{ url_for('site.volunteer') }}">
@@ -159,7 +159,7 @@
 					</h2>
 				</div>
 			</div>
-			<div class="swiper mt-50" data-swiper-slides="3" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
+			<div class="swiper mt-50" data-swiper-slides="1" data-swiper-loop="true" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						{% for event in events %}
@@ -219,16 +219,16 @@
 	<!-- ========== End Events Section ============= -->
 
 	<!-- ========== Blogs Section ============= -->
-	<div id="blogs" class="pt-50 pb-70 videoNext shape-parent overflow-hidden">
+	<div class="pt-50 pb-70 videoNext shape-parent overflow-hidden">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 offset-lg-4 text-center">
-					<h2 class="m-0" data-show="startbox" data-show-delay="100">
+					<h2 id="blogs"  class="m-0" data-show="startbox" data-show-delay="100">
 						<span class="highlight">Recent Blogs</span>
 					</h2>
 				</div>
 			</div>
-			<div class="swiper mt-50" data-swiper-slides="3" data-swiper-center="true" data-swiper-loop="true" data-swiper-gap="30" data-swiper-grabcursor="true">
+			<div class="swiper mt-50" data-swiper-slides="1" data-swiper-loop="true" data-swiper-breakpoints="828:2, 1024:3" data-swiper-gap="30" data-swiper-grabcursor="true" data-show="startbox" data-show-delay="200">
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						{% for blog in blogs %}

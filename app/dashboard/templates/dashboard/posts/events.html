@@ -6,7 +6,7 @@
 			<div class="page-title-box">
 				<h4 class="page-title">Events</h4>
 			</div>
-			<a class="btn btn-success" href="{{ url_for('dashboard.post') }}">
+			<a class="btn btn-success" href="{{ url_for('dashboard.post') }}?type=event">
 				<i class="uil-plus me-2"></i> Add
 			</a>
 		</div>
@@ -14,10 +14,10 @@
 
 	<div class="row">
 		{% for post in Post.get_by(type='event') %}
-			<div class="col-md-6 col-lg-3">
+			<div class="col-md-6 col-lg-4">
 				<div class="card d-block">
 					<img class="card-img-top" src="{{ post.media_urls[0] }}" style="object-fit: cover; max-height: 15rem">
-					<div class="card-body p-2" style="height: 8rem; overflow: hidden">
+					<div class="card-body p-2" style="height: 12rem; overflow: hidden">
 						<h4 class="card-title">{{ post.title }}</h4>
 						<h6 class="card-subtitle mb-2 text-muted">{{ post.last_updated.strftime("%d %b, %Y") }}</h6>
 						<div class="content mt-2">
