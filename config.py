@@ -8,6 +8,7 @@ class BaseConfig:
 
     PWA = True
     WEB_SOCKETS = False
+    MAX_CONTENT_LENGTH = 1024*1024*100
     UPLOADS_FOLDER = join('app', 'static', 'uploads')
 
     TESTING = True
