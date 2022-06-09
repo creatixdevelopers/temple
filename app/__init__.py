@@ -33,7 +33,7 @@ def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
                                                     'script-src': "'self'",
                                                     'font-src': ["'self'", 'fonts.gstatic.com'],
                                                     'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-                                                    'frame-src': ['*.google.com', 'api.razorpay.com'],
+                                                    'frame-src': ['*.google.com', 'api.razorpay.com', 'facebook.com'],
                                                     'img-src': ["'self'", 'data: w3.org/svg/2000']},
                       content_security_policy_nonce_in=['script-src'])
     for service in [csrf, db, jwt, ma, mail]:
