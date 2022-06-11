@@ -94,7 +94,7 @@ class BookingSchema(ma.SQLAlchemyAutoSchema):
         "properties": {
             "pooja_id": {"type": "integer"},
             "name": {"type": "string", "maxlength": 128},
-            "phone": {"type": "string", "maxlength": 14},
+            "phone": {"type": "string", "maxlength": 10},
             "email": {"type": "string", "format": "email", "maxlength": 128},
             "gotra": {"type": "string", "maxlength": 128},
             "nakshatra": {"type": "string", "maxlength": 128},
