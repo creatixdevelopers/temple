@@ -81,12 +81,12 @@
 							<img class="rounded-4" loading="lazy" src="{{ url_for('static', filename='media/about.jpg') }}">
 						</div>
 					</div>
-					<div class="rounded-4 overflow-hidden shape-parent text-center d-inline-flex position-absolute mt-n75">
+					<div class="rounded-4 overflow-hidden shape-parent text-center d-inline-flex position-absolute mt-n75" data-show="startbox">
 						<div class="background">
 							<div class="background-color" style="--background-color: #222;"></div>
 						</div>
 						<div class="px-60 py-35">
-							<div class="h1 m-0" style="color: #F1C40F">8+</div>
+							<div class="h1 m-0" style="color: #F1C40F"><span class="count">{{ india_time().date().year - 2014 }}</span>+</div>
 							<div class="h6 m-0" style="color: #F1C40F">Years</div>
 						</div>
 					</div>
@@ -171,7 +171,9 @@
 										<a class="card-title h4 mb-10" href="{{ url_for('site.event', uid=event.uid) }}">
 											{{ event.title }}
 										</a>
-										{{ event.description[:150] }}
+										<div class="service-case-content">
+											{{ event.description[:150] }}
+										</div>
 										<div class="d-flex justify-content-end">
 											<a class="service-case-arrow stretched-link" href="{{ url_for('site.event', uid=event.uid) }}">
 												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
@@ -240,7 +242,9 @@
 										<a class="card-title h4 mb-10" href="{{ url_for('site.blog', uid=blog.uid) }}">
 											{{ blog.title }}
 										</a>
-										{{ blog.description[:150] }}
+										<div class="service-case-content">
+											{{ blog.description[:150] }}
+										</div>
 										<div class="d-flex justify-content-end">
 											<a class="service-case-arrow stretched-link" href="{{ url_for('site.blog', uid=blog.uid) }}">
 												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">

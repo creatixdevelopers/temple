@@ -49,6 +49,14 @@
 										{% endfor %}
 									</select>
 								</div>
+								<div class="col-12 col-md-6 form-floating">
+									<input class="form-control" name="number" type="integer" placeholder="No. Of Poojas *" value="1">
+									<label class="form-floating-label">No. Of Poojas *</label>
+								</div>
+								<div class="col-12 col-md-6 form-floating">
+									<input class="form-control" name="start_date" type="date" placeholder="Start Date *">
+									<label class="form-floating-label">Start Date *</label>
+								</div>
 							</div>
 							<div class="col-12 col-lg-12 text-center">
 								<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
@@ -57,20 +65,25 @@
 						<form id="personalForm" class="d-none" autocomplete="off" novalidate>
 							<div class="row gy-40 mb-50">
 								<h4 class="w-100 text-center mb-2">Personal Details</h4>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="name" type="text" placeholder="Full Name *" maxlength="128" required>
+									<label class="form-floating-label">Full Name *</label>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="phone" type="text" placeholder="Phone Number *" maxlength="10" data-mask="0000000000" required>
+									<label class="form-floating-label">Phone Number *</label>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="email" type="email" placeholder="Email" maxlength="128">
+									<label class="form-floating-label">Email</label>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="gotra" type="text" placeholder="Gotra" maxlength="128">
+									<label class="form-floating-label">Gotra</label>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="nakshatra" type="text" placeholder="Nakshatra" maxlength="128">
+									<label class="form-floating-label">Nakshatra</label>
 								</div>
 							</div>
 							<div class="col-12 col-lg-12 text-center">

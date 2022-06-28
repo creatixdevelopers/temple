@@ -42311,6 +42311,7 @@ a.card-portfolio {
 }
 
 .card-blog-bordered {
+    min-height: 38rem;
     -webkit-box-shadow: inset 0 0 0 1px rgba(177, 177, 180, 0.3);
     box-shadow: inset 0 0 0 1px rgba(177, 177, 180, 0.3);
 }
@@ -44859,6 +44860,10 @@ code.docs-card-gist .blob-wrapper {
     padding: 40px 50px;
 }
 
+.service-case-content {
+    min-height: 10rem;
+}
+
 .service-case-arrow:hover {
     color: #000;
 }
@@ -45096,4 +45101,12 @@ code.docs-card-gist .blob-wrapper {
 
 #progressbar li.active:before, #progressbar li.active:after {
     background: #FFA800;
+}
+
+.form-floating-label {
+    left: 0.8rem !important;
+}
+
+.form-floating.donation-amount-floating > .form-control:focus ~ label, .form-floating.donation-amount-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating.donation-amount-floating > .form-select ~ label {
+    transform: scale(.85) translateY(-1.3rem) translateX(.15rem);
 }
