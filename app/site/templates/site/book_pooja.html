@@ -86,8 +86,13 @@
 									<label class="form-floating-label">Nakshatra</label>
 								</div>
 							</div>
-							<div class="col-12 col-lg-12 text-center">
-								<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+							<div class="d-flex justify-content-center">
+								<div class="mx-20 text-center">
+									<input type="button" class="back_personal btn" style="border: 2px solid #FFA800; border-radius: 30px" value="Back">
+								</div>
+								<div class="mx-20 text-center">
+									<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+								</div>
 							</div>
 						</form>
 						<form id="paymentForm" class="d-none" autocomplete="off" novalidate>
@@ -99,10 +104,13 @@
 									<p class="mb-10">Amount to be paid: ₹<span id="finalAmount"></span></p>
 								</div>
 							</div>
-							<div class="col-12 col-lg-12 text-center">
-								<button id="payBtn" class="next btn btn-accent-3 text-white">
-									Pay Now
-								</button>
+							<div class="d-flex justify-content-center">
+								<div class="mx-20 text-center">
+									<input type="button" class="back_payment btn" style="border: 2px solid #FFA800; border-radius: 30px" value="Back">
+								</div>
+								<div class="mx-20 text-center">
+									<button id="payBtn" class="next btn btn-accent-3 text-white">Pay Now</button>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -135,7 +143,7 @@
 
 {% block body %}
 	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
-	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
+	<script type="application/javascript" defer>
         $("#templeSelect").on('change', function () {
             $('.pooja').addClass('d-none').prop('disabled', true).prop('selected', false);
             $(`.${$(this).val()}`).removeClass('d-none').prop('disabled', false);
@@ -162,6 +170,13 @@
             $(this).addClass('d-none');
             $('#personalForm').removeClass('d-none');
         });
+
+        $(document).on('click', '.back_personal', function () {
+            $('#personal').removeClass('active');
+            $('#poojaForm').removeClass('d-none');
+            $('#personalForm').addClass('d-none');
+        });
+
         $(document).on('submit', '#personalForm', function (e) {
             e.preventDefault();
 
@@ -221,6 +236,12 @@
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
             });
+        });
+
+        $(document).on('click', '.back_payment', function () {
+            $('#personalForm').removeClass('d-none');
+            $('#payment').removeClass('active');
+            $('#paymentForm').addClass('d-none');
         });
 
         function onPaymentSuccess(response) {

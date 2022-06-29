@@ -38,7 +38,7 @@
 	{{ super() }}
 
 	{# Datatable #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         const {{ table.name }}Table = $("#{{ table.name }}Table").DataTable({
             language: {
                 paginate: {previous: "<i class='uil-angle-left'>", next: "<i class='uil-angle-right'>"},

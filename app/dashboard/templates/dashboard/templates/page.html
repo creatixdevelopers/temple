@@ -56,7 +56,7 @@
 			<script src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
 		{% endif %}
 
-		<script type="text/javascript" nonce="{{ csp_nonce() }}">
+		<script type="text/javascript">
             $.fn.fval = function () {
                 let e = $(this);
                 let t = e.attr('type');
@@ -71,7 +71,7 @@
                     } else if (t === 'singleDate') {
                         return moment(v, 'Do MMM YYYY').valueOf();
                     } else if (t === 'checkbox') {
-                        return v === 'on';
+                        return e.prop('checked');
                     } else {
                         return v;
                     }
@@ -123,7 +123,7 @@
 		{% block body %}
 		{% endblock body %}
 
-		<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+		<script type="application/javascript" defer>
             function updateDateTime() {
                 $('.currentDateTime').text(moment(new Date()).format('ddd, Do MMM YY, hh:mm A'));
             }

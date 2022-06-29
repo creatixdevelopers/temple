@@ -5,7 +5,7 @@ import click
 from flask.cli import with_appcontext
 from flask import current_app
 
-from app.models import Role, User
+from app.models import Role, User, Setting, Pooja
 from app.services import db, india_time
 from app.tasks import send_email
 
@@ -37,6 +37,12 @@ def add_data() -> None:
     User.create(role=admin_role, email='creatixdevelopers@gmail.com', password='password')
     User.create(role=user_role, email=f'test@test.com', password='password')
     User.create(role=user_role, email=f'test1@test.com', password='password')
+    Pooja.create(temple='temple1', name='pooja1', amount=100, type='General')
+    Setting.create(key='goushala', value='20')
+    Setting.create(key='annadaana', value='50')
+    Setting.create(key='cultural events', value='8')
+    Setting.create(key='samuhika pooja', value='12')
+    Setting.create(key='home video', value='https://www.youtube.com/watch?v=DdsYlKJmd_4')
     print('Data Added!')
 
 

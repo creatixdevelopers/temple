@@ -7,14 +7,24 @@ from jsonschema.validators import validate
 from werkzeug.exceptions import BadRequest
 
 from app.api.schemas import *
-from app.models import Devotee
+from app.models import Devotee, Setting
 from app.utils import APIViewMedia, APIView
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
 APIViewMedia.register(admin, 'post', '/post/', Post, PostSchema(), [])
 APIView.register(admin, 'volunteer', '/volunteer/', Volunteer, VolunteerSchema(), [])
-APIView.register(admin, 'pooja', '/pooja/', Pooja, PoojaSchema(), [])
+
+
+class PoojaAPIView(APIViewMedia):
+    def before_parse_data(self, data):
+        if data.get('amount'):
+            data['amount'] = float(data['amount'])
+
+        return data
+
+
+PoojaAPIView.register(admin, 'pooja', '/pooja/', Pooja, PoojaSchema(), [])
 
 
 @admin.post('/create-order/')
@@ -82,6 +92,8 @@ class BookingAPIView(APIView):
 
 
 BookingAPIView.register(admin, 'booking', '/booking/', Booking, BookingSchema(), [])
+
+APIView.register(admin, 'settings', '/settings/', Setting, SettingSchema())
 
 from .gallery import gallery
 

@@ -5,26 +5,30 @@
 	<link href="{{ url_for('static', filename='css/dropzone.min.css') }}" rel="stylesheet" type="text/css"/>
 {% endblock head %}
 
-{% set post = Post.get_by(first=True, uid=uid) %}
 
 {% block content %}
 	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">
-				<h4 class="page-title">Blogs & Events</h4>
+				<h4 class="page-title">Pooja Page</h4>
 			</div>
 		</div>
 	</div>
 
-	<form id="addEditForm" autocomplete="off">
+	<div class="input-group mb-3">
+		<label class="input-group-text">Pooja</label>
+		<select id="poojaSelect" class="form-select">
+			<option selected disabled value="">Please Select</option>
+			{% for pooja in Pooja.all() %}
+				<option value="{{ pooja.uid }}">{{ pooja.temple }} - {{ pooja.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<form id="addEditForm" class="d-none" autocomplete="off">
 		<div class="row">
 			<div class="col-12">
 				<div class="input-group input-group">
-					<span class="input-group-text">Type</span>
-					<select class="form-select" name="type" type="text" required style="flex: 2">
-						<option value="blog">Blog</option>
-						<option value="event">Event</option>
-					</select>
 					<span class="input-group-text">Title</span>
 					<input class="form-control" name="title" type="text" required style="flex: 8">
 				</div>
@@ -36,12 +40,7 @@
 			</div>
 
 			<div class="col-12 mt-2">
-				<h3>Content</h3>
-				<div id="snow-editor" style="height: 30vh;"></div>
-			</div>
-
-			<div class="col-12 mt-2">
-				<h3>Gallery</h3>
+				<h3>Image</h3>
 				<div class="dropzone" id="galleryUpload">
 					<div class="dz-message" data-dz-message>
 						<i class="uil-image-v" style="font-size: 60px;"></i>
@@ -60,32 +59,30 @@
 
 		</div>
 	</form>
+
 {% endblock content %}
 
 
 {% block body %}
-	<script src="{{ url_for('static', filename='js/quill.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
 
 	{# Add/Edit #}
 	<script type="application/javascript">
+        let poojaSelect = $('#poojaSelect');
         let form = $("#addEditForm");
-        let quill = null;
         let galleryUpload = $('#galleryUpload');
         let submitBtn = $("#submitBtn");
         let submitSpinner = $("#submitSpinner");
         let editUid = {% if post %}'{{ post.uid }}'{% else %} null {% endif %};
 
         function initializeSpecialInputs() {
-	        $('[name=type]').val(Object.fromEntries(new URLSearchParams(window.location.search).entries()).type);
-            quill = new Quill('#snow-editor', {theme: 'snow'});
             Dropzone.options.galleryUpload = {
                 url: '/',
                 autoProcessQueue: false,
                 uploadMultiple: true,
                 paramName: "file",
                 parallelUploads: 5,
-                maxFiles: 10,
+                maxFiles: 1,
                 maxFilesize: 10,
                 acceptedFiles: '.png,.jpg,',
                 addRemoveLinks: true,
@@ -94,26 +91,27 @@
 
         initializeSpecialInputs();
 
-        {% if post %}
+        poojaSelect.on('change', function () {
+            editUid = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: `{{ url_for('api.admin.post') }}${editUid}/`,
+                url: `{{ url_for('api.admin.pooja') }}${editUid}/`,
                 contentType: 'application/json',
             }).done(function (response, status, xhr) {
+                form.removeClass('d-none');
                 $.each(response.data, function (k, v) {
                     form.find('[name=' + k + ']').val(v);
                 });
-                quill.root.innerHTML = response.data.content;
                 $.each(response.data.media, function (i, image) {
                     const mockFile = {name: image, size: 0, accepted: true, mock: true}
-                    galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ post.UPLOADS_PATH }}/` + image);
+                    galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/` + image);
                     galleryUpload[0].dropzone.files.push(mockFile);
                 });
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
             });
-        {% endif %}
+        });
 
         form.on('submit', function (e) {
             e.preventDefault();

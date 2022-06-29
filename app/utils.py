@@ -136,8 +136,11 @@ class APIViewMedia(APIView):
     def __init__(self, model, schema):
         super().__init__(model, schema)
 
+    def before_parse_data(self, data):
+        pass
+
     def post(self):
-        data = request.form.to_dict()
+        data = self.before_parse_data(request.form.to_dict())
         validate(data, self.schema.validation_schema)
         data = self.parse_data(data)
         data.pop('retained', None)
@@ -149,7 +152,7 @@ class APIViewMedia(APIView):
         return jsonify({'status': 'success', 'data': self.schema.dump(r)}), 200
 
     def put(self, uid: str):
-        data = request.form.to_dict()
+        data = self.before_parse_data(request.form.to_dict())
         validate(data, self.schema.validation_schema)
         data = self.parse_data(data)
         if r := self.model.get_by(first=True, uid=uid):

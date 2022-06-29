@@ -34,7 +34,7 @@
 		<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/bootstrap-5.1.3.bundle.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
-		<script type="text/javascript" nonce="{{ csp_nonce() }}">
+		<script type="text/javascript">
             $.fn.fval = function () {
                 let e = $(this);
                 let t = e.attr('type');

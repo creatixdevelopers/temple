@@ -72,7 +72,7 @@
 {% endblock content %}
 
 {% block body %}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         $(document).on('submit', '#form', function (e) {
             e.preventDefault();
 

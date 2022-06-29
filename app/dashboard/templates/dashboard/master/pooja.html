@@ -13,6 +13,12 @@
 	},
 } %}
 
+{% block head %}
+	{{ super() }}
+
+	<link href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock head %}
+
 {% block content %}
 	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
@@ -63,6 +69,9 @@
 									<input class="form-control" name="amount" type="number" min="1" required>
 								</div>
 							</div>
+							<div class="input-group mb-3">
+								<input type="text" class="form-control multiDate" placeholder="Pick the dates">
+							</div>
 						</div>
 						<div class="d-flex justify-content-end">
 							<button id="submitBtn" type="submit" class="btn btn-primary m-1">
@@ -95,8 +104,10 @@
 {% block body %}
 	{{ super() }}
 
+	<script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
+
 	{# Datatable #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         const {{ table.name }}Table = $("#{{ table.name }}Table").DataTable({
             language: {
                 paginate: {previous: "<i class='uil-angle-left'>", next: "<i class='uil-angle-right'>"},
@@ -154,7 +165,10 @@
         $('.buttons-pdf').html('<i class="uil-file-alt"></i> PDF').removeClass('btn-secondary').addClass('btn-light ms-1');
 
         {{ table.name }}Table.on('key-focus.dt', (e, dt, cell) => {
-            $(dt.row(cell.index().row).node()).addClass('selected')[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+            $(dt.row(cell.index().row).node()).addClass('selected')[0].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
         });
         {{ table.name }}Table.on('key-blur.dt', (e, dt, cell) => {
             $(dt.row(cell.index().row).node()).removeClass('selected');
@@ -162,17 +176,33 @@
 	</script>
 
 	{# Add/Edit #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         let modal = $("#addEditModal");
         let form = $("#addEditForm");
         let submitBtn = $("#submitBtn");
         let submitSpinner = $("#submitSpinner");
         let editUid = null;
+        let multiDate = $('.multiDate')
 
         function initializeSpecialInputs() {
+            multiDate.datepicker({
+                multidate: true,
+                format: ' dd M yy',
+                onClose: function () {
+                    $(this).focus();
+                }
+            })
         }
 
         initializeSpecialInputs();
+
+        {#$('[name=specific]').on('change', function () {
+	        if($(this).fval()) {
+                multiDate.removeClass('d-none');
+	        } else {
+                multiDate.addClass('d-none').val('');
+	        }
+        });#}
 
         $(document).on('click', '.addAction', function () {
             $('.add').removeClass('d-none');
@@ -217,18 +247,19 @@
             submitBtn.prop('disabled', true);
             submitSpinner.removeClass('d-none');
 
-            let data = {};
+            let data = new FormData;
             $.each($(this).find(':input'), function (i, e) {
                 if ($(e).val()) {
-                    data[$(e).attr('name')] = $(e).fval();
+                    data.append($(e).attr('name'), $(e).fval());
                 }
             });
 
             $.ajax({
-                data: JSON.stringify(data),
+                data: data,
                 type: (editUid == null) ? 'POST' : 'PUT',
                 url: (editUid == null) ? `{{ url_for('api.admin.pooja') }}` : `{{ url_for('api.admin.pooja') }}${editUid}/`,
-                contentType: 'application/json',
+                contentType: false,
+                processData: false,
             }).done(function (response, status, xhr) {
                 location.reload();
             }).fail(function (xhr, status, e) {
@@ -252,7 +283,7 @@
 	</script>
 
 	{# Delete #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         let deleteModal = $('#deleteModal');
         let deleteUid = null;
 

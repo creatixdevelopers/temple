@@ -1,5 +1,18 @@
-from app.models import Post, Volunteer, Donation, Pooja, Booking
+from app.models import Post, Volunteer, Donation, Pooja, Booking, Setting
 from app.services import ma
+
+
+class SettingSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Setting
+
+    validation_schema = {
+        "type": "object",
+        "properties": {
+            "value": {"type": "string"},
+        },
+        "required": ["value"],
+    }
 
 
 class PostSchema(ma.SQLAlchemyAutoSchema):

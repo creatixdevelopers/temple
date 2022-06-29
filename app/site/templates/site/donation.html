@@ -101,7 +101,7 @@
 
 {% block body %}
 	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         let data = {};
 
         $(document).on('change', '[name=type]', function () {

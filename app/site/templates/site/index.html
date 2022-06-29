@@ -86,7 +86,9 @@
 							<div class="background-color" style="--background-color: #222;"></div>
 						</div>
 						<div class="px-60 py-35">
-							<div class="h1 m-0" style="color: #F1C40F"><span class="count">{{ india_time().date().year - 2014 }}</span>+</div>
+							<div class="h1 m-0" style="color: #F1C40F">
+								<span class="count">{{ india_time().date().year - 2014 }}</span>+
+							</div>
 							<div class="h6 m-0" style="color: #F1C40F">Years</div>
 						</div>
 					</div>
@@ -106,7 +108,8 @@
 							<i class="fa-thin fa-cow"></i>
 						</div>
 						<div class="category-body ms-40">
-							<h3 class="category-title mb-5">20+</h3>
+							<h3 class="category-title mb-5"><span class="count">{{ Setting.by_key('goushala') }}</span>+
+							</h3>
 							<p class="category-title mb-5">Goushala</p>
 						</div>
 					</div>
@@ -117,7 +120,8 @@
 							<i class="fa-thin fa-bowl-rice"></i>
 						</div>
 						<div class="category-body ms-40">
-							<h3 class="category-title mb-5">50+</h3>
+							<h3 class="category-title mb-5"><span class="count">{{ Setting.by_key('annadaana') }}</span>+
+							</h3>
 							<p class="category-title mb-5">Annadaana</p>
 						</div>
 					</div>
@@ -128,7 +132,8 @@
 							<i class="fa-thin fa-gopuram"></i>
 						</div>
 						<div class="category-body ms-30">
-							<h3 class="category-title mb-5">8+</h3>
+							<h3 class="category-title mb-5">
+								<span class="count">{{ Setting.by_key('cultural events') }}</span>+</h3>
 							<p class="category-title mb-5">Cultural Events</p>
 						</div>
 					</div>
@@ -139,7 +144,8 @@
 							<i class="fa-thin fa-users"></i>
 						</div>
 						<div class="category-body ms-30">
-							<h3 class="category-title mb-5">12+</h3>
+							<h3 class="category-title mb-5">
+								<span class="count">{{ Setting.by_key('samuhika pooja') }}</span>+</h3>
 							<p class="category-title mb-5">Samuhika Pooja </p>
 						</div>
 					</div>
@@ -148,6 +154,30 @@
 		</div>
 	</div>
 	<!-- ========== End About Section ============= -->
+
+	<div class="py-70 position-relative">
+		<div class="background">
+			<div class="background-color" style="--background-color: #FFA800; opacity: 0.9;"></div>
+		</div>
+		<div class="container">
+			<div class="row d-flex align-items-center gy-40">
+				<div class="col-lg-6">
+					<h3 class="text-white m-0" data-show="startbox">Kumbalgodu Ayyappa Temple Poojas</h3>
+				</div>
+				<div class="col-lg-6 text-start text-lg-end">
+					<div data-show="startbox" data-show-delay="300">
+						<a class="btn" style="background-color: #ffffff" href="#">View All Poojas
+							<span class="ms-10">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="none">
+									<path stroke="#000000" stroke-width="1.7" d="M0 7h18m0 0-6.75-6M18 7l-6.75 6"></path>
+								</svg>
+							</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- ========== Events Section ============= -->
 	<div id="events" class="pt-50 pb-50 bg-dark shape-parent videoPrev">
@@ -207,10 +237,10 @@
 			<div class="position-relative py-235 text-center rounded-4 overflow-hidden">
 				<div class="background">
 					<div class="background-image jarallax" data-jarallax data-speed="0.8">
-						<img class="jarallax-img" loading="lazy" src="{{ url_for('static', filename='media/video.jpg') }}">
+						<img class="jarallax-img" loading="lazy" src="https://img.youtube.com/vi/{{ Setting.by_key('home video') }}/maxresdefault.jpg">
 					</div>
 				</div>
-				<a class="btn-video video-link btn btn-accent-3" href="https://www.facebook.com/kumbalgodu.ayyappa/" rel="nofollow">
+				<a class="btn-video video-link btn btn-accent-3" href="https://www.youtube.com/watch?v={{ Setting.by_key('home video') }}" rel="nofollow">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
 						<path fill="white" d="M15.191 10.393 2.466 17.776C1.386 18.402 0 17.644 0 16.382V1.616C0 .356 1.384-.404 2.466.225L15.19 7.608a1.605 1.605 0 0 1 0 2.785Z"/>
 					</svg>
@@ -225,7 +255,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 offset-lg-4 text-center">
-					<h2 id="blogs"  class="m-0" data-show="startbox" data-show-delay="100">
+					<h2 id="blogs" class="m-0" data-show="startbox" data-show-delay="100">
 						<span class="highlight">Recent Blogs</span>
 					</h2>
 				</div>
@@ -466,7 +496,7 @@
 		</div>
 	</div>
 
-	<script type="application/javascript" defer nonce="{{ csp_nonce() }}">
+	<script type="application/javascript" defer>
         $.ajax({
             type: 'GET',
             url: `{{ url_for('api.admin.gallery.get') }}`,

@@ -24,7 +24,7 @@
 	<script src="{{ url_for('static', filename='js/dataTables/dataTables.rowgroup.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/dataTables/natural.js') }}"></script>
 
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         $(".button-menu-mobile").on('click', function () {
             setTimeout(function () {
                 $.fn.dataTable.tables({api: true}).columns.adjust();

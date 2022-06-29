@@ -35,7 +35,7 @@
 	<script src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
 
 	{# Add/Edit #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}">
+	<script type="application/javascript">
         let form = $("#addEditForm");
         let galleryUpload = $('#galleryUpload');
         let submitBtn = $("#submitBtn");

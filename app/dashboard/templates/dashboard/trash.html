@@ -70,7 +70,7 @@
 	{{ super() }}
 
 	{# Datatable #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         {% for table in tables %}
             const {{ table.name }}Table = $("#{{ table.name }}Table").DataTable({
                 language: {
@@ -133,7 +133,7 @@
 	</script>
 
 	{# Restore #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         let restoreModal = $('#restoreModal');
         let restoreUid = null;
         let restoreApi = null;
@@ -159,7 +159,7 @@
 	</script>
 
 	{# Delete #}
-	<script type="application/javascript" nonce="{{ csp_nonce() }}" defer>
+	<script type="application/javascript" defer>
         let deleteModal = $('#deleteModal');
         let deleteUid = null;
         let deleteApi = null;

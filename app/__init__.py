@@ -29,13 +29,6 @@ def create_app(config: str = 'config.DevelopmentConfig') -> Flask:
     app.config.from_object(config)
 
     # Initializing services
-    talisman.init_app(app, content_security_policy={'default-src': ["'self'"],
-                                                    'script-src': "'self'",
-                                                    'font-src': ["'self'", 'fonts.gstatic.com'],
-                                                    'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-                                                    'frame-src': ['*.google.com', 'api.razorpay.com', 'facebook.com'],
-                                                    'img-src': ["'self'", 'data: w3.org/svg/2000']},
-                      content_security_policy_nonce_in=['script-src'])
     for service in [csrf, db, jwt, ma, mail]:
         service.init_app(app)
     socketio.init_app(app)

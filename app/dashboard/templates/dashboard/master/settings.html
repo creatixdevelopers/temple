@@ -1,21 +1,14 @@
 {% extends 'dashboard/templates/table.html' %}
 
 {% set table = {
-	'name': 'volunteer',
-	'entries': Volunteer.all()|reverse,
+	'name': 'settings',
+	'entries': Setting.all(),
+	'attributes': {},
 	'columns': {
 		'Sl no.': {},
-		'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
-		'Name': {'val': '{{ e.name }}'},
-		'Phone': {'val': '{{ e.phone }}', 'link': 'tel:{{ e.phone }}'},
-		'Occupation': {'val': '{{ e.occupation }}'},
-		'Email': {'val': '{{ e.email if e.email else "-" }}'},
-		'Aadhar/PAN': {'val': '{{ e.identification if e.identification else "-" }}'},
-		'Age': {'val': '{{ e.age if e.age else "-" }}'},
-		'Address': {'val': '{{ e.address if e.address else "-" }}'},
-		'City': {'val': '{{ e.city if e.city else "-" }}'},
-		'Pincode': {'val': '{{ e.pincode if e.pincode else "-" }}'},
-		'Comments': {'val': '{{ e.comments if e.comments else "-" }}'},
+		'Name': {'val': '{{ e.key|title }}'},
+		'Value': {'val': '{{ e.value }}'},
+		'Actions': {'actions': {'edit': {'icon':'uil-pen'}}, 'export': False, 'orderable': False},
 	},
 } %}
 
@@ -23,16 +16,42 @@
 	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="page-title-box">
-				<h4 class="page-title">Volunteers</h4>
+				<h4 class="page-title">Settings</h4>
 			</div>
 		</div>
 	</div>
 
 	<div class="card card-body">
-		<div class="d-flex justify-content-end align-items-center mb-2">
-			<div class="text-sm-end" id="{{ table.name }}ButtonContainer"></div>
-		</div>
 		{{ macros.render_table(table) }}
+	</div>
+
+	<div id="addEditModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="edit modal-title">Edit Settings</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body p-3">
+					<form id="addEditForm" autocomplete="off" novalidate>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="input-group mb-2">
+									<span class="input-group-text fw-bold">Value</span>
+									<input class="form-control" name="value" type="text" required>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex justify-content-end">
+							<button id="submitBtn" type="submit" class="btn btn-primary m-1">
+								<div id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status"></div>
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock content %}
 
@@ -102,6 +121,80 @@
         });
         {{ table.name }}Table.on('key-blur.dt', (e, dt, cell) => {
             $(dt.row(cell.index().row).node()).removeClass('selected');
+        });
+	</script>
+
+	{# Add/Edit #}
+	<script type="application/javascript" defer>
+        let modal = $("#addEditModal");
+        let form = $("#addEditForm");
+        let submitBtn = $("#submitBtn");
+        let submitSpinner = $("#submitSpinner");
+        let editUid = null;
+
+        $(document).on('click', '.editAction', function () {
+            editUid = $(this).data('uid');
+            $('.edit').removeClass('d-none');
+
+            $.ajax({
+                type: 'GET',
+                url: `{{ url_for('api.admin.settings') }}${editUid}/`,
+                contentType: 'application/json',
+            }).done(function (response, status, xhr) {
+                $.each(response.data, function (k, v) {
+                    form.find('[name=' + k + ']').val(v);
+                });
+                modal.modal('show');
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+            });
+        });
+
+        form.on('submit', function (e) {
+            e.preventDefault();
+
+            $(this).find('.is-invalid').removeClass('is-invalid');
+            let invalids = $(this).find('*:invalid');
+            if (invalids.length > 0) {
+                invalids.addClass('is-invalid')[0].reportValidity();
+                return;
+            }
+
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+
+            let data = {};
+            $.each($(this).find(':input'), function (i, e) {
+                if ($(e).val()) {
+                    data[$(e).attr('name')] = $(e).fval();
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify(data),
+                type: 'PUT',
+                url: `{{ url_for('api.admin.settings') }}${editUid}/`,
+                contentType: 'application/json',
+            }).done(function (response, status, xhr) {
+                location.reload();
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
+            });
+        });
+
+        modal.on('shown.bs.modal', function () {
+            form.find(':input').first().focus();
+        })
+
+        modal.on('hide.bs.modal', function () {
+            form.trigger('reset').find(':input').removeClass('is-invalid');
+            initializeSpecialInputs();
+            submitBtn.prop('disabled', false);
+            submitSpinner.addClass('d-none');
         });
 	</script>
 {% endblock body %}

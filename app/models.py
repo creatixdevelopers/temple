@@ -15,6 +15,15 @@ class User(ModelMixin, CreatedMixin, DeletedMixin, PasswordMixin, db.Model):
         return cls.filter([cls.role.has(name=role)])
 
 
+class Setting(ModelMixin, db.Model):
+    key = db.Column(db.Text, nullable=False)
+    value = db.Column(db.Text, nullable=False)
+
+    @classmethod
+    def by_key(cls, key):
+        return cls.get_by(first=True, key=key).value
+
+
 class Post(ModelMixin, CreatedMixin, LastUpdatedMixin, MediaMixin, DeletedMixin, db.Model):
     type = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=False)
@@ -57,10 +66,16 @@ class Donation(ModelMixin, CreatedMixin, db.Model):
     payment_id = db.Column(db.Text, nullable=False)
 
 
-class Pooja(ModelMixin, db.Model):
+class Pooja(ModelMixin, MediaMixin, db.Model):
     temple = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     amount = db.Column(db.Float, nullable=False)
+    type = db.Column(db.Text, nullable=False)
+    dates = db.Column(Json, default=[])
+    description = db.Column(db.Text)
+    link = db.Column(db.Text)
+
+    UPLOADS_PATH = 'poojas'
 
 
 class Booking(ModelMixin, CreatedMixin, db.Model):
