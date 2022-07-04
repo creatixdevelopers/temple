@@ -136,6 +136,14 @@ class APIViewMedia(APIView):
     def __init__(self, model, schema):
         super().__init__(model, schema)
 
+    def parse_data(self, data) -> dict:
+        data = {k: (data[k] if k in data else None) for k in self.schema.validation_schema['properties'].keys()}
+        data = {k: v for k, v in data.items() if v is not None}
+        for k, v in data.items():
+            if self.schema.validation_schema['properties'][k].get('format') == 'utc-millisec':
+                data[k] = datetime.fromtimestamp(v / 1000, tz=pytz.timezone("Asia/Kolkata")).replace(tzinfo=None)
+        return data
+
     def before_parse_data(self, data):
         pass
 

@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import pytz
@@ -20,7 +21,10 @@ class PoojaAPIView(APIViewMedia):
     def before_parse_data(self, data):
         if data.get('amount'):
             data['amount'] = float(data['amount'])
-
+        if data.get('specific'):
+            data['specific'] = data['specific'] == 'true'
+        if data.get('dates'):
+            data['dates'] = json.loads(data['dates'])
         return data
 
 
@@ -46,7 +50,7 @@ class DonationAPIView(APIView):
     def parse_data(self, data) -> dict:
         data = {k: (data[k] if k in data else None) for k in self.schema.validation_schema['properties'].keys()}
         for k, v in data.items():
-            if self.schema.validation_schema['properties'][k].get('format') == 'utc-millisec':
+            if self.schema.validation_schema['properties'][k].get('format') == 'utc-millisec' and data[k]:
                 data[k] = datetime.fromtimestamp(v / 1000, tz=pytz.timezone("Asia/Kolkata")).replace(tzinfo=None)
         rz = razorpay.Client(auth=(current_app.config['RAZORPAY_KEY'], current_app.config['RAZORPAY_SECRET']))
         payment_details = data.pop('payment_details', None)

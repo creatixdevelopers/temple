@@ -70,7 +70,10 @@
 							</div>
 						</div>
 						<div class="col-12 col-lg-12 text-center">
-							<button class="btn btn-accent-3 text-white">Send</button>
+							<button id="submitBtn" class="btn btn-accent-3 text-white">
+								<div id="submitSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></div>
+								Submit
+							</button>
 						</div>
 					</div>
 				</form>
@@ -102,7 +105,12 @@
 {% block body %}
 	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
 	<script type="application/javascript" defer>
-        let data = {};
+		let data = {};
+        let submitBtn = $('#submitBtn');
+        let submitSpinner = $('#submitSpinner');
+
+        let start_date = moment().add(36, 'hours').format('YYYY-MM-DD');
+		$('[name=start_date]').prop('min', start_date).val(start_date);
 
         $(document).on('change', '[name=type]', function () {
             let val = $(this).fval();
@@ -131,6 +139,10 @@
                 return;
             }
 
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+
+            data = {};
             $.each($(this).find(':input'), function (i, e) {
                 if ($(e).fval()) {
                     data[$(e).attr('name')] = $(e).fval();
@@ -142,12 +154,15 @@
                 $('[name=pan]').addClass('is-invalid');
             }
 
-            if (data.type === 'Nitya Seva') {
-                data['recurring'] = true;
+            if (data.type === 'Nitya Seva (Daily cow feed, oil & flower)') {
                 data['recurring_interval'] = "monthly";
+                data['start_date'] = moment(data['start_date'], 'YYYY-MM-DD').valueOf();
+            } else if (data.type === 'Life Membership') {
+				data['recurring_interval'] = "yearly";
+                data['start_date'] = moment(data['start_date'], 'YYYY-MM-DD').valueOf();
             } else {
-                data['recurring'] = false;
-                data['recurring_interval'] = "one-time";
+                delete data['number'];
+                delete data['start_date'];
             }
 
             $.ajax({
@@ -164,7 +179,7 @@
                     },
                     "prefill": {
                         "name": data.name,
-                        "email": data.email,
+                        "email": data.email ? data.email : 'sridharmashastha.ayyappa@gmail.com',
                         "contact": data.phone
                     },
                 }
@@ -174,9 +189,13 @@
                     $('#paymentFailed').removeClass('d-none');
                 });
                 rz.open();
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
             });
         });
 

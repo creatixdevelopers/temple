@@ -133,8 +133,13 @@
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/swiper.js') }}"></script>
 		<script type="application/javascript" src="{{ url_for('static', filename='js/controllers/others.js') }}"></script>
 
+		<script type="application/javascript" src="{{ url_for('static', filename='js/moment-with-locales.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/notyf.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/jquery.mask.min.js') }}"></script>
+
+		<script type="application/javascript" defer>
+			let notyf = new Notyf({duration: 3000, position: {x: 'right', y: 'top'}, dismissible: true});
+		</script>
 
 		{% block body %}
 		{% endblock body %}

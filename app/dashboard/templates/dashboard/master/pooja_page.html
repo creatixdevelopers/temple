@@ -26,17 +26,13 @@
 	</div>
 
 	<form id="addEditForm" class="d-none" autocomplete="off">
+		<hr>
 		<div class="row">
-			<div class="col-12">
-				<div class="input-group input-group">
-					<span class="input-group-text">Title</span>
-					<input class="form-control" name="title" type="text" required style="flex: 8">
-				</div>
-			</div>
-
 			<div class="col-12 mt-2">
-				<h3>Description</h3>
-				<textarea id="description" class="form-control" name="description" type="text" required maxlength="250"></textarea>
+				<div class="input-group">
+					<span class="input-group-text">Description</span>
+					<textarea class="form-control" type="text" name="description" required></textarea>
+				</div>
 			</div>
 
 			<div class="col-12 mt-2">
@@ -47,6 +43,13 @@
 						<br>
 						<span style="font-size:large">Drop images here or click to upload</span>
 					</div>
+				</div>
+			</div>
+
+			<div class="col-12 mt-2">
+				<div class="input-group input-group">
+					<span class="input-group-text">Link</span>
+					<input class="form-control" name="link" type="text" style="flex: 8">
 				</div>
 			</div>
 
@@ -104,7 +107,8 @@
                 });
                 $.each(response.data.media, function (i, image) {
                     const mockFile = {name: image, size: 0, accepted: true, mock: true}
-                    galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/` + image);
+	                console.log(`/static/uploads/{{ Pooja.UPLOADS_PATH }}` + image)
+                    galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ Pooja.UPLOADS_PATH }}/` + image);
                     galleryUpload[0].dropzone.files.push(mockFile);
                 });
             }).fail(function (xhr, status, e) {
@@ -122,10 +126,6 @@
                 invalids.addClass('is-invalid')[0].reportValidity();
                 return;
             }
-            if (quill.getText().trim().length === 0) {
-                $(quill.container).addClass('is-invalid');
-                return;
-            }
             if (galleryUpload[0].dropzone.getAcceptedFiles().length === 0) {
                 galleryUpload.addClass('is-invalid');
                 return;
@@ -141,8 +141,6 @@
                 }
             });
 
-            data.append('content', quill.root.innerHTML);
-
             let retained = [];
             $.each($('#galleryUpload')[0].dropzone.getAcceptedFiles(), function (i, file) {
                 file.mock ? retained.push(file.name) : data.append(`gallery_${i}`, file);
@@ -151,8 +149,8 @@
 
             $.ajax({
                 data: data,
-                type: (editUid == null) ? 'POST' : 'PUT',
-                url: (editUid == null) ? `{{ url_for('api.admin.post') }}` : `{{ url_for('api.admin.post') }}${editUid}/`,
+                type: 'PUT',
+                url: `{{ url_for('api.admin.pooja') }}${editUid}/`,
                 contentType: false,
                 processData: false,
             }).done(function (response, status, xhr) {

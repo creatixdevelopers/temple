@@ -10,6 +10,7 @@ import urllib
 from datetime import datetime, timedelta
 from logging.handlers import RotatingFileHandler
 
+import pytz
 from flask import Flask, send_from_directory, make_response, request, render_template_string as rts
 from flask.logging import default_handler
 from werkzeug.exceptions import HTTPException
@@ -94,7 +95,8 @@ def init_global_funcs(app: Flask, blueprints: list):
         for _, cls in inspect.getmembers(importlib.import_module('app.models'), inspect.isclass):
             if issubclass(cls, db.Model):
                 models[cls.__name__] = cls
-        return {**models, 'rts': rts, 'current_user': current_user, 'r': r, 'india_time': india_time, 'datetime': datetime, 'timedelta': timedelta}
+        return {**models, 'rts': rts, 'current_user': current_user, 'r': r, 'india_time': india_time, 'datetime': datetime, 'timedelta': timedelta,
+                'pytz': pytz}
 
     # Configure PWA if enabled
     if app.config['PWA']:

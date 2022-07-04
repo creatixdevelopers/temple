@@ -32,7 +32,7 @@
 							<div class="row gy-40 mb-50">
 								<h4 class="w-100 text-center mb-2">Pooja Details</h4>
 								<div class="col-12 col-md-6">
-									<select id="templeSelect" class="form-control" type="text" required>
+									<select id="templeSelect" class="form-control" type="text" name="temple" required>
 										<option selected value="">Select Temple *</option>
 										{% for temple in temples %}
 											<option value="{{ temple[0].replace(' ', '_') }}">{{ temple[0] }}</option>
@@ -43,23 +43,23 @@
 									<select class="form-control" name="pooja_id" type="integer" required>
 										<option selected value="">Select Pooja *</option>
 										{% for pooja in poojas %}
-											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-pooja="{{ pooja.name }}" data-amount="{{ pooja.amount }}">
+											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-pooja="{{ pooja.name }}" data-amount="{{ pooja.amount }}" data-specific="{{ 'true' if pooja.specific else 'false' }}" data-dates="{{ pooja.bookable_dates()|tojson }}">
 												{{ pooja.name }} - ₹{{ pooja.amount|int|inr_format }}
 											</option>
 										{% endfor %}
 									</select>
 								</div>
 								<div class="col-12 col-md-6 form-floating">
-									<input class="form-control" name="number" type="integer" placeholder="No. Of Poojas *" value="1">
-									<label class="form-floating-label">No. Of Poojas *</label>
-								</div>
-								<div class="col-12 col-md-6 form-floating">
 									<input class="form-control" name="start_date" type="date" placeholder="Start Date *">
 									<label class="form-floating-label">Start Date *</label>
 								</div>
+								<div class="col-12 col-md-6 form-floating">
+									<input class="form-control" name="number" type="number" placeholder="No. Of Poojas *" value="1">
+									<label class="form-floating-label">No. Of Poojas *</label>
+								</div>
 							</div>
 							<div class="col-12 col-lg-12 text-center">
-								<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+								<button class="next btn btn-accent-3 text-white" type="submit">Next</button>
 							</div>
 						</form>
 						<form id="personalForm" class="d-none" autocomplete="off" novalidate>
@@ -88,10 +88,10 @@
 							</div>
 							<div class="d-flex justify-content-center">
 								<div class="mx-20 text-center">
-									<input type="button" class="back_personal btn" style="border: 2px solid #FFA800; border-radius: 30px" value="Back">
+									<button id="backPersonal" class="btn" type="button" style="border: 2px solid #FFA800; border-radius: 30px">Back</button>
 								</div>
 								<div class="mx-20 text-center">
-									<input type="submit" class="next btn btn-accent-3 text-white" value="Next">
+									<button class="next btn btn-accent-3 text-white" type="submit">Next</button>
 								</div>
 							</div>
 						</form>
@@ -101,15 +101,19 @@
 								<div class="col-12 text-center">
 									<p class="mb-10">Temple Name: <span id="templeName"></span></p>
 									<p class="mb-10">Pooja: <span id="poojaName"></span></p>
+									<p class="mb-10">Dates: <span id="poojaDates"></span></p>
 									<p class="mb-10">Amount to be paid: ₹<span id="finalAmount"></span></p>
 								</div>
 							</div>
 							<div class="d-flex justify-content-center">
 								<div class="mx-20 text-center">
-									<input type="button" class="back_payment btn" style="border: 2px solid #FFA800; border-radius: 30px" value="Back">
+									<button id="#backPayment" class="btn" type="button" style="border: 2px solid #FFA800; border-radius: 30px">Back</button>
 								</div>
 								<div class="mx-20 text-center">
-									<button id="payBtn" class="next btn btn-accent-3 text-white">Pay Now</button>
+									<button id="submitBtn" class="next btn btn-accent-3 text-white">
+										<div id="submitSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></div>
+										Pay Now
+									</button>
 								</div>
 							</div>
 						</form>
@@ -143,14 +147,68 @@
 
 {% block body %}
 	<script type="application/javascript" src="{{ url_for('static', filename='js/razorpay.js') }}"></script>
+
 	<script type="application/javascript" defer>
-        $("#templeSelect").on('change', function () {
+		let templeSelect = $("#templeSelect");
+        let poojaSelect = $('[name=pooja_id]');
+		let start_date = $('[name=start_date]');
+        let days = $('[name=number]');
+        let submitBtn = $('#submitBtn');
+        let submitSpinner = $('#submitSpinner');
+
+		let data = {};
+        let validDates = [];
+
+        let min_start_date = moment().add(36, 'hours').format('YYYY-MM-DD');
+		start_date.prop('min', min_start_date).val(min_start_date);
+
+        templeSelect.on('change', function () {
             $('.pooja').addClass('d-none').prop('disabled', true).prop('selected', false);
             $(`.${$(this).val()}`).removeClass('d-none').prop('disabled', false);
         });
+        $(document).on('change', '[name=pooja_id], [name=start_date], [name=number]', function () {
+            let selected = poojaSelect.find(':selected');
+            let selected_start_date = moment(start_date.val(), 'YYYY-MM-DD');
+            let number = days.fval();
 
-        let data = {};
-		let order_id = null;
+            $('#templeName').text(templeSelect.fval());
+            $('#poojaName').text(selected.data('pooja'));
+            $('#finalAmount').text(parseFloat(poojaSelect.find(':selected').data('amount') * days.fval()));
+
+            validDates = [];
+            if (selected.data('specific')) {
+                let dates = selected.data('dates');
+                $.each(dates, function (i, date) {
+                    if(moment(date).isSameOrAfter(selected_start_date)) {
+                        validDates.push(moment(date).valueOf());
+                    }
+                });
+                if (validDates.length<=0) {
+                    notyf.error({message: 'No available dates after your start date. Please contact temple management!', duration: 5000});
+                }
+                days.prop('min', '1').prop('max', validDates.length);
+            } else {
+                days.prop('min', '1').prop('max', '');
+                validDates.push(selected_start_date.valueOf());
+                for(let i=1; i<number; i++) {
+                    validDates.push(moment(selected_start_date).add(i, 'days').valueOf());
+                }
+            }
+
+            let formatedDates = validDates.map(function (e) {return moment(e).format('DD/MM/YYYY')});
+            $('#poojaDates').text(formatedDates.slice(0, number).join(', '));
+        });
+
+        $(document).on('click', '#backPersonal', function () {
+            $('#personal').removeClass('active');
+            $('#poojaForm').removeClass('d-none');
+            $('#personalForm').addClass('d-none');
+        });
+        $(document).on('click', '#backPayment', function () {
+            $('#personalForm').removeClass('d-none');
+            $('#payment').removeClass('active');
+            $('#paymentForm').addClass('d-none');
+        });
 
         $(document).on('submit', '#poojaForm', function (e) {
             e.preventDefault();
@@ -161,20 +219,19 @@
                 invalids.addClass('is-invalid')[0].reportValidity();
                 return;
             }
+            data = {};
             $.each($(this).find(':input'), function (i, e) {
                 if ($(e).val()) {
                     data[$(e).attr('name')] = $(e).fval();
                 }
             });
+
+            data['amount'] = parseFloat(poojaSelect.find(':selected').data('amount') * days.fval());
+            delete data['temple'];
+
             $('#personal').addClass('active');
             $(this).addClass('d-none');
             $('#personalForm').removeClass('d-none');
-        });
-
-        $(document).on('click', '.back_personal', function () {
-            $('#personal').removeClass('active');
-            $('#poojaForm').removeClass('d-none');
-            $('#personalForm').addClass('d-none');
         });
 
         $(document).on('submit', '#personalForm', function (e) {
@@ -192,23 +249,26 @@
                 }
             });
 
-            let selectedPooja = $('[name=pooja_id]').find(':selected');
-            let amount = parseFloat(selectedPooja.data('amount'));
-            $('#templeName').text($('#templeSelect :selected').text());
-            $('#poojaName').text(selectedPooja.data('pooja'));
-            $('#finalAmount').text(amount);
+            $('#personalForm').addClass('d-none');
+            $('#payment').addClass('active');
+            $('#paymentForm').removeClass('d-none');
+        });
 
-			$.ajax({
-                data: JSON.stringify({amount: amount}),
+        $(document).on('submit', '#paymentForm', function (e) {
+            e.preventDefault();
+
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+
+            $.ajax({
+                data: JSON.stringify({amount: data.amount}),
                 contentType: "application/json",
                 type: 'POST',
                 url: '{{ url_for('api.admin.create_order') }}',
             }).done(function (response, status, xhr) {
-                order_id = response.data.order_id;
-
                 let options = {
                     "key": "{{ config['RAZORPAY_KEY'] }}",
-				    "order_id": order_id,
+				    "order_id": response.data.order_id,
 				    "handler": function (response) {
                         onPaymentSuccess(response);
 				    },
@@ -223,29 +283,23 @@
 				    $('#paymentForm').addClass('d-none');
                     $('#paymentFailed').removeClass('d-none');
 				});
-
-                $('#payBtn').on('click', function (e) {
-                    rz.open();
-                    e.preventDefault();
-                });
-
-                $('#personalForm').addClass('d-none');
-	            $('#payment').addClass('active');
-	            $('#paymentForm').removeClass('d-none');
+                rz.open();
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
             });
         });
 
-        $(document).on('click', '.back_payment', function () {
-            $('#personalForm').removeClass('d-none');
-            $('#payment').removeClass('active');
-            $('#paymentForm').addClass('d-none');
-        });
-
         function onPaymentSuccess(response) {
-            data['payment_details'] = {'razorpay_payment_id': response.razorpay_payment_id, 'razorpay_order_id': response.razorpay_order_id, 'razorpay_signature': response.razorpay_signature};
+            delete data['start_date']
+			delete data['number']
+			data['payment_details'] = {'razorpay_payment_id': response.razorpay_payment_id, 'razorpay_order_id': response.razorpay_order_id, 'razorpay_signature': response.razorpay_signature};
+			data['days'] = validDates;
+
             $.ajax({
                 data: JSON.stringify(data),
                 contentType: "application/json",
@@ -254,7 +308,6 @@
             }).done(function (response, status, xhr) {
                 $('#paymentForm').addClass('d-none');
                 $('#paymentSuccess').removeClass('d-none');
-                console.log('success');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);

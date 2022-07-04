@@ -37,7 +37,7 @@ def add_data() -> None:
     User.create(role=admin_role, email='creatixdevelopers@gmail.com', password='password')
     User.create(role=user_role, email=f'test@test.com', password='password')
     User.create(role=user_role, email=f'test1@test.com', password='password')
-    Pooja.create(temple='temple1', name='pooja1', amount=100, type='General')
+    Pooja.create(temple='temple1', name='pooja1', amount=100)
     Setting.create(key='goushala', value='20')
     Setting.create(key='annadaana', value='50')
     Setting.create(key='cultural events', value='8')

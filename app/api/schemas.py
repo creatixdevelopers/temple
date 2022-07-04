@@ -61,14 +61,18 @@ class DonationSchema(ma.SQLAlchemyAutoSchema):
     validation_schema = {
         "type": "object",
         "properties": {
+            "amount": {"type": "number"},
+            "type": {"type": "string",
+                     "enum": ["Nitya Seva (Daily cow feed, oil & flower)", "Ghoshala Fund", "Annadaana Fund", "Building Fund", "Life Membership",
+                              "General Donation"]},
             "name": {"type": "string", "maxlength": 128},
             "phone": {"type": "string", "maxlength": 10},
             "email": {"type": "string", "format": "email", "maxlength": 128},
-            "identification": {"type": "string", "maxlength": 14},
-            "type": {"type": "string", "enum": ["Nitya Seva", "Ghoshala Fund", "Annadaana Fund", "Building Fund"]},
-            "amount": {"type": "number"},
-            "recurring": {"type": "boolean"},
-            "recurring_interval": {"type": "string", "enum": ["one-time", "monthly"]},
+            "aadhaar": {"type": "string", "minlength": 12, "maxlength": 12},
+            "pan": {"type": "string", "minlength": 10, "maxlength": 10},
+            "recurring_interval": {"type": "string", "enum": ["monthly", "yearly"]},
+            "number": {"type": "integer"},
+            "start_date": {"type": "integer", "format": "utc-millisec"},
             "payment_details": {
                 "type": "object",
                 "properties": {
@@ -79,7 +83,7 @@ class DonationSchema(ma.SQLAlchemyAutoSchema):
                 "required": ["razorpay_payment_id", "razorpay_order_id", "razorpay_signature"],
             }
         },
-        "required": ["name", "phone", "identification", "type", "amount", "recurring", "recurring_interval", "payment_details"],
+        "required": ["amount", "type", "name", "phone", "payment_details"]
     }
 
 
@@ -93,8 +97,15 @@ class PoojaSchema(ma.SQLAlchemyAutoSchema):
             "temple": {"type": "string", "maxlength": 128},
             "name": {"type": "string", "maxlength": 128},
             "amount": {"type": "number"},
+            "specific": {"type": "boolean"},
+            "dates": {"type": "array", "items": {"type": "number", "format": "utc-millisec"}},
+            "description": {"type": "string"},
+            "link": {"type": "string"},
         },
-        "required": ["temple", "name", "amount"],
+        "anyOf": [
+            {"required": ["temple", "name", "amount", "specific"]},
+            {"required": ["description"]},
+        ]
     }
 
 
@@ -111,6 +122,7 @@ class BookingSchema(ma.SQLAlchemyAutoSchema):
             "email": {"type": "string", "format": "email", "maxlength": 128},
             "gotra": {"type": "string", "maxlength": 128},
             "nakshatra": {"type": "string", "maxlength": 128},
+            "days": {"type": "array", "items": {"type": "integer", "format": "utc-millisec"}},
             "payment_details": {
                 "type": "object",
                 "properties": {
@@ -119,7 +131,7 @@ class BookingSchema(ma.SQLAlchemyAutoSchema):
                     "razorpay_signature": {"type": "string"},
                 },
                 "required": ["razorpay_payment_id", "razorpay_order_id", "razorpay_signature"],
-            }
+            },
         },
-        "required": ["pooja_id", "name", "phone", "payment_details"],
+        "required": ["pooja_id", "name", "phone", "days", "payment_details"],
     }

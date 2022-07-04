@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.services import db, jwt, r, ModelMixin, CreatedMixin, LastUpdatedMixin, DeletedMixin, PasswordMixin, MediaMixin, Json
 
 
@@ -55,14 +57,13 @@ class Devotee(ModelMixin, CreatedMixin, db.Model):
 class Donation(ModelMixin, CreatedMixin, db.Model):
     devotee_id = db.Column(db.Integer, db.ForeignKey('devotee.id'))
     devotee = db.relationship('Devotee', backref=db.backref('donations', lazy=True))
+    amount = db.Column(db.Float, nullable=False)
+    type = db.Column(db.Text, nullable=False)
     aadhaar = db.Column(db.Text)
     pan = db.Column(db.Text)
-    type = db.Column(db.Text, nullable=False)
-    amount = db.Column(db.Float, nullable=False)
-    recurring = db.Column(db.Boolean, nullable=False, default=True)
-    recurring_interval = db.Column(db.Text, nullable=False, default='monthly')
-    number = db.Column(db.Integer, nullable=False, default=1)
-    start_date = db.Column(db.Date, nullable=False)
+    recurring_interval = db.Column(db.Text)
+    number = db.Column(db.Integer)
+    start_date = db.Column(db.Date)
     payment_id = db.Column(db.Text, nullable=False)
 
 
@@ -70,10 +71,14 @@ class Pooja(ModelMixin, MediaMixin, db.Model):
     temple = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    type = db.Column(db.Text, nullable=False)
+    specific = db.Column(db.Boolean, default=False, nullable=False)
     dates = db.Column(Json, default=[])
     description = db.Column(db.Text)
     link = db.Column(db.Text)
+
+    def bookable_dates(self):
+        now = datetime.now()
+        return [date for date in self.dates if (datetime.fromtimestamp(round(date/1000)) - now).total_seconds() > 129600]  # 36 hours
 
     UPLOADS_PATH = 'poojas'
 
@@ -83,11 +88,10 @@ class Booking(ModelMixin, CreatedMixin, db.Model):
     devotee = db.relationship('Devotee', backref=db.backref('bookings', lazy=True))
     temple = db.Column(db.Text, nullable=False)
     pooja = db.Column(db.Text, nullable=False)
-    number = db.Column(db.Integer, nullable=False, default=1)
-    start_date = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     gotra = db.Column(db.Text)
     nakshatra = db.Column(db.Text)
+    days = db.Column(Json, nullable=False)
     payment_id = db.Column(db.Text, nullable=False)
 
 

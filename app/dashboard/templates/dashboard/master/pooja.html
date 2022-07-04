@@ -9,6 +9,8 @@
 		'Temple': {'val': '{{ e.temple }}'},
 		'Name': {'val': '{{ e.name }}'},
 		'Price': {'val': '{{ e.amount }}'},
+		'Specific Dates': {'val': '{{ "Yes" if e.specific else "No" }}'},
+		'Dates': {'val': '{% for date in e.dates %}{{ datetime.fromtimestamp(date / 1000, tz=pytz.timezone("Asia/Kolkata")).replace(tzinfo=None).strftime("%d %b %Y") }}, {% endfor %}'},
 		'Actions': {'actions': {'edit': {'icon':'uil-pen'}, 'delete': {'icon':'uil-trash', 'class': 'text-danger'}}, 'export': False, 'orderable': False},
 	},
 } %}
@@ -69,8 +71,14 @@
 									<input class="form-control" name="amount" type="number" min="1" required>
 								</div>
 							</div>
-							<div class="input-group mb-3">
-								<input type="text" class="form-control multiDate" placeholder="Pick the dates">
+							<div class="col-lg-12">
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input class="form-check-input mt-0" type="checkbox" name="specific">
+									</div>
+									<span class="input-group-text fw-bold">Specific Dates</span>
+									<input type="text" class="form-control multiDate d-none" placeholder="Pick the dates">
+								</div>
 							</div>
 						</div>
 						<div class="d-flex justify-content-end">
@@ -182,27 +190,30 @@
         let submitBtn = $("#submitBtn");
         let submitSpinner = $("#submitSpinner");
         let editUid = null;
+        let specificDates = $('[name=specific]');
         let multiDate = $('.multiDate')
 
         function initializeSpecialInputs() {
             multiDate.datepicker({
                 multidate: true,
                 format: ' dd M yy',
-                onClose: function () {
-                    $(this).focus();
-                }
-            })
+                container: "#addEditModal",
+                clearBtn: true,
+	            startDate: '+2D'
+            }).on('hide', function () {
+                console.log(e);
+            });
         }
 
         initializeSpecialInputs();
 
-        {#$('[name=specific]').on('change', function () {
-	        if($(this).fval()) {
+        specificDates.on('change', function () {
+            if ($(this).fval()) {
                 multiDate.removeClass('d-none');
-	        } else {
-                multiDate.addClass('d-none').val('');
-	        }
-        });#}
+            } else {
+                multiDate.addClass('d-none').val('').datepicker("update");
+            }
+        });
 
         $(document).on('click', '.addAction', function () {
             $('.add').removeClass('d-none');
@@ -221,12 +232,19 @@
                 url: `{{ url_for('api.admin.pooja') }}${editUid}/`,
                 contentType: 'application/json',
             }).done(function (response, status, xhr) {
-                if (response.data.created) {
-                    response.data.created = moment(response.data.created).format('Do MMM YYYY');
-                }
                 $.each(response.data, function (k, v) {
                     form.find('[name=' + k + ']').val(v);
                 });
+                multiDate.addClass('d-none').val('').datepicker("update");
+                if(response.data.specific) {
+                    specificDates.prop('checked', response.data.specific);
+                    let dates = [];
+                    $.each(response.data.dates, function (i, date) {
+                       dates.push(new Date(date));
+                    });
+                    multiDate.removeClass('d-none');
+                    multiDate.datepicker('setDate', dates);
+                }
                 modal.modal('show');
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
@@ -249,10 +267,17 @@
 
             let data = new FormData;
             $.each($(this).find(':input'), function (i, e) {
-                if ($(e).val()) {
+                if ($(e).attr('name')) {
                     data.append($(e).attr('name'), $(e).fval());
                 }
             });
+            if (specificDates.fval()) {
+                let dates = [];
+                $.each(multiDate.datepicker('getDates'), function (i, date) {
+                    dates.push(moment(date).valueOf());
+                });
+                data.append('dates', JSON.stringify(dates));
+            }
 
             $.ajax({
                 data: data,
