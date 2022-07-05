@@ -1,0 +1,47 @@
+{% extends 'site/templates/page.html' %}
+
+{% set poojas = Pooja.all() %}
+
+{% block content %}
+	<div class="pt-100">
+		<h2 class="text-center mb-45" data-show="startbox" data-show-delay="100">
+			<span class="highlight">All Pooja</span>
+		</h2>
+		<div class="row d-flex justify-content-center">
+			<div class="col-6 col-md-6">
+				<select id="poojaSelect" class="form-control" type="text" name="temple" required>
+					<option selected value="">Select Pooja *</option>
+					{% for pooja in poojas %}
+						<option value="{{ pooja.id }}">{{ pooja.temple }} - {{ pooja.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</div>
+	{% for pooja in poojas %}
+		<div class="container pt-50 pb-50" id="{{ pooja.id }}">
+			<div class="row align-items-center gy-90">
+				<div class="col-lg-6 {% if loop.index%2==0 %}order-lg-2{% endif %}">
+					<img class="rounded-4" src="{{ url_for('static', filename='uploads/poojas/'~pooja.media[0]) }}" style="max-width: 100%">
+				</div>
+				<div class="col-lg-6 {% if loop.index%2==0 %}order-lg-1{% endif %}">
+					<h3 class="text-center mb-25" data-show="startbox" data-show-delay="100">
+						{{ pooja.temple }} - {{ pooja.name }}
+					</h3>
+					<div class="mx-20" data-show="startbox" data-show-delay="300">
+						<p>{{ pooja.description }}</p>
+						<a class="btn btn-accent-3 text-white" href="{{ pooja.link }}" style="font-size: small">Video Link</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock content %}
+{% block body %}
+	<script type="text/javascript">
+		$('#poojaSelect').on('change', function () {
+            let selectId = $(this).val();
+            window.location = '/pooja-page/#'+selectId;
+        });
+	</script>
+{% endblock body %}

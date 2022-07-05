@@ -12,6 +12,7 @@ RouteView.register(site, 'donation', '/donation/', 'site/donation.html', {'title
 RouteView.register(site, 'volunteer', '/volunteer/', 'site/volunteer.html', {'title': 'Volunteer'})
 RouteView.register(site, 'blog', {'/blog/<string:uid>/': {}}, 'site/post.html', {'title': 'Blog'})
 RouteView.register(site, 'event', {'/event/<string:uid>/': {}}, 'site/post.html', {'title': 'Event'})
+RouteView.register(site, 'pooja_page', '/pooja-page/', 'site/pooja_page.html', {'title': 'Pooja Page'})
 RouteView.register(site, 'terms_and_conditions', '/terms-and-conditions/', 'site/terms_and_conditions.html', {'title': 'Terms and Conditions'})
 RouteView.register(site, 'terms_of_use', '/terms-of-use/', 'site/terms_of_use.html', {'title': 'Terms Of Use'})
 RouteView.register(site, 'privacy_policy', '/privacy-policy/', 'site/privacy_policy.html', {'title': 'Privacy Policy'})
