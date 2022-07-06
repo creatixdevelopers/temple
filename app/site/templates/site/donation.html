@@ -81,10 +81,9 @@
 					<div class="d-flex flex-column justify-content-center align-items-center">
 						<i class="fal fa-check-circle my-20" style="font-size: 5rem"></i>
 						<h3 class="text-success my-5">Payment Successful!</h3>
-						<p>Lorem ipsum dolor sit amet.</p>
-						<button type="button" class="next btn btn-accent-3 text-white" value="Next">
+						<a id="receiptDownloadBtn" class="next btn btn-accent-3 text-white" target="_blank" href="#">
 							Download Receipt
-						</button>
+						</a>
 					</div>
 				</div>
 				<div id="paymentFailed" class="d-none">
@@ -157,6 +156,7 @@
             if (data.type === 'Nitya Seva (Daily cow feed, oil & flower)') {
                 data['recurring_interval'] = "monthly";
                 data['start_date'] = moment(data['start_date'], 'YYYY-MM-DD').valueOf();
+                data.amount = data.amount * data.number
             } else if (data.type === 'Life Membership') {
 				data['recurring_interval'] = "yearly";
                 data['start_date'] = moment(data['start_date'], 'YYYY-MM-DD').valueOf();
@@ -166,7 +166,7 @@
             }
 
             $.ajax({
-                data: JSON.stringify(data),
+                data: JSON.stringify({amount: data.amount}),
                 contentType: "application/json",
                 type: 'POST',
                 url: '{{ url_for('api.admin.create_order') }}',
@@ -213,6 +213,8 @@
             }).done(function (response, status, xhr) {
                 $('#form').addClass('d-none');
                 $('#paymentSuccess').removeClass('d-none');
+                console.log(response)
+                $('#receiptDownloadBtn').attr('href', `/donation-receipt/${response.data.uid}`);
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);

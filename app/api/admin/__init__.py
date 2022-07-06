@@ -3,13 +3,14 @@ from datetime import datetime
 
 import pytz
 import razorpay
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request, current_app, render_template
 from jsonschema.validators import validate
 from werkzeug.exceptions import BadRequest
 
 from app.api.schemas import *
 from app.models import Devotee, Setting
 from app.utils import APIViewMedia, APIView
+from app.tasks import send_email
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -66,6 +67,11 @@ class DonationAPIView(APIView):
             return data
         else:
             raise BadRequest
+
+    def after_post(self, data, r):
+        if r.devotee.email:
+            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple Donation Receipt',
+                             html=f'Thank you for donating. Click <a href="https://kumbalgoduayyappatemple.org/donation-receipt/{r.uid}">here</a> to download receipt.')
 
 
 DonationAPIView.register(admin, 'donation', '/donation/', Donation, DonationSchema(), [])

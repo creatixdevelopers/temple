@@ -1,7 +1,122 @@
-﻿{% extends 'dashboard/templates/page.html' %}
+﻿{% extends 'dashboard/templates/table.html' %}
+
+{% set tables = [
+	{'name': 'today',
+	 'entries': Booking.bookings_by_date(),
+	 'columns': {
+		 'Sl no.': {},
+		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
+		'Temple': {'val': '{{ e.temple }}'},
+		'Pooja': {'val': '{{ e.pooja }}'},
+		'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
+		'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
+	 }},
+	 {'name': 'tomorrow',
+	 'entries': Booking.bookings_by_date(india_time().date() + timedelta(days=1)),
+	 'columns': {
+		 'Sl no.': {},
+		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
+		'Temple': {'val': '{{ e.temple }}'},
+		'Pooja': {'val': '{{ e.pooja }}'},
+		'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
+		'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
+	 }},
+] %}
 
 {% block content %}
+	<div class="row">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="page-title-box">
+				<h4 class="page-title">Bookings</h4>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<ul class="nav nav-tabs" role="tablist">
+			{% for table in tables %}
+				<li class="nav-item" role="presentation">
+					<button class="nav-link {{ 'active' if loop.first else '' }}" data-bs-toggle="tab" data-bs-target="#{{ table.name }}Pane" type="button" role="tab">
+						{{ table.name|title }}
+					</button>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="tab-content">
+			{% for table in tables %}
+				<div class="tab-pane fade {{ 'show active' if loop.first else '' }}" id="{{ table.name }}Pane" role="tabpanel">
+					<div class="card card-body">
+						{{ macros.render_table(table) }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock content %}
 
 {% block body %}
+	{{ super() }}
+
+	{# Datatable #}
+	<script type="application/javascript" defer>
+        {% for table in tables %}
+            const {{ table.name }}Table = $("#{{ table.name }}Table").DataTable({
+                language: {
+                    paginate: {previous: "<i class='uil-angle-left'>", next: "<i class='uil-angle-right'>"},
+                    info: "Showing _START_ to _END_ of _TOTAL_",
+                    lengthMenu: 'Show <select class=\'form-select form-select-sm ms-1 me-1\'><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="-1">All</option></select>',
+                },
+                pageLength: 25,
+                drawCallback: function () {
+                    $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+                },
+                footerCallback: function () {
+                    let api = this.api();
+                    $.each({{ table.columns|index_by_attributes(sum=True) }}, function (i, e) {
+                        let nodes = api.column(e, {page: 'current', search: 'applied'}).nodes().toArray();
+                        let sum = 0;
+                        $.each(nodes, function (j, n) {
+                            sum += $(n).hasClass('noExport') ? 0 : parseFloat($(n).text().replaceAll(/[^\d.-]/g, ''));
+                        });
+                        $(api.column(e).footer()).text(sum.toLocaleString('en-IN'));
+                    });
+                },
+                columnDefs: [
+                    {targets: '_all', type: 'natural-nohtml'},
+                    {
+                        targets: {{ table.columns|index_by_attributes(inr=True) }}, render: (d, _, __) => {
+                            return Number(d).toLocaleString('en-IN')
+                        }
+                    }
+                ],
+                buttons: [
+                    {extend: 'copyHtml5', title: '{{ title }}', footer: true, exportOptions: exportOptions},
+                    {extend: 'excelHtml5', title: '{{ title }}', footer: true, exportOptions: exportOptions},
+                    {
+                        extend: 'pdfHtml5', title: '{{ title }}', footer: true, exportOptions: exportOptions,
+                        download: 'open', orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                    },
+                ],
+                order: [],
+                ordering: true,
+                responsive: false,
+                scrollX: true,
+                stateSave: false,
+                {% set mergedColumns = table.columns|index_by_attributes(merged=True) %}
+                {% if mergedColumns %}
+                    rowsGroup: {{ mergedColumns }},
+                {% endif %}
+                keys: {keys: [37, 38, 39, 40], clipboard: false},
+            });
+            {{ table.name }}Table.on('key-focus.dt', (e, dt, cell) => {
+                $(dt.row(cell.index().row).node()).addClass('selected')[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+            });
+            {{ table.name }}Table.on('key-blur.dt', (e, dt, cell) => {
+                $(dt.row(cell.index().row).node()).removeClass('selected');
+            });
+        {% endfor %}
+	</script>
 {% endblock body %}

@@ -56,7 +56,7 @@
 	{%- for column, properties in table.columns.items() %}
 		{%- if column == 'Sl no.' %}
 			<td>{{- i + 1 -}}</td>
-		{%- elif column == 'Actions' or column == 'Receipt' %}
+		{%- elif column == 'Actions' %}
 			<td class="noExport">
 				<div class="d-flex justify-content-start align-items-center">
 					{%- for action, action_properties in properties.actions.items() %}

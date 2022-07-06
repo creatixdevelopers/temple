@@ -1,16 +1,16 @@
 {% extends 'site/templates/page.html' %}
 
-{% set poojas = Pooja.all() %}
+{% set poojas = Pooja.filter([Pooja.media != None, Pooja.description != None]) %}
 
 {% block content %}
 	<div class="pt-100">
 		<h2 class="text-center mb-45" data-show="startbox" data-show-delay="100">
-			<span class="highlight">All Pooja</span>
+			<span class="highlight">All Poojas</span>
 		</h2>
 		<div class="row d-flex justify-content-center">
 			<div class="col-6 col-md-6">
 				<select id="poojaSelect" class="form-control" type="text" name="temple" required>
-					<option selected value="">Select Pooja *</option>
+					<option selected value="">Select Pooja</option>
 					{% for pooja in poojas %}
 						<option value="{{ pooja.id }}">{{ pooja.temple }} - {{ pooja.name }}</option>
 					{% endfor %}
@@ -30,7 +30,9 @@
 					</h3>
 					<div class="mx-20" data-show="startbox" data-show-delay="300">
 						<p>{{ pooja.description }}</p>
-						<a class="btn btn-accent-3 text-white" href="{{ pooja.link }}" style="font-size: small">Video Link</a>
+						{% if pooja.link and pooja.link!='null' %}
+							<a class="btn btn-accent-3 text-white" href="{{ pooja.link }}" target="_blank" style="font-size: small">Video Link</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -39,9 +41,9 @@
 {% endblock content %}
 {% block body %}
 	<script type="text/javascript">
-		$('#poojaSelect').on('change', function () {
+        $('#poojaSelect').on('change', function () {
             let selectId = $(this).val();
-            window.location = '/pooja-page/#'+selectId;
+            window.location = '/pooja-page/#' + selectId;
         });
 	</script>
 {% endblock body %}

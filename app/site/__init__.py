@@ -19,4 +19,4 @@ RouteView.register(site, 'privacy_policy', '/privacy-policy/', 'site/privacy_pol
 RouteView.register(site, 'refund_policy', '/refund-policy/', 'site/refund_policy.html', {'title': 'Refund and Cancellation Policy'})
 RouteView.register(site, 'disclaimer', '/disclaimer/', 'site/disclaimer.html', {'title': 'Disclaimer'})
 RouteView.register(site, 'intellectual_property', '/intellectual-property/', 'site/intellectual_property.html', {'title': 'Intellectual Property'})
-RouteView.register(site, 'donation_receipt', '/donation-receipt/', 'site/donation_receipt.html', {'title': 'Donation Receipt'})
+RouteView.register(site, 'donation_receipt', '/donation-receipt/<string:uid>', 'site/donation_receipt.html', {'title': 'Donation Receipt'})
