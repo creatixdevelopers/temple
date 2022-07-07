@@ -105,9 +105,9 @@
                 $.each(response.data, function (k, v) {
                     form.find('[name=' + k + ']').val(v);
                 });
+                galleryUpload[0].dropzone.removeAllFiles(true);
                 $.each(response.data.media, function (i, image) {
                     const mockFile = {name: image, size: 0, accepted: true, mock: true}
-	                console.log(`/static/uploads/{{ Pooja.UPLOADS_PATH }}` + image)
                     galleryUpload[0].dropzone.displayExistingFile(mockFile, `/static/uploads/{{ Pooja.UPLOADS_PATH }}/` + image);
                     galleryUpload[0].dropzone.files.push(mockFile);
                 });
