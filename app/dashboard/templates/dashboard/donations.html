@@ -15,7 +15,7 @@
 		'Recurring': {'val': '{{ e.recurring_interval|title if e.recurring_interval else "-" }}'},
 		'Start Date': {'val': '{{ e.start_date.strftime("%d %b, %Y") if e.start_date else "-" }}'},
 		'Number of times': {'val': '{{ e.number if e.number else "-" }}'},
-		'Remind': {'icon': "fa-brands fa-whatsapp", 'class': 'text-success {{ "d-none" if not e.recurring_interval else "" }}', 'attributes': {'target': '_blank'}, 'link': 'https://api.whatsapp.com/send/?phone={{ e.devotee.phone }}&text=Hello%20{{ e.devotee.name|url_encode }}%2C%0A%0Ayour%20subscription%20for%20the%20{{ e.type|url_encode }}%20is%20pending%20for%20this%20month.%20Please%20click%20on%20the%20below%20link%20to%20make%20the%20payment.%0A%0Ahttps%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fbook-pooja%2F%0A%0Aor%20make%20a%20donation%20at%20https%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fdonate%2F&app_absent=0'},
+		'Remind': {'icon': "fa-brands fa-whatsapp", 'class': 'text-success {{ "d-none" if not e.recurring_interval else "" }}', 'attributes': {'target': '_blank'}, 'link': 'https://api.whatsapp.com/send/?phone=+91 {{ e.devotee.phone }}&text=Hello%20{{ e.devotee.name|url_encode }}%2C%0A%0Ayour%20subscription%20for%20the%20{{ e.type|url_encode }}%20is%20pending%20for%20this%20month.%20Please%20click%20on%20the%20below%20link%20to%20make%20the%20payment.%0A%0Ahttps%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fbook-pooja%2F%0A%0Aor%20make%20a%20donation%20at%20https%3A%2F%2Fwww.kumbalgoduayyappatemple.org%2Fdonate%2F&app_absent=0'},
 		'Payment ID': {'val': '{{ e.payment_id }}'},
 		'Receipt': {'icon': 'uil-invoice', 'attributes': {'target': '_blank'}, 'link': '{{ url_for("site.donation_receipt", uid=e.uid) }}'},
 	},
