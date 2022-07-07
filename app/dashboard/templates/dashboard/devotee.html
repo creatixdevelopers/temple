@@ -27,6 +27,7 @@
 		'columns': {
 			'Sl no.': {},
 			'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
+			'Booked By': {'val': '{{ e.booked_by.email if e.booked_by else "-" }}'},
 			'Temple': {'val': '{{ e.temple }}'},
 			'Pooja': {'val': '{{ e.pooja }}'},
 			'Days': {'val': '{% for day in e.days_in_datetime() %}{{ day.strftime("%d/%m/%y") }}, {% endfor %}'},

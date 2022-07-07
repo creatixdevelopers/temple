@@ -6,14 +6,16 @@
 	'columns': {
 		'Sl no.': {},
 		'Date': {'val': '{{ e.created.strftime("%d %b, %Y") }}', 'order': '{{ e.created.strftime("%Y%m%d%H%M%S") }}'},
+		'Booked By': {'val': '{{ e.booked_by.email if e.booked_by else "-" }}'},
 		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
 		'Temple': {'val': '{{ e.temple }}'},
 		'Pooja': {'val': '{{ e.pooja }}'},
 		'Days': {'val': '{% for day in e.days_in_datetime() %}{{ day.strftime("%d/%m/%y") }}, {% endfor %}'},
-		'Amount': {'val': '{{ e.amount }}', 'sum': True},
+		'Amount': {'val': '{{ (e.amount * (e.days|length))|int }}', 'sum': True},
 		'Gotra': {'val': '{{ e.gotra if e.gotra else "-" }}'},
 		'Nakshatra': {'val': '{{ e.nakshatra if e.nakshatra else "-" }}'},
 		'Payment ID': {'val': '{{ e.payment_id }}'},
+		'Receipt': {'icon': 'uil-invoice', 'attributes': {'target': '_blank'}, 'link': '{{ url_for("site.pooja_receipt", uid=e.uid) }}'},
 	},
 } %}
 

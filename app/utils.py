@@ -145,7 +145,7 @@ class APIViewMedia(APIView):
         return data
 
     def before_parse_data(self, data):
-        pass
+        return data
 
     def post(self):
         data = self.before_parse_data(request.form.to_dict())

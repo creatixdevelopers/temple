@@ -1,4 +1,4 @@
-{% set donation = Donation.get_by(first=True, uid=uid) %}
+{% set booking = Booking.get_by(first=True, uid=uid) %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Donation Receipt</title>
+		<title>Pooja Receipt</title>
 
 		<link rel="icon" type="image/png" href="{{ url_for('static', filename='/media/logo-sm.png') }}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap">
@@ -129,28 +129,23 @@
 				</div>
 				<div class="heading-right">
 					<h5>Mobile: 8951173222</h5>
-					<h5>No: {{ donation.invoice_number() }}</h5>
-					<h5>Date: {{ donation.created.strftime("%d %b, %Y") }}</h5>
+					<h5>No: <br>{{ booking.invoice_number() }}</h5>
+					<h5>Date: {{ booking.created.strftime("%d %b, %Y") }}</h5>
 				</div>
 			</div>
 
 			<div class="details-container">
-				<h4>Donation Receipt</h4>
-				<p>Name: {{ donation.devotee.name }}</p>
+				<h4>Pooja Receipt</h4>
+				<p>Name: {{ booking.devotee.name }}</p>
 				<div class="d-flex">
-					<p>Mobile No: {{ donation.devotee.phone }}</p>
-					<p>PAN No: {{ donation.pan if donation.pan }}</p>
+					<p>Mobile No: {{ booking.devotee.phone }}</p>
 				</div>
-				<p>Aadhaar: {{ donation.aadhaar if donation.aadhaar }}</p>
-				<p>Amount (in words): {{ (num2words(donation.amount, lang='en_IN')|title).replace(',', '') }} Only</p>
+				<p>Amount (in words): {{ (num2words(booking.amount, lang='en_IN')|title).replace(',', '') }} Only</p>
 				<p>
-					Towards: {{ donation.type }}
-					{% if donation.type == 'Nitya Seva (Daily cow feed, oil & flower)' %}
-						[₹500x{{ donation.number }} months] starting from {{ donation.start_date.strftime('%d/%m/%y') }}
-					{% endif %}
+					Towards: {{ booking.temple }} - {{ booking.pooja }} (₹{{ booking.amount|int }}x{{ booking.days|length }} poojas) starting from {{ booking.days_in_datetime()[0].strftime('%d/%m/%y') }}
 				</p>
 				<div class="amount-container">
-					<h3>₹ <span>{{ donation.amount|int|inr_format }}</span></h3>
+					<h3>₹ <span>{{ (booking.amount * (booking.days|length))|int|inr_format }}</span></h3>
 					<div class="signature">
 						<p class="text-end mb-0">This is computer generated. <br> Signature not required.</p>
 					</div>
@@ -173,7 +168,7 @@
                 let link = document.createElement('a');
                 link.target = '_blank';
                 link.href = pdf.output('bloburl');
-                link.download = 'Kumbalgodu_Ayyappa_Temple_Donation_Receipt.pdf';
+                link.download = 'Kumbalgodu_Ayyappa_Temple_Booking_Receipt.pdf';
                 link.click();
                 link.remove();
             });

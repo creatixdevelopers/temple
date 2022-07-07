@@ -13,7 +13,7 @@
 	</div>
 
 	<div class="row">
-		{% for post in Post.get_by(type='blog') %}
+		{% for post in Post.by_type('blog') %}
 			<div class="col-md-6 col-lg-4">
 				<div class="card d-block">
 					<img class="card-img-top" src="{{ post.media_urls[0] }}" style="object-fit: cover; max-height: 15rem">

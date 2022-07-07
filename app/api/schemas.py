@@ -27,8 +27,9 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
             "description": {"type": "string", "maxLength": 250},
             "content": {"type": "string"},
             "retained": {"type": "string"},
+            "priority": {"type": "string"}
         },
-        "required": ["type", "title", "description", "content", "retained"],
+        "required": ["type", "title", "description", "content", "retained", "priority"],
     }
 
 
@@ -123,6 +124,7 @@ class BookingSchema(ma.SQLAlchemyAutoSchema):
             "gotra": {"type": "string", "maxlength": 128},
             "nakshatra": {"type": "string", "maxlength": 128},
             "days": {"type": "array", "items": {"type": "integer", "format": "utc-millisec"}},
+            "booked_by_id": {"type": "integer"},
             "payment_details": {
                 "type": "object",
                 "properties": {

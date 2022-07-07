@@ -33,8 +33,13 @@ class Post(ModelMixin, CreatedMixin, LastUpdatedMixin, MediaMixin, DeletedMixin,
     title = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    priority = db.Column(db.Integer, default=1)
 
     UPLOADS_PATH = 'posts'
+
+    @classmethod
+    def by_type(cls, type):
+        return cls.query.filter(cls.type == type).order_by(cls.priority.desc(), cls.id.desc()).all()
 
 
 class Volunteer(ModelMixin, CreatedMixin, db.Model):
@@ -81,7 +86,7 @@ class Donation(ModelMixin, CreatedMixin, db.Model):
         elif self.recurring_interval == 'monthly':
             return [self.start_date - timedelta(days=1) + timedelta(days=(30 * i)) for i in range(0, self.number)]
         elif self.recurring_interval == 'yearly':
-            return [self.start_date - timedelta(days=1) + timedelta(years=i) for i in range(0, self.number)]
+            return [self.start_date - timedelta(days=1) + timedelta(days=(365 * i)) for i in range(0, self.number)]
 
     @classmethod
     def to_remind(cls):
@@ -115,6 +120,15 @@ class Booking(ModelMixin, CreatedMixin, db.Model):
     nakshatra = db.Column(db.Text)
     days = db.Column(Json, nullable=False)
     payment_id = db.Column(db.Text, nullable=False)
+    booked_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    booked_by = db.relationship('User', backref=db.backref('bookings', lazy=True))
+
+    def invoice_number(self):
+        cls = self.__class__
+        financial_year = self.created.date().year - (1 if self.created.date().month < 4 else 0)
+        start, end = f'{financial_year}-04-01', (self.created.date() + timedelta(days=1)).strftime('%Y-%m-%d')
+        n = cls.query.filter(and_(cls.created.between(start, end), cls.id < self.id)).count() + 1
+        return f'W{n:05}/{financial_year}-{str(financial_year + 1)[2:]}'
 
     def days_in_datetime(self):
         return [datetime.fromtimestamp(round(day / 1000)).date() for day in self.days]

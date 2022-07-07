@@ -1,12 +1,12 @@
 {% extends 'site/templates/page.html' %}
 
-{% set events = Post.get_by(type='event')|reverse|list %}
-{% set blogs = Post.get_by(type='blog') %}
+{% set events = Post.by_type('event') %}
+{% set blogs = Post.by_type('blog') %}
 
 {% block content %}
 	<!-- ========== Hero Section ============= -->
 	{% if events %}
-		<div class="swiper bg-dark mt-80" data-swiper-slides="1" data-swiper-loop="false" data-swiper-autoplay="900000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
+		<div class="swiper bg-dark mt-80" data-swiper-slides="1" data-swiper-loop="false" data-swiper-autoplay="5000" data-swiper-speed="1000" data-swiper-grabcursor="true" data-swiper-parallax="true">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					{% for event in events[:5] %}
@@ -16,7 +16,7 @@
 									<div class="background-image">
 										<img loading="lazy" src="{{ event.media_urls[0] }}" data-swiper-parallax-x="20%">
 									</div>
-									<div class="background-color" style="--background-color: #000; opacity: .25;"></div>
+									<div class="background-color" style="--background-color: #000; opacity: .5;"></div>
 									<div class="background-color" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 150px);"></div>
 								</div>
 								<div class="container">
@@ -240,7 +240,7 @@
 						<img class="jarallax-img" loading="lazy" src="https://img.youtube.com/vi/{{ Setting.by_key('home video') }}/maxresdefault.jpg">
 					</div>
 				</div>
-				<a class="btn-video video-link btn btn-accent-3" href="https://www.youtube.com/watch?v={{ Setting.by_key('home video') }}" rel="nofollow">
+				<a class="btn-video btn btn-accent-3" href="https://www.youtube.com/watch?v={{ Setting.by_key('home video') }}" target="_blank" rel="nofollow">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
 						<path fill="white" d="M15.191 10.393 2.466 17.776C1.386 18.402 0 17.644 0 16.382V1.616C0 .356 1.384-.404 2.466.225L15.19 7.608a1.605 1.605 0 0 1 0 2.785Z"/>
 					</svg>

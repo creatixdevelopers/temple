@@ -7,7 +7,7 @@
   "theme_color": "#FFA800",
   "description": "Kumbalgodu Ayyappa",
   "icons": [{
-    "src": "/static/media/logo-sm-dark.png",
+    "src": "/static/media/logo-sm.png",
     "sizes": "500x500",
     "type": "image/png"
   }],

@@ -23,7 +23,7 @@ def login():
         },
         "required": ["email", "password", "remember"],
     })
-    if (user := User.get_by(first=True, email=data['email'])) and user.verify_password(data['password']) and (role := user.role.name) == 'admin':
+    if (user := User.get_by(first=True, email=data['email'])) and user.verify_password(data['password']) and (role := user.role.name) in ['admin', 'user']:
         response = make_response(jsonify({'status': 'success', 'code': 200}), 200)
         access_token = create_access_token(identity=user.uid, additional_claims={'subr': role}, fresh=True)
         set_access_cookies(response, access_token, max_age=(timedelta(days=7) if data['remember'] else None))

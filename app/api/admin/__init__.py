@@ -3,19 +3,28 @@ from datetime import datetime
 
 import pytz
 import razorpay
-from flask import Blueprint, request, current_app, render_template
+from flask import Blueprint, request, current_app
 from jsonschema.validators import validate
 from werkzeug.exceptions import BadRequest
 
 from app.api.schemas import *
 from app.models import Devotee, Setting
+from app.tasks import send_email, send_sms
 from app.utils import APIViewMedia, APIView
-from app.tasks import send_email
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
-APIViewMedia.register(admin, 'post', '/post/', Post, PostSchema(), [])
 APIView.register(admin, 'volunteer', '/volunteer/', Volunteer, VolunteerSchema(), [])
+
+
+class PostAPIView(APIViewMedia):
+    def parse_data(self, data):
+        if data.get('priority'):
+            data['priority'] = int(data['priority'])
+        return data
+
+
+PostAPIView.register(admin, 'post', '/post/', Post, PostSchema(), [])
 
 
 class PoojaAPIView(APIViewMedia):
@@ -71,7 +80,10 @@ class DonationAPIView(APIView):
     def after_post(self, data, r):
         if r.devotee.email:
             send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple Donation Receipt',
-                             html=f'Thank you for donating. Click <a href="https://kumbalgoduayyappatemple.org/donation-receipt/{r.uid}">here</a> to download receipt.')
+                             html=f'Thank you for donating. Click <a href="https://kumbalgoduayyappatemple.org/donation-receipt/{r.uid}">here</a> '
+                                  f'to download receipt.')
+        if r.devotee.phone:
+            send_sms.delay(flow_id="606d7435642bde48ce7cbf83", number=f"91{r.devotee.phone}")
 
 
 DonationAPIView.register(admin, 'donation', '/donation/', Donation, DonationSchema(), [])
@@ -99,6 +111,14 @@ class BookingAPIView(APIView):
             return data
         else:
             raise BadRequest
+
+    def after_post(self, data, r):
+        if r.devotee.email:
+            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple Pooja Booking Receipt',
+                             html=f'Thank you for booking the pooja. Click <a href="https://kumbalgoduayyappatemple.org/pooja-rec'
+                                  f'eipt/{r.uid}">here</a> to download receipt.')
+        if r.devotee.phone:
+            send_sms.delay(flow_id="606d7435642bde48ce7cbf83", number=f"91{r.devotee.phone}")
 
 
 BookingAPIView.register(admin, 'booking', '/booking/', Booking, BookingSchema(), [])

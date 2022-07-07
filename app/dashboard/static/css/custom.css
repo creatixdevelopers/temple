@@ -81,3 +81,16 @@ table td {
     outline-offset: -1px !important;
     /*background-color: rgba(250, 92, 124, .15) !important;*/
 }
+
+@media (max-width: 700px) {
+    .responsive-input {
+        display: flex;
+        flex-direction: column;
+    }
+    .responsive-input * {
+        width: 100% !important;
+    }
+    .responsive-input span {
+        margin-top: 1rem !important;
+    }
+}

@@ -4,7 +4,8 @@
 	{'name': 'today',
 	 'entries': Booking.bookings_by_date(),
 	 'columns': {
-		 'Sl no.': {},
+		'Sl no.': {},
+		'Booked By': {'val': '{{ e.booked_by.email if e.booked_by else "-" }}'},
 		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
 		'Temple': {'val': '{{ e.temple }}'},
 		'Pooja': {'val': '{{ e.pooja }}'},
@@ -14,7 +15,8 @@
 	 {'name': 'tomorrow',
 	 'entries': Booking.bookings_by_date(india_time().date() + timedelta(days=1)),
 	 'columns': {
-		 'Sl no.': {},
+		'Sl no.': {},
+		'Booked By': {'val': '{{ e.booked_by.email if e.booked_by else "-" }}'},
 		'Devotee': {'val': '{{ e.devotee.name }} ({{ e.devotee.phone }})', 'link': '{{ url_for("dashboard.devotee", uid=e.devotee.uid) }}'},
 		'Temple': {'val': '{{ e.temple }}'},
 		'Pooja': {'val': '{{ e.pooja }}'},
@@ -29,6 +31,7 @@
 			<div class="page-title-box">
 				<h4 class="page-title">Bookings</h4>
 			</div>
+			<a class="btn btn-primary" href="{{ url_for('site.book_pooja') }}" target="_blank">Book Instant Pooja</a>
 		</div>
 	</div>
 

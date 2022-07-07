@@ -45110,3 +45110,7 @@ code.docs-card-gist .blob-wrapper {
 .form-floating.donation-amount-floating > .form-control:focus ~ label, .form-floating.donation-amount-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating.donation-amount-floating > .form-select ~ label {
     transform: scale(.85) translateY(-1.3rem) translateX(.15rem);
 }
+
+.pooja-summary-table tr td{
+    width: 50%;
+}

@@ -2,6 +2,7 @@
 
 {% set poojas = Pooja.all() %}
 {% set temples = Pooja.query.with_entities(Pooja.temple).all()|unique|list %}
+{% set user = current_user() %}
 
 {% block head %}
 	<style>
@@ -87,10 +88,10 @@
 								</div>
 							</div>
 							<div class="d-flex justify-content-center">
-								<div class="mx-20 text-center">
+								<div class="mx-10 text-center">
 									<button id="backPersonal" class="btn" type="button" style="border: 2px solid #FFA800; border-radius: 30px">Back</button>
 								</div>
-								<div class="mx-20 text-center">
+								<div class="mx-10 text-center">
 									<button class="next btn btn-accent-3 text-white" type="submit">Next</button>
 								</div>
 							</div>
@@ -98,18 +99,32 @@
 						<form id="paymentForm" class="d-none" autocomplete="off" novalidate>
 							<div class="row gy-40 mb-50">
 								<h4 class="w-100 text-center mb-2">Summary</h4>
-								<div class="col-12 text-center">
-									<p class="mb-10">Temple Name: <span id="templeName"></span></p>
-									<p class="mb-10">Pooja: <span id="poojaName"></span></p>
-									<p class="mb-10">Dates: <span id="poojaDates"></span></p>
-									<p class="mb-10">Amount to be paid: ₹<span id="finalAmount"></span></p>
+								<div class="col-lg-8 d-flex flex-column justify-content-center mx-auto">
+									<table class="table table-bordered pooja-summary-table mb-0">
+										<tr>
+											<td><b>Temple Name:</b></td>
+											<td><span id="templeName"></span></td>
+										</tr>
+										<tr>
+											<td><b>Pooja: </b></td>
+											<td><span id="poojaName"></span></td>
+										</tr>
+										<tr>
+											<td><b>Dates: </b></td>
+											<td><span id="poojaDates"></span></td>
+										</tr>
+										<tr>
+											<td><b>Amount to be paid: </b></td>
+											<td>₹<span id="finalAmount"></span></td>
+										</tr>
+									</table>
 								</div>
 							</div>
 							<div class="d-flex justify-content-center">
-								<div class="mx-20 text-center">
+								<div class="mx-10 text-center">
 									<button id="#backPayment" class="btn" type="button" style="border: 2px solid #FFA800; border-radius: 30px">Back</button>
 								</div>
-								<div class="mx-20 text-center">
+								<div class="mx-10 text-center">
 									<button id="submitBtn" class="next btn btn-accent-3 text-white">
 										<div id="submitSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></div>
 										Pay Now
@@ -123,10 +138,9 @@
 					<div class="d-flex flex-column justify-content-center align-items-center">
 						<i class="fal fa-check-circle my-20" style="font-size: 5rem"></i>
 						<h3 class="text-success my-5">Payment Successful!</h3>
-						<p>Lorem ipsum dolor sit amet.</p>
-						<button type="button" class="next btn btn-accent-3 text-white" value="Next">
+						<a id="receiptDownloadBtn" class="next btn btn-accent-3 text-white mt-30" href="#" target="_blank">
 							Download Receipt
-						</button>
+						</a>
 					</div>
 				</div>
 				<div id="paymentFailed" class="d-none">
@@ -159,8 +173,8 @@
 		let data = {};
         let validDates = [];
 
-        let min_start_date = moment().add(36, 'hours').format('YYYY-MM-DD');
-		start_date.prop('min', min_start_date).val(min_start_date);
+        let min_start_date = moment(){% if not user %}.add(36, 'hours'){% endif %}.format('YYYY-MM-DD');
+        start_date.prop('min', min_start_date).val(min_start_date);
 
         templeSelect.on('change', function () {
             $('.pooja').addClass('d-none').prop('disabled', true).prop('selected', false);
@@ -299,6 +313,7 @@
 			delete data['number']
 			data['payment_details'] = {'razorpay_payment_id': response.razorpay_payment_id, 'razorpay_order_id': response.razorpay_order_id, 'razorpay_signature': response.razorpay_signature};
 			data['days'] = validDates;
+            {% if user %}data['booked_by_id'] = {{ user.id }};{% endif %}
 
             $.ajax({
                 data: JSON.stringify(data),
@@ -308,6 +323,7 @@
             }).done(function (response, status, xhr) {
                 $('#paymentForm').addClass('d-none');
                 $('#paymentSuccess').removeClass('d-none');
+                $('#receiptDownloadBtn').attr('href',`/pooja-receipt/${response.data.uid}`)
             }).fail(function (xhr, status, e) {
                 console.log(xhr);
                 notyf.error(xhr.responseJSON.description);

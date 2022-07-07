@@ -21,7 +21,7 @@
 				<form id="form" class="animated" style="transform: translateY(0px); transition-duration: 500ms; opacity: 1;" data-show="startbox" autocomplete="off" novalidate>
 					<div class="row mb-40">
 						<div class="col-12 col-md-6 form-floating donation-amount-floating mx-auto">
-							<input class="form-control fs-3" name="amount" type="number" placeholder="Donation Amount *" required>
+							<input class="form-control fs-3" name="amount" type="number" min="1" placeholder="Donation Amount *" required>
 							<label class="fs-4 form-floating-label">
 								Donation Amount *
 							</label>
@@ -81,7 +81,7 @@
 					<div class="d-flex flex-column justify-content-center align-items-center">
 						<i class="fal fa-check-circle my-20" style="font-size: 5rem"></i>
 						<h3 class="text-success my-5">Payment Successful!</h3>
-						<a id="receiptDownloadBtn" class="next btn btn-accent-3 text-white" target="_blank" href="#">
+						<a id="receiptDownloadBtn" class="next btn btn-accent-3 text-white mt-30" target="_blank" href="#">
 							Download Receipt
 						</a>
 					</div>
