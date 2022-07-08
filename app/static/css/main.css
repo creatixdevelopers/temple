@@ -248,7 +248,7 @@
     --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-    --bs-body-font-family: Inter, sans-serif;
+    --bs-body-font-family: Urbanist, sans-serif;
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
@@ -297,7 +297,7 @@ hr:not([size]) {
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     margin-top: 0;
     margin-bottom: 1.666665rem;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -5368,7 +5368,7 @@ progress {
     display: block;
     width: 100%;
     padding: 0 0;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -5639,7 +5639,7 @@ textarea.form-control-lg {
     width: 100%;
     padding: 0 0 0 0;
     -moz-padding-start: -3px;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -6351,7 +6351,7 @@ textarea.form-control-lg {
 
 .btn {
     display: inline-block;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-weight: 700;
     line-height: 1.5;
     color: #17161A;
@@ -6968,7 +6968,7 @@ textarea.form-control-lg {
 
 .btn-sm, .btn-group-sm > .btn {
     padding: 10px 15px;
-    font-size: 0.875rem;
+    font-size: 1rem;
     border-radius: 50rem;
 }
 
@@ -7675,7 +7675,7 @@ textarea.form-control-lg {
 
 @media (max-width: 768px) {
     .nav-logo {
-        height: 3.5rem !important;
+        height: 4rem !important;
     }
 }
 
@@ -9975,7 +9975,7 @@ textarea.form-control-lg {
     z-index: 1080;
     display: block;
     margin: 0;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -10088,7 +10088,7 @@ textarea.form-control-lg {
     z-index: 1070;
     display: block;
     max-width: 276px;
-    font-family: "Inter", sans-serif;
+    font-family: "Urbanist", sans-serif;
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -41658,7 +41658,7 @@ select.form-control-white {
 }
 
 .nav {
-    font-size: 0.9375em;
+    font-size: 1rem;
 }
 
 .nav .nav-link,
@@ -41740,7 +41740,7 @@ select.form-control-white {
 }
 
 .nav.nav-opacity .nav-link {
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 .nav.nav-opacity .nav-link:hover, .nav.nav-opacity .nav-link:focus, .nav.nav-opacity .nav-link.active {
@@ -42546,7 +42546,7 @@ a.card-demo {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 6px 18px;
+    padding: 6px 15px;
     font-weight: 700;
 }
 
@@ -45024,7 +45024,7 @@ code.docs-card-gist .blob-wrapper {
 
 @media only screen and (max-width: 768px) {
     .btn-sm {
-        font-size: 0.75rem !important;
+        font-size: 0.85rem !important;
         padding: 4px 7px;
     }
 }

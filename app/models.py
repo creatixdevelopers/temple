@@ -78,7 +78,7 @@ class Donation(ModelMixin, CreatedMixin, db.Model):
         financial_year = self.created.date().year - (1 if self.created.date().month < 4 else 0)
         start, end = f'{financial_year}-04-01', (self.created.date() + timedelta(days=1)).strftime('%Y-%m-%d')
         n = cls.query.filter(and_(cls.created.between(start, end), cls.id < self.id)).count() + 1
-        return f'W{n:05}/{financial_year}-{str(financial_year + 1)[2:]}'
+        return f'W{n}/{financial_year}-{str(financial_year + 1)[2:]}'
 
     def days(self):
         if not self.recurring_interval:
@@ -128,7 +128,7 @@ class Booking(ModelMixin, CreatedMixin, db.Model):
         financial_year = self.created.date().year - (1 if self.created.date().month < 4 else 0)
         start, end = f'{financial_year}-04-01', (self.created.date() + timedelta(days=1)).strftime('%Y-%m-%d')
         n = cls.query.filter(and_(cls.created.between(start, end), cls.id < self.id)).count() + 1
-        return f'W{n:05}/{financial_year}-{str(financial_year + 1)[2:]}'
+        return f'W{n}/{financial_year}-{str(financial_year + 1)[2:]}'
 
     def days_in_datetime(self):
         return [datetime.fromtimestamp(round(day / 1000)).date() for day in self.days]

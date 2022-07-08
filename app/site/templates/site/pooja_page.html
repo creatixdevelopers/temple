@@ -8,7 +8,7 @@
 			<span class="highlight">All Poojas</span>
 		</h2>
 		<div class="row d-flex justify-content-center">
-			<div class="col-6 col-md-6">
+			<div class="col-6 col-md-6 mb-50">
 				<select id="poojaSelect" class="form-control" type="text" name="temple" required>
 					<option selected value="">Select Pooja</option>
 					{% for pooja in poojas %}
@@ -21,11 +21,11 @@
 	{% for pooja in poojas %}
 		<div class="container pt-50 pb-50" id="{{ pooja.id }}">
 			<div class="row align-items-center gy-90">
-				<div class="col-lg-6 {% if loop.index%2==0 %}order-lg-2{% endif %}">
-					<img class="rounded-4" src="{{ url_for('static', filename='uploads/poojas/'~pooja.media[0]) }}" style="max-width: 100%">
+				<div class="col-lg-6 d-flex justify-content-center {% if loop.index%2==0 %}order-lg-2{% endif %}">
+					<img class="rounded-1 h-100" src="{{ url_for('static', filename='uploads/poojas/'~pooja.media[0]) }}" style="max-width: 100%; width: auto">
 				</div>
 				<div class="col-lg-6 {% if loop.index%2==0 %}order-lg-1{% endif %}">
-					<h3 class="text-center mb-25" data-show="startbox" data-show-delay="100">
+					<h3 class="text-center mb-25" data-show="startbox" data-show-delay="100" style="text-transform: capitalize">
 						{{ pooja.temple }} - {{ pooja.name }}
 					</h3>
 					<div class="mx-20" data-show="startbox" data-show-delay="300">

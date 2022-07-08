@@ -276,6 +276,7 @@
                 $.each(multiDate.datepicker('getDates'), function (i, date) {
                     dates.push(moment(date).valueOf());
                 });
+                data['dates'].sort();
                 data.append('dates', JSON.stringify(dates));
             }
 

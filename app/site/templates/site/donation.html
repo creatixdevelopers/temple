@@ -138,9 +138,6 @@
                 return;
             }
 
-            submitBtn.prop('disabled', true);
-            submitSpinner.removeClass('d-none');
-
             data = {};
             $.each($(this).find(':input'), function (i, e) {
                 if ($(e).fval()) {
@@ -151,7 +148,11 @@
             if (!data.aadhaar && !data.pan) {
                 $('[name=aadhaar]').addClass('is-invalid');
                 $('[name=pan]').addClass('is-invalid');
+                return;
             }
+
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
 
             if (data.type === 'Nitya Seva (Daily cow feed, oil & flower)') {
                 data['recurring_interval'] = "monthly";
@@ -179,7 +180,7 @@
                     },
                     "prefill": {
                         "name": data.name,
-                        "email": data.email ? data.email : 'sridharmashastha.ayyappa@gmail.com',
+                        "email": data.email ? data.email : 'kumbalgoduayyappatemple@gmail.com',
                         "contact": data.phone
                     },
                 }

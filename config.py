@@ -29,14 +29,14 @@ class BaseConfig:
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     MAIL_DEBUG = False
-    MAIL_USERNAME = 'testingcreatix@gmail.com'
-    MAIL_PASSWORD = 'bthowzkhnhjycjpj'
-    MAIL_DEFAULT_SENDER = 'testingcreatix@gmail.com'
+    MAIL_USERNAME = 'kumbalgoduayyappatemple@gmail.com'
+    MAIL_PASSWORD = 'vpfgpycssdytzejn'
+    MAIL_DEFAULT_SENDER = 'kumbalgoduayyappatemple@gmail.com'
     MAIL_MAX_EMAILS = 1
     MAIL_ASCII_ATTACHMENTS = False
     MAIL_SUPPRESS_SEND = True
     ADMIN_EMAILS = ['creatixdevelopers@gmail.com']
-    BACKUP_EMAILS = ['creatixdevelopers@gmail.com']
+    BACKUP_EMAILS = ['kumbalgoduayyappatemple@gmail.com']
 
     CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
     result_backend = "redis://127.0.0.1:6379/0"
