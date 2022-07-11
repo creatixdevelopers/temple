@@ -82,6 +82,15 @@ table td {
     /*background-color: rgba(250, 92, 124, .15) !important;*/
 }
 
+.select2-results__option--selected {
+    display: none !important;
+}
+
+.select2-selection__choice__remove {
+    background: none !important;
+    border: none !important;
+}
+
 @media (max-width: 700px) {
     .responsive-input {
         display: flex;

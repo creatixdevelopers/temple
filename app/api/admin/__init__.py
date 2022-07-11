@@ -27,6 +27,23 @@ class PostAPIView(APIViewMedia):
 PostAPIView.register(admin, 'post', '/post/', Post, PostSchema(), [])
 
 
+@admin.post('/header-events/')
+def header_events():
+    data = request.get_json()
+    validate(data, {
+        "type": "object",
+        "properties": {
+            "events": {"type": "array", "items": {"type": "integer"}},
+        },
+        "required": ["events"],
+    })
+    for event in Post.by_type('event'):
+        event.update(priority=1)
+    for i, event_id in enumerate(data['events']):
+        Post.get(event_id).update(priority=(999-i))
+    return {'status': 'success'}, 200
+
+
 class PoojaAPIView(APIViewMedia):
     def before_parse_data(self, data):
         if data.get('amount'):

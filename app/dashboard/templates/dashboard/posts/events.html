@@ -1,5 +1,7 @@
 {% extends 'dashboard/templates/table.html' %}
 
+{% set posts = Post.by_type('event') %}
+
 {% block content %}
 	<div class="row">
 		<div class="d-flex justify-content-between align-items-center">
@@ -12,8 +14,25 @@
 		</div>
 	</div>
 
+	<div class="row" style="margin-bottom: 2rem">
+		<form id="headerEventsForm" autocomplete="off">
+			<div class="input-group responsive-input">
+				<span class="input-group-text">Header section</span>
+				<select id="headerSelect" class="form-select" name="type" type="text" multiple required style="flex: 2" autocomplete="off">
+					{% for post in posts %}
+						<option value="{{ post.id }}" {% if loop.index <= 4 %}selected{% endif %}>{{ post.title }}</option>
+					{% endfor %}
+				</select>
+				<button id="submitBtn" type="submit" class="btn btn-primary m-1">
+					<div id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status"></div>
+					Save
+				</button>
+			</div>
+		</form>
+	</div>
+
 	<div class="row">
-		{% for post in Post.by_type('event') %}
+		{% for post in posts %}
 			<div class="col-md-6 col-lg-4">
 				<div class="card d-block">
 					<img class="card-img-top" src="{{ post.media_urls[0] }}" style="object-fit: cover; max-height: 15rem">
@@ -37,3 +56,45 @@
 		{% endfor %}
 	</div>
 {% endblock content %}
+
+{% block body %}
+	<script type="application/javascript">
+        let headerSelect = $('#headerSelect');
+        let submitBtn = $("#submitBtn");
+        let submitSpinner = $("#submitSpinner");
+
+        headerSelect.select2({
+            theme: "bootstrap5",
+            maximumSelectionLength: 4
+        }).on("select2:select", function (e) {
+            let element = $(e.params.data.element);
+            element.detach();
+            $(this).append(element);
+            $(this).trigger("change");
+        });
+
+        $('#headerEventsForm').on('submit', function (e) {
+            e.preventDefault();
+            let selected = headerSelect.val().map(Number);
+            if (selected.length < 4) {
+                notyf.error('Please select at least 4 events!');
+                return
+            }
+            submitBtn.prop('disabled', true);
+            submitSpinner.removeClass('d-none');
+            $.ajax({
+                data: JSON.stringify({events: selected}),
+                type: 'POST',
+                url: `{{ url_for('api.admin.header_events') }}`,
+	            contentType: 'application/json'
+            }).done(function (response, status, xhr) {
+                location.reload();
+            }).fail(function (xhr, status, e) {
+                console.log(xhr);
+                notyf.error(xhr.responseJSON.description);
+                submitBtn.prop('disabled', false);
+                submitSpinner.addClass('d-none');
+            });
+        });
+	</script>
+{% endblock body %}

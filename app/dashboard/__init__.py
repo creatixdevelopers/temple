@@ -7,9 +7,9 @@ dashboard.error_handler = lambda e: redirect(url_for('dashboard.error'))
 
 from .auth import *
 
-decorators = [role_required(['admin', 'user'])]
-RouteView.register(dashboard, 'error', '/error/', 'dashboard/templates/404.html', {'title': 'Page not found'}, decorators)
-RouteView.register(dashboard, 'index', '/', 'dashboard/index.html', {'title': 'Dashboard'}, decorators)
+decorators = [role_required(['admin'])]
+RouteView.register(dashboard, 'error', '/error/', 'dashboard/templates/404.html', {'title': 'Page not found'}, [role_required(['admin', 'user'])])
+RouteView.register(dashboard, 'index', '/', 'dashboard/index.html', {'title': 'Dashboard'}, [role_required(['admin', 'user'])])
 
 RouteView.register(dashboard, 'devotees', '/devotees/', 'dashboard/devotees.html', {'title': 'Devotees'}, decorators)
 RouteView.register(dashboard, 'devotee', '/devotee/<string:uid>', 'dashboard/devotee.html', {'title': 'Devotee'}, decorators)

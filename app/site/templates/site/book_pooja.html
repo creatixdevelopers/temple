@@ -42,12 +42,7 @@
 								</div>
 								<div class="col-12 col-md-6">
 									<select class="form-control" name="pooja_id" type="integer" required>
-										<option selected value="">Select Pooja *</option>
-										{% for pooja in poojas %}
-											<option class="pooja {{ pooja.temple.replace(' ', '_') }} d-none" value="{{ pooja.id }}" data-pooja="{{ pooja.name }}" data-amount="{{ pooja.amount }}" data-specific="{{ 'true' if pooja.specific else 'false' }}" data-dates="{{ pooja.bookable_dates()|tojson }}">
-												{{ pooja.name }} - ₹{{ pooja.amount|int|inr_format }}
-											</option>
-										{% endfor %}
+										<option selected disabled value="">Select Pooja *</option>
 									</select>
 								</div>
 								<div class="col-12 col-md-6 form-floating">
@@ -176,9 +171,21 @@
         let min_start_date = moment(){% if not user %}.add(36, 'hours'){% endif %}.format('YYYY-MM-DD');
         start_date.prop('min', min_start_date).val(min_start_date);
 
+        let poojaOptions = [
+            {% for pooja in poojas %}
+				`<option class="pooja {{ pooja.temple.replace(' ', '_') }}" value="{{ pooja.id }}" data-pooja="{{ pooja.name }}" data-amount="{{ pooja.amount }}" data-specific="{{ 'true' if pooja.specific else 'false' }}" data-dates="{{ pooja.bookable_dates()|tojson }}">
+					{{ pooja.name }} - ₹{{ pooja.amount|int|inr_format }}
+				</option>`,
+			{% endfor %}]
+
         templeSelect.on('change', function () {
-            $('.pooja').addClass('d-none').prop('disabled', true).prop('selected', false);
-            $(`.${$(this).val()}`).removeClass('d-none').prop('disabled', false);
+            $('.pooja').remove();
+            let selectedTemple = $(this).val();
+            $.each(poojaOptions, function (i, pooja) {
+                if ($(pooja).hasClass(selectedTemple)) {
+                    poojaSelect.append($(pooja));
+                }
+            });
         });
         $(document).on('change', '[name=pooja_id], [name=start_date], [name=number]', function () {
             let selected = poojaSelect.find(':selected');

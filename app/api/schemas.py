@@ -27,9 +27,8 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
             "description": {"type": "string", "maxLength": 250},
             "content": {"type": "string"},
             "retained": {"type": "string"},
-            "priority": {"type": "string"}
         },
-        "required": ["type", "title", "description", "content", "retained", "priority"],
+        "required": ["type", "title", "description", "content", "retained"],
     }
 
 

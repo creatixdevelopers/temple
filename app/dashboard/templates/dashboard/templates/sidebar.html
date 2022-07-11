@@ -1,3 +1,5 @@
+{% set user = current_user() %}
+
 <div class="leftside-menu" style="z-index: 999 !important">
 	<div class="logo text-center logo-light">
         <span class="logo-lg mt-2">
@@ -19,75 +21,77 @@
 				</a>
 			</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.devotees') }}">
-					<i class="uil-user-square"></i>
-					<span>Devotees</span>
-				</a>
-			</li>
+			{% if user.role.name == 'admin' %}
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.devotees') }}">
+						<i class="uil-user-square"></i>
+						<span>Devotees</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.bookings') }}">
-					<i class="uil-diary-alt"></i>
-					<span>Bookings</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.bookings') }}">
+						<i class="uil-diary-alt"></i>
+						<span>Bookings</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.donations') }}">
-					<i class="uil-money-withdrawal"></i>
-					<span>Donations</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.donations') }}">
+						<i class="uil-money-withdrawal"></i>
+						<span>Donations</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.volunteers') }}">
-					<i class="uil-users-alt"></i>
-					<span>Volunteers</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.volunteers') }}">
+						<i class="uil-users-alt"></i>
+						<span>Volunteers</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.events') }}">
-					<i class="uil-flower"></i>
-					<span>Events</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.events') }}">
+						<i class="uil-flower"></i>
+						<span>Events</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.blogs') }}">
-					<i class="uil-file-alt"></i>
-					<span>Blogs</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.blogs') }}">
+						<i class="uil-file-alt"></i>
+						<span>Blogs</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" href="{{ url_for('dashboard.gallery') }}">
-					<i class="uil-image"></i>
-					<span>Gallery</span>
-				</a>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" href="{{ url_for('dashboard.gallery') }}">
+						<i class="uil-image"></i>
+						<span>Gallery</span>
+					</a>
+				</li>
 
-			<li class="side-nav-item">
-				<a class="side-nav-link" data-bs-toggle="collapse" href="#master">
-					<i class="uil-sitemap"></i>
-					<span>Master</span>
-					<span class="menu-arrow"></span>
-				</a>
-				<div class="collapse" id="master">
-					<ul class="side-nav-second-level">
-						<li>
-							<a href="{{ url_for('dashboard.pooja') }}">Pooja</a>
-						</li>
-						<li>
-							<a href="{{ url_for('dashboard.pooja_page') }}">Pooja Page</a>
-						</li>
-						<li>
-							<a href="{{ url_for('dashboard.settings') }}">Settings</a>
-						</li>
-					</ul>
-				</div>
-			</li>
+				<li class="side-nav-item">
+					<a class="side-nav-link" data-bs-toggle="collapse" href="#master">
+						<i class="uil-sitemap"></i>
+						<span>Master</span>
+						<span class="menu-arrow"></span>
+					</a>
+					<div class="collapse" id="master">
+						<ul class="side-nav-second-level">
+							<li>
+								<a href="{{ url_for('dashboard.pooja') }}">Pooja</a>
+							</li>
+							<li>
+								<a href="{{ url_for('dashboard.pooja_page') }}">Pooja Page</a>
+							</li>
+							<li>
+								<a href="{{ url_for('dashboard.settings') }}">Settings</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			{% endif %}
 
 {#			<li class="side-nav-item">#}
 {#				<a class="side-nav-link" href="{{ url_for('dashboard.trash') }}">#}

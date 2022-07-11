@@ -6,7 +6,7 @@ from . import dashboard
 
 @dashboard.get('/login/')
 def login():
-    if (user := current_user()) and user.role.name == 'admin':
+    if (user := current_user()) and user.role.name in ['admin', 'user']:
         return redirect(url_for('dashboard.index'))
     return render_template('dashboard/auth/index.html')
 
