@@ -84,14 +84,14 @@ class Donation(ModelMixin, CreatedMixin, db.Model):
         if not self.recurring_interval:
             return []
         elif self.recurring_interval == 'monthly':
-            return [self.start_date - timedelta(days=1) + timedelta(days=(30 * i)) for i in range(0, self.number)]
+            return [self.start_date + timedelta(days=(30 * i)) for i in range(0, self.number)]
         elif self.recurring_interval == 'yearly':
-            return [self.start_date - timedelta(days=1) + timedelta(days=(365 * i)) for i in range(0, self.number)]
+            return [self.start_date + timedelta(days=(365 * i)) for i in range(0, self.number)]
 
     @classmethod
     def to_remind(cls):
-        today = india_time().date()
-        return [donation for donation in cls.filter([cls.recurring_interval != None]) if today in donation.days()]
+        tomorrow = india_time().date() + timedelta(days=1)
+        return [donation for donation in cls.filter([cls.recurring_interval != None]) if tomorrow in donation.days()]
 
 
 class Pooja(ModelMixin, MediaMixin, db.Model):

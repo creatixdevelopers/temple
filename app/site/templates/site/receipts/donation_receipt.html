@@ -1,4 +1,4 @@
-{% set booking = Booking.get_by(first=True, uid=uid) %}
+{% set donation = Donation.get_by(first=True, uid=uid) %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Pooja Receipt</title>
+		<title>Donation Receipt</title>
 
 		<link rel="icon" type="image/png" href="{{ url_for('static', filename='/media/logo-sm.png') }}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap">
@@ -38,9 +38,9 @@
             }
 
             .heading-container .heading {
-	            display: flex;
-	            flex-direction: column;
-	            justify-content: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 padding: 0.5rem;
                 text-align: center;
                 border: 2px solid #000000;
@@ -54,15 +54,15 @@
 
             .heading-container .heading p {
                 margin-bottom: 1px;
-	            font-size: 0.9rem;
+                font-size: 0.9rem;
             }
 
             .heading-container .heading-right {
-	            width: 5cm;
+                width: 5cm;
                 display: flex;
                 flex-direction: column;
                 justify-items: center;
-	            justify-content: center;
+                justify-content: center;
                 border: 2px solid #000000;
                 padding: 1rem 1rem 0 1rem;
                 border-left: 0;
@@ -70,7 +70,7 @@
 
             .heading-container .heading-right h5 {
                 margin-bottom: 1.25rem;
-	            font-size: 1rem;
+                font-size: 1rem;
             }
 
             .details-container {
@@ -136,23 +136,28 @@
 				</div>
 				<div class="heading-right">
 					<h5>Mob: 8951173222</h5>
-					<h5>No: {{ booking.invoice_number() }}</h5>
-					<h5>Date: {{ booking.created.strftime("%d %b, %Y") }}</h5>
+					<h5>No: {{ donation.invoice_number() }}</h5>
+					<h5>Date: {{ donation.created.strftime("%d %b, %Y") }}</h5>
 				</div>
 			</div>
 
 			<div class="details-container">
-				<h4 class="pt-5">Pooja Receipt</h4>
-				<p>Name: {{ booking.devotee.name }}</p>
+				<h4 class="pt-5">Donation Receipt</h4>
+				<p>Name: {{ donation.devotee.name }}</p>
 				<div class="d-flex">
-					<p>Mobile No: {{ booking.devotee.phone }}</p>
+					<p>Mobile No: {{ donation.devotee.phone }}</p>
+					<p>PAN No: {{ donation.pan if donation.pan }}</p>
 				</div>
-				<p>Amount (in words): {{ (num2words(booking.amount, lang='en_IN')|title).replace(',', '') }} Only</p>
+				<p>Aadhaar: {{ donation.aadhaar if donation.aadhaar }}</p>
+				<p>Amount (in words): {{ (num2words(donation.amount, lang='en_IN')|title).replace(',', '') }} Only</p>
 				<p>
-					Towards: {{ booking.temple }} - {{ booking.pooja }} (₹{{ booking.amount|int }}x{{ booking.days|length }} poojas) starting from {{ booking.days_in_datetime()[0].strftime('%d/%m/%y') }}
+					Towards: {{ donation.type }}
+					{% if donation.type == 'Nitya Seva (Daily cow feed, oil & flower)' %}
+						[₹500x{{ donation.number }} months] starting from {{ donation.start_date.strftime('%d/%m/%y') }}
+					{% endif %}
 				</p>
 				<div class="amount-container">
-					<h3>₹ <span>{{ (booking.amount * (booking.days|length))|int|inr_format }}</span></h3>
+					<h3>₹ <span>{{ donation.amount|int|inr_format }}</span></h3>
 					<div class="signature">
 						<p class="text-end mb-0">This is computer generated. <br> Signature not required.</p>
 					</div>
@@ -167,18 +172,26 @@
 
 		</div>
 
+		<div class="d-flex justify-content-center">
+			<button class="btn-accent-3 text-white py-10 px-20" onclick="download()" style="border: none; border-radius: 20px">Download</button>
+		</div>
+
 		<script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap-5.1.3.bundle.min.js') }}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		{#<script type="application/javascript">
+		<script type="application/javascript">
             let worker = html2pdf();
-            html2pdf().from(document.getElementById('receipt')).toPdf().get('pdf').then(function (pdf) {
-                let link = document.createElement('a');
-                link.target = '_blank';
-                link.href = pdf.output('bloburl');
-                link.download = 'Kumbalgodu_Ayyappa_Temple_Booking_Receipt.pdf';
-                link.click();
-                link.remove();
-            });
-		</script>#}
+
+            function download() {
+                html2pdf().from(document.getElementById('receipt')).toPdf().get('pdf').then(function (pdf) {
+                    let link = document.createElement('a');
+                    link.target = '_blank';
+                    link.href = pdf.output('bloburl');
+                    link.download = 'Kumbalgodu_Ayyappa_Temple_Donation_Receipt.pdf';
+                    link.click();
+                    link.remove();
+                });
+            }
+            download();
+		</script>
 	</body>
 </html>

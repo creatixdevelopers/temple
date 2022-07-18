@@ -1,0 +1,10 @@
+We have received your pooja bookings for:
+Temple Name: {{ booking.temple }}
+Pooja Type: {{ booking.pooja }}
+Date: {{ booking.created.strftime("%d %b, %Y") }}
+Days: {% for day in booking.days_in_datetime() %}{{ day.strftime("%d/%m/%y") }}, {% endfor %}
+<a href="https://kumbalgoduayyappatemple.org/pooja-receipt/{{ pooja.uid }}" target="_blank">Download Booking Receipt</a>
+
+Regards,
+Temple Management
+Call: 8951173222

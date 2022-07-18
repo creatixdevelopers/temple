@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytz
 import razorpay
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request, current_app, render_template
 from jsonschema.validators import validate
 from werkzeug.exceptions import BadRequest
 
@@ -96,9 +96,8 @@ class DonationAPIView(APIView):
 
     def after_post(self, data, r):
         if r.devotee.email:
-            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple Donation Receipt',
-                             html=f'Thank you for donating. Click <a href="https://kumbalgoduayyappatemple.org/donation-receipt/{r.uid}">here</a> '
-                                  f'to download receipt.')
+            email_content = render_template('site/mail/donation_booking.html', donation=r)
+            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple – Donation Paid Receipt', html=email_content)
         if r.devotee.phone:
             send_sms.delay(flow_id="606d7435642bde48ce7cbf83", number=f"91{r.devotee.phone}")
 
@@ -131,9 +130,8 @@ class BookingAPIView(APIView):
 
     def after_post(self, data, r):
         if r.devotee.email:
-            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple Pooja Booking Receipt',
-                             html=f'Thank you for booking the pooja. Click <a href="https://kumbalgoduayyappatemple.org/pooja-rec'
-                                  f'eipt/{r.uid}">here</a> to download receipt.')
+            email_content = render_template('site/mail/pooja_booking.html', pooja=r)
+            send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple – Pooja Booked', html=email_content)
         if r.devotee.phone:
             send_sms.delay(flow_id="606d7435642bde48ce7cbf83", number=f"91{r.devotee.phone}")
 

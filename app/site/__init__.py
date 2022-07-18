@@ -13,11 +13,14 @@ RouteView.register(site, 'volunteer', '/volunteer/', 'site/volunteer.html', {'ti
 RouteView.register(site, 'blog', {'/blog/<string:uid>/': {}}, 'site/post.html', {'title': 'Blog'})
 RouteView.register(site, 'event', {'/event/<string:uid>/': {}}, 'site/post.html', {'title': 'Event'})
 RouteView.register(site, 'pooja_page', '/pooja-page/', 'site/pooja_page.html', {'title': 'Pooja Page'})
-RouteView.register(site, 'terms_and_conditions', '/terms-and-conditions/', 'site/terms_and_conditions.html', {'title': 'Terms and Conditions'})
-RouteView.register(site, 'terms_of_use', '/terms-of-use/', 'site/terms_of_use.html', {'title': 'Terms Of Use'})
-RouteView.register(site, 'privacy_policy', '/privacy-policy/', 'site/privacy_policy.html', {'title': 'Privacy Policy'})
-RouteView.register(site, 'refund_policy', '/refund-policy/', 'site/refund_policy.html', {'title': 'Refund and Cancellation Policy'})
-RouteView.register(site, 'disclaimer', '/disclaimer/', 'site/disclaimer.html', {'title': 'Disclaimer'})
-RouteView.register(site, 'intellectual_property', '/intellectual-property/', 'site/intellectual_property.html', {'title': 'Intellectual Property'})
-RouteView.register(site, 'donation_receipt', '/donation-receipt/<string:uid>', 'site/donation_receipt.html', {'title': 'Donation Receipt'})
-RouteView.register(site, 'pooja_receipt', '/pooja-receipt/<string:uid>', 'site/pooja_receipt.html', {'title': 'Pooja Receipt'})
+
+RouteView.register(site, 'terms_and_conditions', '/terms-and-conditions/', 'site/legal/terms_and_conditions.html', {'title': 'Terms and Conditions'})
+RouteView.register(site, 'terms_of_use', '/terms-of-use/', 'site/legal/terms_of_use.html', {'title': 'Terms Of Use'})
+RouteView.register(site, 'privacy_policy', '/privacy-policy/', 'site/legal/privacy_policy.html', {'title': 'Privacy Policy'})
+RouteView.register(site, 'refund_policy', '/refund-policy/', 'site/legal/refund_policy.html', {'title': 'Refund and Cancellation Policy'})
+RouteView.register(site, 'disclaimer', '/disclaimer/', 'site/legal/disclaimer.html', {'title': 'Disclaimer'})
+RouteView.register(site, 'intellectual_property', '/intellectual-property/', 'site/legal/intellectual_property.html',
+                   {'title': 'Intellectual Property'})
+
+RouteView.register(site, 'donation_receipt', '/donation-receipt/<string:uid>', 'site/receipts/donation_receipt.html', {'title': 'Donation Receipt'})
+RouteView.register(site, 'pooja_receipt', '/pooja-receipt/<string:uid>', 'site/receipts/pooja_receipt.html', {'title': 'Pooja Receipt'})
