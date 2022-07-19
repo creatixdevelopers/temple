@@ -83,10 +83,11 @@ class DonationAPIView(APIView):
         payment_details = data.pop('payment_details', None)
         if rz.utility.verify_payment_signature(payment_details):
             data['payment_id'] = payment_details['razorpay_payment_id']
-            if d := Devotee.get_by(first=True, phone=data['phone']):
-                d.update(name=data.pop('name', d.name), email=data.pop('email', d.email))
-                del data['phone']
+            if d := Devotee.get_by(first=True, name=data['name'], phone=data['phone']):
+                d.update(email=data.pop('email', d.email))
                 data['devotee_id'] = d.id
+                del data['name']
+                del data['phone']
             else:
                 d = Devotee.create(name=data.pop('name'), phone=data.pop('phone'), email=data.pop('email', ''))
                 data['devotee_id'] = d.id
@@ -117,10 +118,11 @@ class BookingAPIView(APIView):
             data['payment_id'] = payment_details['razorpay_payment_id']
             if pooja := Pooja.get(data.pop('pooja_id', 0)):
                 data.update({'temple': pooja.temple, 'pooja': pooja.name, 'amount': pooja.amount})
-            if d := Devotee.get_by(first=True, phone=data['phone']):
-                d.update(name=data.pop('name', d.name), email=data.pop('email', d.email))
-                del data['phone']
+            if d := Devotee.get_by(first=True, name=data['name'], phone=data['phone']):
+                d.update(email=data.pop('email', d.email))
                 data['devotee_id'] = d.id
+                del data['name']
+                del data['phone']
             else:
                 d = Devotee.create(name=data.pop('name'), phone=data.pop('phone'), email=data.pop('email', ''))
                 data['devotee_id'] = d.id

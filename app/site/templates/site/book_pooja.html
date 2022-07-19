@@ -215,7 +215,6 @@
                     validDates.push(moment(selected_start_date).add(i, 'days').valueOf());
                 }
             }
-
             let formatedDates = validDates.map(function (e) {return moment(e).format('DD/MM/YYYY')});
             $('#poojaDates').text(formatedDates.slice(0, number).join(', '));
         });

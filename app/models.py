@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from sqlalchemy import and_
+import pytz
+from sqlalchemy import and_, UniqueConstraint
 
 from app.services import db, jwt, r, ModelMixin, CreatedMixin, LastUpdatedMixin, DeletedMixin, PasswordMixin, MediaMixin, Json, india_time
 
@@ -57,8 +58,9 @@ class Volunteer(ModelMixin, CreatedMixin, db.Model):
 
 class Devotee(ModelMixin, CreatedMixin, db.Model):
     name = db.Column(db.Text, nullable=False)
-    phone = db.Column(db.Text, nullable=False, unique=True)
+    phone = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text)
+    __table_args__ = (UniqueConstraint('name', 'phone', name='unique_devotee'),)
 
 
 class Donation(ModelMixin, CreatedMixin, db.Model):
@@ -131,7 +133,7 @@ class Booking(ModelMixin, CreatedMixin, db.Model):
         return f'W{n}/{financial_year}-{str(financial_year + 1)[2:]}'
 
     def days_in_datetime(self):
-        return [datetime.fromtimestamp(round(day / 1000)).date() for day in self.days]
+        return [datetime.fromtimestamp(round(day / 1000), tz=pytz.timezone("Asia/Kolkata")).date() for day in self.days]
 
     @classmethod
     def bookings_by_date(cls, date=None):

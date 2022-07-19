@@ -26,7 +26,6 @@ def upgrade():
     sa.Column('phone', sa.Text(), nullable=False),
     sa.Column('email', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('phone')
     )
     op.create_index(op.f('ix_devotee_uid'), 'devotee', ['uid'], unique=True)
     op.create_table('pooja',
