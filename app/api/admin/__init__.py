@@ -130,7 +130,7 @@ class BookingAPIView(APIView):
 
     def after_post(self, data, r):
         if r.devotee.email:
-            email_content = render_template('site/mail/pooja_booking.html', pooja=r)
+            email_content = render_template('site/mail/pooja_booking.html', booking=r)
             send_email.delay(recipients=[r.devotee.email], subject='Kumbalgodu Ayyappa Temple – Pooja Booked', html=email_content)
         if r.devotee.phone:
             send_sms.delay(flow_id="606d7435642bde48ce7cbf83", number=f"91{r.devotee.phone}")
