@@ -10,7 +10,6 @@ import requests
 
 @celery.task
 def send_sms(flow_id, number):
-    return True
     try:
         payload = {
             "flow_id": flow_id,
