@@ -1,11 +1,11 @@
-We have received your Donation for:
-Donation Type: {{ donation.type|safe }}
-Date: {{ donation.created.strftime("%d %b, %Y") }}
+We have received your Donation for:<br/>
+Donation Type: {{ donation.type|safe }}<br/>
+Date: {{ donation.created.strftime("%d %b, %Y") }}<br/>
 {% if donation.recurring_interval %}
-Days: {% for day in donation.days() %}{{ day.strftime("%d/%m/%y") }}, {% endfor %}
+Days: {% for day in donation.days() %}{{ day.strftime("%d/%m/%y") }}, {% endfor %}<br/>
 {% endif %}
-<a href="https://kumbalgoduayyappatemple.org/donation-receipt/{{ donatio.uid }}">Download Receipt</a>
-
-Regards,
-Temple Management
-Call: 8951173222
+<a href="https://kumbalgoduayyappatemple.org/donation-receipt/{{ donation.uid }}">Download Receipt</a><br/>
+<br/>
+Regards,<br/>
+Temple Management<br/>
+Call: 8951173222<br/>
